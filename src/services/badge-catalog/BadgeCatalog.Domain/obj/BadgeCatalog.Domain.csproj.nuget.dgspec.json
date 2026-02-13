@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\mjhonata\\OneDrive - NTT DATA EMEAL\\Documents\\GitHub\\OpenBadges\\src\\services\\BadgeCatalog.Domain\\BadgeCatalog.Domain.csproj": {}
+    "C:\\Users\\mjhonata\\OneDrive - NTT DATA EMEAL\\Documents\\GitHub\\OpenBadges\\src\\services\\badge-catalog\\BadgeCatalog.Domain\\BadgeCatalog.Domain.csproj": {}
   },
   "projects": {
-    "C:\\Users\\mjhonata\\OneDrive - NTT DATA EMEAL\\Documents\\GitHub\\OpenBadges\\src\\services\\BadgeCatalog.Domain\\BadgeCatalog.Domain.csproj": {
+    "C:\\Users\\mjhonata\\OneDrive - NTT DATA EMEAL\\Documents\\GitHub\\OpenBadges\\src\\services\\badge-catalog\\BadgeCatalog.Domain\\BadgeCatalog.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\mjhonata\\OneDrive - NTT DATA EMEAL\\Documents\\GitHub\\OpenBadges\\src\\services\\BadgeCatalog.Domain\\BadgeCatalog.Domain.csproj",
+        "projectUniqueName": "C:\\Users\\mjhonata\\OneDrive - NTT DATA EMEAL\\Documents\\GitHub\\OpenBadges\\src\\services\\badge-catalog\\BadgeCatalog.Domain\\BadgeCatalog.Domain.csproj",
         "projectName": "BadgeCatalog.Domain",
-        "projectPath": "C:\\Users\\mjhonata\\OneDrive - NTT DATA EMEAL\\Documents\\GitHub\\OpenBadges\\src\\services\\BadgeCatalog.Domain\\BadgeCatalog.Domain.csproj",
+        "projectPath": "C:\\Users\\mjhonata\\OneDrive - NTT DATA EMEAL\\Documents\\GitHub\\OpenBadges\\src\\services\\badge-catalog\\BadgeCatalog.Domain\\BadgeCatalog.Domain.csproj",
         "packagesPath": "C:\\Users\\mjhonata\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\mjhonata\\OneDrive - NTT DATA EMEAL\\Documents\\GitHub\\OpenBadges\\src\\services\\BadgeCatalog.Domain\\obj\\",
+        "outputPath": "C:\\Users\\mjhonata\\OneDrive - NTT DATA EMEAL\\Documents\\GitHub\\OpenBadges\\src\\services\\badge-catalog\\BadgeCatalog.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\mjhonata\\AppData\\Roaming\\NuGet\\NuGet.Config"
