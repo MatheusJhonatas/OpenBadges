@@ -150,7 +150,11 @@
         "frameworks": {
           "net9.0": {
             "targetAlias": "net9.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "C:\\Users\\mjhonata\\OneDrive - NTT DATA EMEAL\\Documents\\GitHub\\OpenBadges\\src\\services\\badge-catalog\\BadgeCatalog.Domain\\BadgeCatalog.Domain.csproj": {
+                "projectPath": "C:\\Users\\mjhonata\\OneDrive - NTT DATA EMEAL\\Documents\\GitHub\\OpenBadges\\src\\services\\badge-catalog\\BadgeCatalog.Domain\\BadgeCatalog.Domain.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
