@@ -1,3 +1,4 @@
+using BadgeCatalog.Domain.ValueObjects;
 namespace BadgeCatalog.Domain.Aggregates;
 
 public class BadgeClass
@@ -6,17 +7,19 @@ public class BadgeClass
     public Guid Id { get; private set; }
     public string Name { get; private set; }
     public string Description { get; private set; }
-    public string ImageUrl { get; private set; }
+    public BadgeImage Image { get; private set; }
+    public BadgeCriteria Criteria { get; private set; }
     public bool IsActive { get; private set; }
     #endregion
     #region Constructors
     private BadgeClass() { } // For EF Core
-    public BadgeClass(string name, string description, string imageUrl)
+    public BadgeClass(string name, string description, BadgeImage image, BadgeCriteria criteria)
     {
         Id = Guid.NewGuid();
         Name = name;
         Description = description;
-        ImageUrl = imageUrl;
+        Image = image ?? throw new ArgumentNullException(nameof(image));
+        Criteria = criteria ?? throw new ArgumentNullException(nameof(criteria));
         IsActive = true;
     }
     #endregion
@@ -34,11 +37,17 @@ public class BadgeClass
             throw new ArgumentException("Description cannot be empty.");
         Description = description;
     }
-    private void SetImageUrl(string imageUrl)
+    private void SetImage(BadgeImage image)
     {
-        if (string.IsNullOrWhiteSpace(imageUrl))
-            throw new ArgumentException("Image URL cannot be empty.");
-        ImageUrl = imageUrl;
+        if (image == null)
+            throw new ArgumentNullException(nameof(image));
+        Image = image;
+    }
+    private void SetCriteria(BadgeCriteria criteria)
+    {
+        if (criteria == null)
+            throw new ArgumentNullException(nameof(criteria));
+        Criteria = criteria;
     }
     #endregion
 }

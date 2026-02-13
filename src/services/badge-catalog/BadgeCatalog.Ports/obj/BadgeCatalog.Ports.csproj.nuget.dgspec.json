@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\mjhonata\\OneDrive - NTT DATA EMEAL\\Documents\\GitHub\\OpenBadges\\src\\services\\BadgeCatalog.Ports\\BadgeCatalog.Ports.csproj": {}
+    "C:\\Users\\mjhonata\\OneDrive - NTT DATA EMEAL\\Documents\\GitHub\\OpenBadges\\src\\services\\badge-catalog\\BadgeCatalog.Ports\\BadgeCatalog.Ports.csproj": {}
   },
   "projects": {
-    "C:\\Users\\mjhonata\\OneDrive - NTT DATA EMEAL\\Documents\\GitHub\\OpenBadges\\src\\services\\BadgeCatalog.Ports\\BadgeCatalog.Ports.csproj": {
+    "C:\\Users\\mjhonata\\OneDrive - NTT DATA EMEAL\\Documents\\GitHub\\OpenBadges\\src\\services\\badge-catalog\\BadgeCatalog.Ports\\BadgeCatalog.Ports.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\mjhonata\\OneDrive - NTT DATA EMEAL\\Documents\\GitHub\\OpenBadges\\src\\services\\BadgeCatalog.Ports\\BadgeCatalog.Ports.csproj",
+        "projectUniqueName": "C:\\Users\\mjhonata\\OneDrive - NTT DATA EMEAL\\Documents\\GitHub\\OpenBadges\\src\\services\\badge-catalog\\BadgeCatalog.Ports\\BadgeCatalog.Ports.csproj",
         "projectName": "BadgeCatalog.Ports",
-        "projectPath": "C:\\Users\\mjhonata\\OneDrive - NTT DATA EMEAL\\Documents\\GitHub\\OpenBadges\\src\\services\\BadgeCatalog.Ports\\BadgeCatalog.Ports.csproj",
+        "projectPath": "C:\\Users\\mjhonata\\OneDrive - NTT DATA EMEAL\\Documents\\GitHub\\OpenBadges\\src\\services\\badge-catalog\\BadgeCatalog.Ports\\BadgeCatalog.Ports.csproj",
         "packagesPath": "C:\\Users\\mjhonata\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\mjhonata\\OneDrive - NTT DATA EMEAL\\Documents\\GitHub\\OpenBadges\\src\\services\\BadgeCatalog.Ports\\obj\\",
+        "outputPath": "C:\\Users\\mjhonata\\OneDrive - NTT DATA EMEAL\\Documents\\GitHub\\OpenBadges\\src\\services\\badge-catalog\\BadgeCatalog.Ports\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\mjhonata\\AppData\\Roaming\\NuGet\\NuGet.Config"
