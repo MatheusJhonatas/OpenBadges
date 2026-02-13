@@ -1,11 +1,46 @@
 {
   "version": 3,
   "targets": {
-    "net9.0": {}
+    "net9.0": {
+      "BadgeCatalog.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v9.0",
+        "compile": {
+          "bin/placeholder/BadgeCatalog.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/BadgeCatalog.Domain.dll": {}
+        }
+      },
+      "BadgeCatalog.Ports/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v9.0",
+        "compile": {
+          "bin/placeholder/BadgeCatalog.Ports.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/BadgeCatalog.Ports.dll": {}
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "BadgeCatalog.Domain/1.0.0": {
+      "type": "project",
+      "path": "../BadgeCatalog.Domain/BadgeCatalog.Domain.csproj",
+      "msbuildProject": "../BadgeCatalog.Domain/BadgeCatalog.Domain.csproj"
+    },
+    "BadgeCatalog.Ports/1.0.0": {
+      "type": "project",
+      "path": "../BadgeCatalog.Ports/BadgeCatalog.Ports.csproj",
+      "msbuildProject": "../BadgeCatalog.Ports/BadgeCatalog.Ports.csproj"
+    }
+  },
   "projectFileDependencyGroups": {
-    "net9.0": []
+    "net9.0": [
+      "BadgeCatalog.Domain >= 1.0.0",
+      "BadgeCatalog.Ports >= 1.0.0"
+    ]
   },
   "packageFolders": {
     "C:\\Users\\mjhonata\\.nuget\\packages\\": {}
@@ -13,11 +48,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\mjhonata\\OneDrive - NTT DATA EMEAL\\Documents\\GitHub\\OpenBadges\\src\\services\\BadgeCatalog.Adapters\\BadgeCatalog.Adapters.csproj",
+      "projectUniqueName": "C:\\Users\\mjhonata\\OneDrive - NTT DATA EMEAL\\Documents\\GitHub\\OpenBadges\\src\\services\\badge-catalog\\BadgeCatalog.Adapters\\BadgeCatalog.Adapters.csproj",
       "projectName": "BadgeCatalog.Adapters",
-      "projectPath": "C:\\Users\\mjhonata\\OneDrive - NTT DATA EMEAL\\Documents\\GitHub\\OpenBadges\\src\\services\\BadgeCatalog.Adapters\\BadgeCatalog.Adapters.csproj",
+      "projectPath": "C:\\Users\\mjhonata\\OneDrive - NTT DATA EMEAL\\Documents\\GitHub\\OpenBadges\\src\\services\\badge-catalog\\BadgeCatalog.Adapters\\BadgeCatalog.Adapters.csproj",
       "packagesPath": "C:\\Users\\mjhonata\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\mjhonata\\OneDrive - NTT DATA EMEAL\\Documents\\GitHub\\OpenBadges\\src\\services\\BadgeCatalog.Adapters\\obj\\",
+      "outputPath": "C:\\Users\\mjhonata\\OneDrive - NTT DATA EMEAL\\Documents\\GitHub\\OpenBadges\\src\\services\\badge-catalog\\BadgeCatalog.Adapters\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\mjhonata\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -31,7 +66,14 @@
       "frameworks": {
         "net9.0": {
           "targetAlias": "net9.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\mjhonata\\OneDrive - NTT DATA EMEAL\\Documents\\GitHub\\OpenBadges\\src\\services\\badge-catalog\\BadgeCatalog.Domain\\BadgeCatalog.Domain.csproj": {
+              "projectPath": "C:\\Users\\mjhonata\\OneDrive - NTT DATA EMEAL\\Documents\\GitHub\\OpenBadges\\src\\services\\badge-catalog\\BadgeCatalog.Domain\\BadgeCatalog.Domain.csproj"
+            },
+            "C:\\Users\\mjhonata\\OneDrive - NTT DATA EMEAL\\Documents\\GitHub\\OpenBadges\\src\\services\\badge-catalog\\BadgeCatalog.Ports\\BadgeCatalog.Ports.csproj": {
+              "projectPath": "C:\\Users\\mjhonata\\OneDrive - NTT DATA EMEAL\\Documents\\GitHub\\OpenBadges\\src\\services\\badge-catalog\\BadgeCatalog.Ports\\BadgeCatalog.Ports.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

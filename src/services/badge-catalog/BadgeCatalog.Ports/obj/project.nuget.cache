@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "JXVr19qpZ/E=",
+  "dgSpecHash": "vD3XXy8C/V8=",
   "success": true,
-  "projectFilePath": "C:\\Users\\mjhonata\\OneDrive - NTT DATA EMEAL\\Documents\\GitHub\\OpenBadges\\src\\services\\BadgeCatalog.Ports\\BadgeCatalog.Ports.csproj",
+  "projectFilePath": "C:\\Users\\mjhonata\\OneDrive - NTT DATA EMEAL\\Documents\\GitHub\\OpenBadges\\src\\services\\badge-catalog\\BadgeCatalog.Ports\\BadgeCatalog.Ports.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
