@@ -10,7 +10,7 @@ public sealed class CreateBadgeClassHandler
     {
         _repository = repository;
     }
-    public async Task<Guid> Handle(CreateBadgeClass command, CancellationToken cancellationToken)
+    public async Task<Guid> Handle(CreateBadgeClassCommand command, CancellationToken cancellationToken)
     {
         var image = new BadgeImage(command.ImageUrl);
         var criteria = new BadgeCriteria(command.CriteriaNarrative);
