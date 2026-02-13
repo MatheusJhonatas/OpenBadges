@@ -74,40 +74,29 @@ Representa a definição de um tipo de badge que pode ser emitido.
 - BadgeImage
 -- Representa a URL da imagem do badge.
 - BadgeCriteria
+--Representa a descrição narrativa dos critérios para obtenção do badge.
 
-Representa a descrição narrativa dos critérios para obtenção do badge.
+## 🔗 Dependências entre camadas
+### Arquitetura respeita a seguinte direção:
+- Api → Application
+- Application → Domain
+- Adapters → Ports + Domain
+- Domain → não depende de ninguém
+- Ports → apenas contratos
 
-🔗 Dependências entre camadas
+## 🌿 Estratégia de Branch
 
-Arquitetura respeita a seguinte direção:
+- main → branch protegida
+- develop → branch de desenvolvimento
 
-Api → Application
+## 🛠 Stack Atual
 
-Application → Domain
+- .NET 9
+- Clean Architecture
+- DDD
+- Git Flow básico
 
-Adapters → Ports + Domain
-
-Domain → não depende de ninguém
-
-Ports → apenas contratos
-
-🌿 Estratégia de Branch
-
-main → branch protegida
-
-develop → branch de desenvolvimento
-
-🛠 Stack Atual
-
-.NET 8
-
-Clean Architecture
-
-DDD
-
-Git Flow básico
-
-🚀 Próximos Passos
+## 🚀 Próximos Passos
 
 Modelagem do Aggregate Assertion
 
@@ -121,7 +110,7 @@ Outbox Pattern
 
 Mensageria
 
-📖 Conformidade com Open Badges
+## 📖 Conformidade com Open Badges
 
 O modelo está sendo desenvolvido com base no padrão Open Badges, preparando o sistema para:
 
