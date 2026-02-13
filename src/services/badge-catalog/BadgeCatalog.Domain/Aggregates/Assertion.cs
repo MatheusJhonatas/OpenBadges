@@ -1,3 +1,4 @@
+using BadgeCatalog.Domain.Enums;
 using BadgeCatalog.Domain.ValueObjects;
 namespace BadgeCatalog.Domain.Aggregates;
 
@@ -9,7 +10,7 @@ public sealed class Assertion
     public Guid BadgeClassId { get; private set; }
     public RecipientIdentity Recipient { get; private set; }
     public DateTime IssuedOn { get; private set; }
-    public bool IsRevoked { get; private set; }
+    public EAssertionStatus Status { get; private set; }
     public DateTime? RevokedOn { get; private set; }
     public IReadOnlyCollection<object> DomainEvents => _domainEvents.AsReadOnly();
     #endregion
@@ -24,14 +25,14 @@ public sealed class Assertion
         BadgeClassId = badgeClassId;
         Recipient = recipient ?? throw new ArgumentNullException(nameof(recipient));
         IssuedOn = DateTime.UtcNow;
-        IsRevoked = false;
+        Status = EAssertionStatus.Active;
     }
     public void Revoke()
     {
-        if (IsRevoked)
+        if (Status == EAssertionStatus.Revoked)
             throw new InvalidOperationException("Assertion is already revoked.");
 
-        IsRevoked = true;
+        Status = EAssertionStatus.Revoked;
         RevokedOn = DateTime.UtcNow;
     }
     public void AddDomainEvent(object domainEvent)

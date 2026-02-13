@@ -6,7 +6,8 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v9.0",
         "dependencies": {
-          "BadgeCatalog.Domain": "1.0.0"
+          "BadgeCatalog.Domain": "1.0.0",
+          "BadgeCatalog.Ports": "1.0.0"
         },
         "compile": {
           "bin/placeholder/BadgeCatalog.Application.dll": {}
@@ -24,6 +25,19 @@
         "runtime": {
           "bin/placeholder/BadgeCatalog.Domain.dll": {}
         }
+      },
+      "BadgeCatalog.Ports/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v9.0",
+        "dependencies": {
+          "BadgeCatalog.Domain": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/BadgeCatalog.Ports.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/BadgeCatalog.Ports.dll": {}
+        }
       }
     }
   },
@@ -37,6 +51,11 @@
       "type": "project",
       "path": "../BadgeCatalog.Domain/BadgeCatalog.Domain.csproj",
       "msbuildProject": "../BadgeCatalog.Domain/BadgeCatalog.Domain.csproj"
+    },
+    "BadgeCatalog.Ports/1.0.0": {
+      "type": "project",
+      "path": "../BadgeCatalog.Ports/BadgeCatalog.Ports.csproj",
+      "msbuildProject": "../BadgeCatalog.Ports/BadgeCatalog.Ports.csproj"
     }
   },
   "projectFileDependencyGroups": {

@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BadgeCatalog.Domain\BadgeCatalog.Domain.csproj" />
+    <ProjectReference Include="..\BadgeCatalog.Ports\BadgeCatalog.Ports.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
