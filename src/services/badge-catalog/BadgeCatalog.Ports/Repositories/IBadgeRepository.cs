@@ -6,4 +6,5 @@ namespace BadgeCatalog.Ports.Repositories;
 public interface IBadgeClassRepository
 {
     Task AddAsync(BadgeClass badgeClass, CancellationToken cancellationToken);
+    Task<IReadOnlyList<BadgeClass>> GetAllAsync(CancellationToken cancellationToken);
 }
