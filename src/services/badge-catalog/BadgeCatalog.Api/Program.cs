@@ -31,11 +31,13 @@ app.MapPost("/badges", async (
 });
 
 app.MapGet("/badges", async (
+    bool? active,
     GetAllBadgesHandler handler,
     CancellationToken cancellationToken) =>
 {
-    var badges = await handler.Handle(cancellationToken);
+    var badges = await handler.Handle(active, cancellationToken);
     return Results.Ok(badges);
 });
+
 
 app.Run();
