@@ -1,4 +1,5 @@
 using BadgeCatalog.Domain.Aggregates;
+using BadgeCatalog.Domain.Specifications;
 using BadgeCatalog.Ports;
 using BadgeCatalog.Ports.Repositories;
 
@@ -13,8 +14,17 @@ public sealed class GetAllBadgesHandler
         _repository = repository;
     }
 
-    public Task<IReadOnlyList<BadgeClass>> Handle(CancellationToken cancellationToken)
+    public async Task<IReadOnlyList<BadgeClass>> Handle(
+    bool? active,
+    CancellationToken cancellationToken)
+{
+    if (active == true)
     {
-        return _repository.GetAllAsync(cancellationToken);
+        var spec = new ActiveBadgeSpecification();
+        return await _repository.ListAsync(spec, cancellationToken);
     }
+
+    return await _repository.GetAllAsync(cancellationToken);
+}
+
 }
