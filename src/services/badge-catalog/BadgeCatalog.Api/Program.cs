@@ -4,6 +4,7 @@ using BadgeCatalog.Application.Queries.GetAllBadges;
 using BadgeCatalog.Application.Queries.GetBadgeBySlug;
 using BadgeCatalog.Ports.Repositories;
 using BadgeCatalog.Adapters.Issuer;
+using BadgeCatalog.Adapters.Security;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddSingleton<IBadgeClassRepository, InMemoryBadgeClassRepository>();
 builder.Services.AddSingleton<IIssuerProvider, ConfigIssuerProvider>();
+builder.Services.AddSingleton<IJwkProvider, StaticJwkProvider>();
 builder.Services.AddScoped<CreateBadgeClassHandler>();
 builder.Services.AddScoped<GetAllBadgesHandler>();
 builder.Services.AddScoped<GetBadgeBySlugHandler>();
@@ -57,6 +59,11 @@ app.MapGet("/issuer", (IIssuerProvider issuerProvider) =>
 {
     var issuer = issuerProvider.GetIssuer();
     return Results.Ok(issuer);
+});
+app.MapGet("/keys/current", (IJwkProvider provider) =>
+{
+    var key = provider.GetCurrent();
+    return Results.Ok(key);
 });
 
 app.Run();
