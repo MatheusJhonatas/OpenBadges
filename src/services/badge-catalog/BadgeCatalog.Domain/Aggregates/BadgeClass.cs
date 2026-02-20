@@ -10,6 +10,9 @@ public class BadgeClass
     public BadgeImage Image { get; private set; }
     public BadgeCriteria Criteria { get; private set; }
     public bool IsActive { get; private set; }
+    public int Version { get; private set; }
+    public DateTime CreatedAt { get; private set; }
+    public DateTime UpdateAt { get; private set; }
     #endregion
     #region Constructors
     private BadgeClass() { } // For EF Core
@@ -21,6 +24,9 @@ public class BadgeClass
         Image = image ?? throw new ArgumentNullException(nameof(image));
         Criteria = criteria ?? throw new ArgumentNullException(nameof(criteria));
         IsActive = true;
+        Version = 1;
+        CreatedAt = DateTime.UtcNow;
+        UpdateAt = DateTime.UtcNow;
     }
     #endregion
     #region Methods
@@ -48,6 +54,14 @@ public class BadgeClass
         if (criteria == null)
             throw new ArgumentNullException(nameof(criteria));
         Criteria = criteria;
+    }
+    public void Update(string name, string description)
+    {
+        SetName(name);
+        SetDescription(description);
+
+        Version++;
+        UpdateAt = DateTime.UtcNow;
     }
     #endregion
 }
