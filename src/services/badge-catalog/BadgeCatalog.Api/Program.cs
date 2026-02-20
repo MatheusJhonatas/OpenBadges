@@ -1,6 +1,7 @@
 using BadgeCatalog.Adapters.Persistence;
 using BadgeCatalog.Application.Commands.CreateBadgeClass;
 using BadgeCatalog.Application.Queries.GetAllBadges;
+using BadgeCatalog.Application.Queries.GetBadgeBySlug;
 using BadgeCatalog.Ports;
 using BadgeCatalog.Ports.Repositories;
 
@@ -12,6 +13,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<IBadgeClassRepository, InMemoryBadgeClassRepository>();
 builder.Services.AddScoped<CreateBadgeClassHandler>();
 builder.Services.AddScoped<GetAllBadgesHandler>();
+builder.Services.AddScoped<GetBadgeBySlugHandler>();
 
 var app = builder.Build();
 
@@ -39,5 +41,16 @@ app.MapGet("/badges", async (
     return Results.Ok(badges);
 });
 
+app.MapGet("/badges/{slug}", async (
+    string slug,
+    GetBadgeBySlugHandler handler,
+    CancellationToken cancellationToken) =>
+{
+    var badge = await handler.Handle(slug, cancellationToken);
+
+    return badge is null
+        ? Results.NotFound()
+        : Results.Ok(badge);
+});
 
 app.Run();
