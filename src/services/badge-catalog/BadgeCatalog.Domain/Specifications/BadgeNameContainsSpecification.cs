@@ -12,6 +12,7 @@ public sealed class BadgeNameContainsSpecification : Specification<BadgeClass>
     }
     public override Expression<Func<BadgeClass, bool>> ToExpression()
     {
+        var lowered = _name.ToLower();
         return badge => badge.Name.Contains(_name);
     }
 }
