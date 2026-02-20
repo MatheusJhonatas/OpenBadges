@@ -17,9 +17,19 @@ builder.Services.AddSingleton<IJwkProvider, StaticJwkProvider>();
 builder.Services.AddScoped<CreateBadgeClassHandler>();
 builder.Services.AddScoped<GetAllBadgesHandler>();
 builder.Services.AddScoped<GetBadgeBySlugHandler>();
-
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend",
+        policy =>
+        {
+            policy
+                .WithOrigins("http://localhost:5173")
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+});
 var app = builder.Build();
-
+app.UseCors("AllowFrontend");
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
