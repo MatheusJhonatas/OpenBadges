@@ -1,5 +1,6 @@
 using BadgeCatalog.Domain.Issuer;
-using BadgeCatalog.Ports;
+using BadgeCatalog.Ports.Repositories;
+
 
 namespace BadgeCatalog.Adapters.Issuer;
 

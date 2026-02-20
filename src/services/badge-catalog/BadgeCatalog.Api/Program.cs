@@ -2,8 +2,9 @@ using BadgeCatalog.Adapters.Persistence;
 using BadgeCatalog.Application.Commands.CreateBadgeClass;
 using BadgeCatalog.Application.Queries.GetAllBadges;
 using BadgeCatalog.Application.Queries.GetBadgeBySlug;
-using BadgeCatalog.Ports;
 using BadgeCatalog.Ports.Repositories;
+using BadgeCatalog.Adapters.Issuer;
+using BadgeCatalog.Adapters.Security;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,12 +12,24 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddSingleton<IBadgeClassRepository, InMemoryBadgeClassRepository>();
+builder.Services.AddSingleton<IIssuerProvider, ConfigIssuerProvider>();
+builder.Services.AddSingleton<IJwkProvider, StaticJwkProvider>();
 builder.Services.AddScoped<CreateBadgeClassHandler>();
 builder.Services.AddScoped<GetAllBadgesHandler>();
 builder.Services.AddScoped<GetBadgeBySlugHandler>();
-
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend",
+        policy =>
+        {
+            policy
+                .WithOrigins("http://localhost:5173")
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+});
 var app = builder.Build();
-
+app.UseCors("AllowFrontend");
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -51,6 +64,16 @@ app.MapGet("/badges/{slug}", async (
     return badge is null
         ? Results.NotFound()
         : Results.Ok(badge);
+});
+app.MapGet("/issuer", (IIssuerProvider issuerProvider) =>
+{
+    var issuer = issuerProvider.GetIssuer();
+    return Results.Ok(issuer);
+});
+app.MapGet("/keys/current", (IJwkProvider provider) =>
+{
+    var key = provider.GetCurrent();
+    return Results.Ok(key);
 });
 
 app.Run();

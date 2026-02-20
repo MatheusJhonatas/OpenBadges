@@ -1,8 +1,6 @@
-
-
 using BadgeCatalog.Domain.Issuer;
 
-namespace BadgeCatalog.Ports;
+namespace BadgeCatalog.Ports.Repositories;
 
 public interface IIssuerProvider
 {
