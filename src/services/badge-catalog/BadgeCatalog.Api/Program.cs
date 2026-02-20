@@ -2,7 +2,6 @@ using BadgeCatalog.Adapters.Persistence;
 using BadgeCatalog.Application.Commands.CreateBadgeClass;
 using BadgeCatalog.Application.Queries.GetAllBadges;
 using BadgeCatalog.Application.Queries.GetBadgeBySlug;
-using BadgeCatalog.Ports;
 using BadgeCatalog.Ports.Repositories;
 using BadgeCatalog.Adapters.Issuer;
 
