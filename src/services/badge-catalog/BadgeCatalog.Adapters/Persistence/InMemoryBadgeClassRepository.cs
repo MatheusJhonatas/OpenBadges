@@ -35,4 +35,10 @@ public sealed class InMemoryBadgeClassRepository : IBadgeClassRepository
         .ToList();
         return Task.FromResult((IReadOnlyList<BadgeClass>)result);
     }
+
+    public Task<BadgeClass?> GetBySlugAsync(string slug, CancellationToken cancellationToken)
+    {
+        var badge = _storage.FirstOrDefault(b => b.Slug == slug);
+        return Task.FromResult(badge);
+    }
 }
