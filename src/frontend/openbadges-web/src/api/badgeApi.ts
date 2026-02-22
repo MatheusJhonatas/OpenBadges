@@ -9,3 +9,23 @@ export async function getBadges() {
 
   return response.json();
 }
+export async function createBadge(payload: {
+  name: string;
+  description: string;
+  imageUrl: string;
+  criteriaNarrative: string;
+}) {
+  const response = await fetch(`${API_BASE}/badges`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(payload)
+  });
+
+  if (!response.ok) {
+    throw new Error("Erro ao criar badge");
+  }
+
+  return response.json();
+}
