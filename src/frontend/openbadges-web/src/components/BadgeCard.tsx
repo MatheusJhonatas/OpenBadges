@@ -1,9 +1,4 @@
-type Badge = {
-  id: string;
-  name: string;
-  description: string;
-  slug: string;
-};
+import type { Badge } from "../types/Badge";
 
 type Props = {
   badge: Badge;

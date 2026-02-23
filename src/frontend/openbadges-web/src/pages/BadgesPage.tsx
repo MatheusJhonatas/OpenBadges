@@ -2,12 +2,7 @@ import { useEffect, useState } from "react";
 import { getBadges, createBadge } from "../api/badgeApi";
 import BadgeCard from "../components/BadgeCard";
 
-type Badge = {
-  id: string;
-  name: string;
-  description: string;
-  slug: string;
-};
+import type { Badge } from "../types/Badge";
 
 function BadgesPage() {
   const [badges, setBadges] = useState<Badge[]>([]);
@@ -20,7 +15,10 @@ function BadgesPage() {
 
   const loadBadges = () => {
     getBadges()
-      .then(setBadges)
+      .then(data => {
+        setBadges(data);
+        setError(null);
+      })
       .catch(() => setError("Falha ao carregar badges"));
   };
 
@@ -36,6 +34,7 @@ function BadgesPage() {
         imageUrl,
         criteriaNarrative
       });
+      setError(null);
 
       setName("");
       setDescription("");
@@ -48,12 +47,16 @@ function BadgesPage() {
     }
   };
 
-  if (error) return <div>{error}</div>;
+
 
   return (
     <div>
       <h1>Badges</h1>
-
+      {error && (
+  <div style={{ color: "red", marginBottom: "10px" }}>
+    {error}
+  </div>
+)}
       <div style={{ marginBottom: "20px" }}>
         <h2>Criar Badge</h2>
 
