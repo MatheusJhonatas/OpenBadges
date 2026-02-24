@@ -41,8 +41,8 @@ app.MapPost("/badges", async (
     CreateBadgeClassHandler handler,
     CancellationToken cancellationToken) =>
 {
-    var id = await handler.Handle(command, cancellationToken);
-    return Results.Created($"/badges/{id}", new { Id = id });
+    var badge = await handler.Handle(command, cancellationToken);
+    return Results.Created($"/badges/{badge.Id}", badge);
 });
 
 app.MapGet("/badges", async (

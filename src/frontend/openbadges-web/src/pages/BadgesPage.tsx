@@ -31,13 +31,14 @@ function BadgesPage() {
   const handleCreate = async () => {
     try {
       setLoading(true);
-
-      await createBadge({
+      const created = await createBadge({
         name,
         description,
         imageUrl,
         criteriaNarrative
       });
+      setBadges(prev => [...prev, created]);
+
       setError(null);
 
       setName("");
@@ -45,7 +46,6 @@ function BadgesPage() {
       setImageUrl("");
       setCriteriaNarrative("");
 
-      loadBadges();
     } catch {
       setError("Falha ao criar badge");
     } finally {
