@@ -10,4 +10,6 @@ public interface IBadgeClassRepository
     Task<IReadOnlyList<BadgeClass>> GetAllAsync(CancellationToken cancellationToken);
     Task<IReadOnlyList<BadgeClass>> ListAsync(Specification<BadgeClass> specification, CancellationToken cancellationToken);
     Task<BadgeClass?> GetBySlugAsync(string slug, CancellationToken cancellationToken);
+    Task<BadgeClass?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
+    Task UpdateAsync(BadgeClass badgeClass, CancellationToken cancellationToken);
 }
