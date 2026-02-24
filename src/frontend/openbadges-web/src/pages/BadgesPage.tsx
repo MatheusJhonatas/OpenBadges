@@ -7,19 +7,21 @@ import type { Badge } from "../types/Badge";
 function BadgesPage() {
   const [badges, setBadges] = useState<Badge[]>([]);
   const [error, setError] = useState<string | null>(null);
-
+  const [loading, setLoading] = useState(false);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [criteriaNarrative, setCriteriaNarrative] = useState("");
 
   const loadBadges = () => {
+    setLoading(true);
     getBadges()
       .then(data => {
         setBadges(data);
         setError(null);
       })
-      .catch(() => setError("Falha ao carregar badges"));
+      .catch(() => setError("Falha ao carregar badges"))
+      .finally(() => setLoading(false));
   };
 
   useEffect(() => {
@@ -28,6 +30,8 @@ function BadgesPage() {
 
   const handleCreate = async () => {
     try {
+      setLoading(true);
+
       await createBadge({
         name,
         description,
@@ -44,6 +48,8 @@ function BadgesPage() {
       loadBadges();
     } catch {
       setError("Falha ao criar badge");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -52,6 +58,7 @@ function BadgesPage() {
   return (
     <div>
       <h1>Badges</h1>
+      {loading && <div>Carregando...</div>}
       {error && (
   <div style={{ color: "red", marginBottom: "10px" }}>
     {error}
