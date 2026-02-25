@@ -6,6 +6,8 @@ using BadgeCatalog.Ports.Repositories;
 using BadgeCatalog.Adapters.Issuer;
 using BadgeCatalog.Adapters.Security;
 using BadgeCatalog.Application.Commands.DeactivateBadgeClass;
+using BadgeCatalog.Application.Commands.UpdateBadgeClass;
+using BadgeCatalog.Api.Requests;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +19,7 @@ builder.Services.AddSingleton<IIssuerProvider, ConfigIssuerProvider>();
 builder.Services.AddSingleton<IJwkProvider, StaticJwkProvider>();
 builder.Services.AddScoped<CreateBadgeClassHandler>();
 builder.Services.AddScoped<DeactivateBadgeClassHandler>();
+builder.Services.AddScoped<UpdateBadgeClassHandler>();
 builder.Services.AddScoped<GetAllBadgesHandler>();
 builder.Services.AddScoped<GetBadgeBySlugHandler>();
 builder.Services.AddCors(options =>
@@ -85,6 +88,16 @@ app.MapGet("/keys/current", (IJwkProvider provider) =>
 {
     var key = provider.GetCurrent();
     return Results.Ok(key);
+});
+app.MapPut("/badges/{id:guid}", async (
+    Guid id,
+    UpdateBadgeClassHandler handler,
+    UpdateBadgeRequest request,
+    CancellationToken cancellationToken) =>
+{
+    var result = await handler.Handle(id, request.Name, request.Description, cancellationToken);
+
+    return result ? Results.NoContent() : Results.NotFound();
 });
 
 app.Run();
