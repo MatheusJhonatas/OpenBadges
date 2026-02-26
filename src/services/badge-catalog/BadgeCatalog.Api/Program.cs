@@ -8,13 +8,20 @@ using BadgeCatalog.Adapters.Security;
 using BadgeCatalog.Application.Commands.DeactivateBadgeClass;
 using BadgeCatalog.Application.Commands.UpdateBadgeClass;
 using BadgeCatalog.Api.Requests;
+using Microsoft.EntityFrameworkCore;
+using BadgeCatalog.Adapters.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSingleton<IBadgeClassRepository, InMemoryBadgeClassRepository>();
+builder.Services.AddDbContext<BadgeCatalogDbContext>(options =>
+{
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+// builder.Services.AddSingleton<IBadgeClassRepository, InMemoryBadgeClassRepository>();
+builder.Services.AddScoped<IBadgeClassRepository, BadgeClassRepository>();
 builder.Services.AddSingleton<IIssuerProvider, ConfigIssuerProvider>();
 builder.Services.AddSingleton<IJwkProvider, StaticJwkProvider>();
 builder.Services.AddScoped<CreateBadgeClassHandler>();
