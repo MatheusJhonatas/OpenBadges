@@ -18,7 +18,9 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<BadgeCatalogDbContext>(options =>
 {
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
+    options.UseSqlite(
+        builder.Configuration.GetConnectionString("DefaultConnection")
+        );
 });
 // builder.Services.AddSingleton<IBadgeClassRepository, InMemoryBadgeClassRepository>();
 builder.Services.AddScoped<IBadgeClassRepository, BadgeClassRepository>();
