@@ -2,6 +2,7 @@ using BadgeCatalog.Adapters.Persistence;
 using BadgeCatalog.Domain.Aggregates;
 using BadgeCatalog.Domain.Specifications;
 using BadgeCatalog.Ports.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace BadgeCatalog.Adapters.Repositories;
 
@@ -20,28 +21,37 @@ public class BadgeClassRepository : IBadgeClassRepository
         await _dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public Task<IReadOnlyList<BadgeClass>> GetAllAsync(CancellationToken cancellationToken)
+    public async Task<IReadOnlyList<BadgeClass>> GetAllAsync(CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        return await _dbContext.BadgeClasses
+        .AsNoTracking()
+        .ToListAsync(cancellationToken);
     }
 
-    public Task<IReadOnlyList<BadgeClass>> ListAsync(Specification<BadgeClass> specification, CancellationToken cancellationToken)
+    public async Task<IReadOnlyList<BadgeClass>> ListAsync(Specification<BadgeClass> specification, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var query = _dbContext.BadgeClasses
+        .AsNoTracking()
+        .Where(specification.ToExpression());
+        return await query.ToListAsync(cancellationToken);
     }
 
-    public Task<BadgeClass?> GetBySlugAsync(string slug, CancellationToken cancellationToken)
+    public async Task<BadgeClass?> GetBySlugAsync(string slug, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        return await _dbContext.BadgeClasses
+        .AsNoTracking()
+        .FirstOrDefaultAsync(bc => bc.Slug == slug, cancellationToken);
     }
 
-    Task<BadgeClass?> IBadgeClassRepository.GetByIdAsync(Guid id, CancellationToken cancellationToken)
+    public async Task<BadgeClass?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        return await _dbContext.BadgeClasses
+        .FirstOrDefaultAsync(bc => bc.Id == id, cancellationToken);
     }
 
-    public Task UpdateAsync(BadgeClass badgeClass, CancellationToken cancellationToken)
+    public async Task UpdateAsync(BadgeClass badgeClass, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+       _dbContext.BadgeClasses.Update(badgeClass);
+         await _dbContext.SaveChangesAsync(cancellationToken);
     }
 }
