@@ -1,0 +1,8 @@
+namespace BadgeCatalog.Application.Commands.UpdateBadgeClass;
+
+public class UpdateBadgeClassRequest
+{
+    public string Name { get; set; } = default!;
+    public string Description { get; set; } = default!;
+    public int Version { get; set; }
+}
