@@ -28,7 +28,8 @@ public class BadgeCatalogMap : IEntityTypeConfiguration<BadgeClass>
             .IsRequired();
 
         builder.Property(b => b.Version)
-            .IsRequired();
+            .IsRequired()
+            .IsConcurrencyToken();
 
         builder.Property(b => b.CreatedAt)
             .IsRequired();
