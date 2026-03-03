@@ -98,15 +98,24 @@ app.MapGet("/keys/current", (IJwkProvider provider) =>
     var key = provider.GetCurrent();
     return Results.Ok(key);
 });
-app.MapPut("/badges/{id:guid}", async (
+app.MapPut("/badges/{id}", async (
     Guid id,
+    UpdateBadgeClassRequest request,
     UpdateBadgeClassHandler handler,
-    UpdateBadgeRequest request,
     CancellationToken cancellationToken) =>
 {
-    var result = await handler.Handle(id, request.Name, request.Description, cancellationToken);
+    try
+    {
+        var updated = await handler.Handle(id, request, cancellationToken);
 
-    return result ? Results.NoContent() : Results.NotFound();
+        return updated
+            ? Results.NoContent()
+            : Results.NotFound();
+    }
+    catch (DbUpdateConcurrencyException)
+    {
+        return Results.Conflict("This badge was modified by another user.");
+    }
 });
 
 app.Run();
