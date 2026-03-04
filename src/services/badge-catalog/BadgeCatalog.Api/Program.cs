@@ -108,9 +108,11 @@ app.MapPut("/badges/{id}", async (
     {
         var updated = await handler.Handle(id, request, cancellationToken);
 
-        return updated
-            ? Results.NoContent()
-            : Results.NotFound();
+        if (!updated)
+        {
+            return Results.NotFound();
+        }
+        return Results.NoContent();
     }
     catch (DbUpdateConcurrencyException)
     {
