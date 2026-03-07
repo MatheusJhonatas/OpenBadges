@@ -7,7 +7,6 @@ using BadgeCatalog.Adapters.Issuer;
 using BadgeCatalog.Adapters.Security;
 using BadgeCatalog.Application.Commands.DeactivateBadgeClass;
 using BadgeCatalog.Application.Commands.UpdateBadgeClass;
-using BadgeCatalog.Api.Requests;
 using Microsoft.EntityFrameworkCore;
 using BadgeCatalog.Adapters.Repositories;
 
@@ -106,13 +105,13 @@ app.MapGet("/keys/current", (IJwkProvider provider) =>
 });
 app.MapPut("/badges/{id}", async (
     Guid id,
-    UpdateBadgeClassRequest request,
+    UpdateBadgeClassCommand command,
     UpdateBadgeClassHandler handler,
     CancellationToken cancellationToken) =>
 {
     try
     {
-        var updated = await handler.Handle(id, request, cancellationToken);
+        var updated = await handler.Handle(id, command, cancellationToken);
 
         if (!updated)
         {
