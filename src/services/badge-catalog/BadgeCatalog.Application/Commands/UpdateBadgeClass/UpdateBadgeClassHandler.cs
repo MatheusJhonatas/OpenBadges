@@ -12,7 +12,7 @@ public class UpdateBadgeClassHandler
         
     public async Task<bool> Handle(
         Guid id,
-        UpdateBadgeClassRequest request,
+        UpdateBadgeClassCommand command,
         CancellationToken cancellationToken
     )
     {
@@ -21,11 +21,11 @@ public class UpdateBadgeClassHandler
         if (badge == null)
             return false;
 
-           if(badge.Version != request.Version)
+           if(badge.Version != command.Version)
             {
                 throw new InvalidOperationException("The badge has been modified by another process. Please reload and try again.");
             }
-        badge.Update(request.Name, request.Description);
+        badge.Update(command.Name, command.Description);
         await _repository.UpdateAsync(badge, cancellationToken);
         return true;
     }
