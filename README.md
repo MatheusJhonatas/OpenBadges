@@ -1,11 +1,14 @@
 # 🏅 OpenBadges — Plataforma de Emissão e Verificação de Badges
 ## Projeto arquitetado para implementação do padrão Open Badges, com foco em:
+
 - Arquitetura limpa (Clean Architecture)
 - Hexagonal (Ports & Adapters)
 - DDD (Domain-Driven Design)
 - Microserviços
 - Boas práticas enterprise (.NET 9)
+
 ---
+
 ## 📌 Objetivo do Projeto
 ### Construir uma plataforma interoperável para:
 
@@ -20,6 +23,7 @@
 - Trilhas de aprendizado
 - Certificações internas
 - Reconhecimento profissional
+
 ---
 
 ## 🏗 Arquitetura
@@ -32,6 +36,7 @@
 - **CQRS**
 - **Repository Pattern**
 - **Specification Pattern**
+  
 ### Separando completamente:
 
 - Regras de negócio
@@ -65,10 +70,14 @@ BadgeCatalog.Domain
 │  
 ├── Events  
 ├── Exceptions  
-├── Enums  
+├── Enums
+
 ---
+
 ## 🎯 Modelagem Atual
+
 ### ✅ Aggregate Root: BadgeClass
+
 Representa a definição de um tipo de badge que pode ser emitido.
 
 #### Propriedades atuais:
@@ -79,7 +88,7 @@ Representa a definição de um tipo de badge que pode ser emitido.
 - Image (Value Object)
 - Criteria (Value Object)
 - IsActive
----
+  
 #### Garantias de domínio:
 
 - Nome não pode ser vazio
@@ -88,11 +97,14 @@ Representa a definição de um tipo de badge que pode ser emitido.
 - Criteria é obrigatório
 - Encapsulamento com setters privados
 - Preparado para EF Core
+
 ### ✅ Value Objects
 - BadgeImage
--- Representa a URL da imagem do badge.
+- Representa a URL da imagem do badge.
 - BadgeCriteria
---Representa a descrição narrativa dos critérios para obtenção do badge.
+- Representa a descrição narrativa dos critérios para obtenção do badge.
+
+---
 
 ## 🔗 Dependências entre camadas
 ### Arquitetura respeita a seguinte direção:
@@ -101,19 +113,25 @@ Representa a definição de um tipo de badge que pode ser emitido.
 - Adapters → Ports + Domain
 - Domain → não depende de ninguém
 - Ports → apenas contratos
+
 ---
+
 ## 🌿 Estratégia de Branch
 
 - main → branch protegida
 - develop → branch de desenvolvimento
+
 ---
+
 ## 🛠 Stack Atual
 
 - .NET 9
 - Clean Architecture
 - DDD
 - Git Flow básico
+
 ---
+
 ## 🚀 Próximos Passos
 
 Modelagem do Aggregate Assertion
@@ -124,8 +142,10 @@ Criação de Use Cases (Application Layer)
 
 Outbox Pattern
 
-Mensageria
+Mensageria  
+
 ---
+
 ## 📖 Conformidade com Open Badges
 
 O modelo está sendo desenvolvido com base no padrão Open Badges, preparando o sistema para:
@@ -135,4 +155,5 @@ Serialização futura em JSON-LD
 Emissão verificável
 
 Compatibilidade com ecossistema Open Badges
+
 ---
