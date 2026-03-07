@@ -125,7 +125,7 @@ Criação de Use Cases (Application Layer)
 Outbox Pattern
 
 Mensageria
-
+---
 ## 📖 Conformidade com Open Badges
 
 O modelo está sendo desenvolvido com base no padrão Open Badges, preparando o sistema para:
@@ -135,3 +135,4 @@ Serialização futura em JSON-LD
 Emissão verificável
 
 Compatibilidade com ecossistema Open Badges
+---
