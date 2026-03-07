@@ -5,7 +5,7 @@
 - DDD (Domain-Driven Design)
 - Microserviços
 - Boas práticas enterprise (.NET 9)
-
+---
 ## 📌 Objetivo do Projeto
 ### Construir uma plataforma interoperável para:
 
@@ -14,14 +14,31 @@
 - Verificar badges publicamente
 - Garantir conformidade com o padrão Open Badges
 
+### A plataforma pode ser utilizada para programas corporativos de:
+
+- Capacitação técnica
+- Trilhas de aprendizado
+- Certificações internas
+- Reconhecimento profissional
+---
+
 ## 🏗 Arquitetura
 
 ### O projeto segue:
 
-- Clean Architecture
-- Hexagonal Architecture
-- Separação por microserviço
-- Domínio isolado de infraestrutura
+- **Clean Architecture**
+- **Hexagonal Architecture**
+- **Domain Driven Design**
+- **CQRS**
+- **Repository Pattern**
+- **Specification Pattern**
+### Separando completamente:
+
+- Regras de negócio
+- Infraestrutura
+- Interface HTTP
+
+---
 
 ## 📂 Estrutura Atual
 OpenBadges  
