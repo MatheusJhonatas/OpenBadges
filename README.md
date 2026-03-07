@@ -52,6 +52,7 @@ OpenBadges
 │           ├── BadgeCatalog.Domain  
 │           ├── BadgeCatalog.Ports   
 │           └── BadgeCatalog.Adapters  
+
 ## 🧱 Estrutura Interna do Domain
 BadgeCatalog.Domain  
 │  
@@ -65,6 +66,7 @@ BadgeCatalog.Domain
 ├── Events  
 ├── Exceptions  
 ├── Enums  
+---
 ## 🎯 Modelagem Atual
 ### ✅ Aggregate Root: BadgeClass
 Representa a definição de um tipo de badge que pode ser emitido.
@@ -77,7 +79,7 @@ Representa a definição de um tipo de badge que pode ser emitido.
 - Image (Value Object)
 - Criteria (Value Object)
 - IsActive
-
+---
 #### Garantias de domínio:
 
 - Nome não pode ser vazio
@@ -86,7 +88,6 @@ Representa a definição de um tipo de badge que pode ser emitido.
 - Criteria é obrigatório
 - Encapsulamento com setters privados
 - Preparado para EF Core
-
 ### ✅ Value Objects
 - BadgeImage
 -- Representa a URL da imagem do badge.
@@ -100,19 +101,19 @@ Representa a definição de um tipo de badge que pode ser emitido.
 - Adapters → Ports + Domain
 - Domain → não depende de ninguém
 - Ports → apenas contratos
-
+---
 ## 🌿 Estratégia de Branch
 
 - main → branch protegida
 - develop → branch de desenvolvimento
-
+---
 ## 🛠 Stack Atual
 
 - .NET 9
 - Clean Architecture
 - DDD
 - Git Flow básico
-
+---
 ## 🚀 Próximos Passos
 
 Modelagem do Aggregate Assertion
@@ -120,8 +121,6 @@ Modelagem do Aggregate Assertion
 Introdução de Domain Events
 
 Criação de Use Cases (Application Layer)
-
-Persistência (EF Core)
 
 Outbox Pattern
 
