@@ -55,14 +55,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 app.MapControllers();
-app.MapPost("/badges", async (
-    CreateBadgeClassCommand command,
-    CreateBadgeClassHandler handler,
-    CancellationToken cancellationToken) =>
-{
-    var badge = await handler.Handle(command, cancellationToken);
-    return Results.Created($"/badges/{badge.Id}", badge);
-});
+
 app.MapPatch("/badges/{id:guid}/deactivate", async (
     Guid id,
     DeactivateBadgeClassHandler handler,
