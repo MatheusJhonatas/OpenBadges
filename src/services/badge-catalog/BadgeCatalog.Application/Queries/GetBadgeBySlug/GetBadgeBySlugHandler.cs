@@ -1,9 +1,10 @@
 using BadgeCatalog.Domain.Aggregates;
 using BadgeCatalog.Ports.Repositories;
+using MediatR;
 
 namespace BadgeCatalog.Application.Queries.GetBadgeBySlug;
 
-public sealed class GetBadgeBySlugHandler
+public sealed class GetBadgeBySlugHandler : IRequestHandler<GetBadgeBySlugQuery, BadgeClass?>
 {
     private readonly IBadgeClassRepository  _repository;
 
@@ -12,8 +13,10 @@ public sealed class GetBadgeBySlugHandler
         _repository = repository;
     }
 
-    public Task<BadgeClass?> Handle(string slug, CancellationToken cancellationToken)
+    
+
+    public async Task<BadgeClass?> Handle(GetBadgeBySlugQuery query, CancellationToken cancellationToken)
     {
-        return _repository.GetBySlugAsync(slug, cancellationToken);
+        return await _repository.GetBySlugAsync(query.Slug, cancellationToken);
     }
 }
