@@ -1,11 +1,12 @@
 using BadgeCatalog.Domain.Aggregates;
 using BadgeCatalog.Domain.Specifications;
-using BadgeCatalog.Ports;
 using BadgeCatalog.Ports.Repositories;
+using MediatR;
 
 namespace BadgeCatalog.Application.Queries.GetAllBadges;
 
-public sealed class GetAllBadgesHandler
+public sealed class GetAllBadgesHandler 
+    : IRequestHandler<GetAllBadgesQuery, IReadOnlyList<BadgeClass>>
 {
     private readonly IBadgeClassRepository _repository;
 
@@ -15,12 +16,12 @@ public sealed class GetAllBadgesHandler
     }
 
     public async Task<IReadOnlyList<BadgeClass>> Handle(
-    bool? active,
-    CancellationToken cancellationToken)
-{
-        if (active.HasValue)
+        GetAllBadgesQuery query,
+        CancellationToken cancellationToken)
+    {
+        if (query.Active.HasValue)
         {
-            if (active.Value)
+            if (query.Active.Value)
             {
                 var spec = new ActiveBadgeSpecification();
                 return await _repository.ListAsync(spec, cancellationToken);
@@ -28,12 +29,12 @@ public sealed class GetAllBadgesHandler
             else
             {
                 var spec = new InactiveBadgeSpecification();
-            return await _repository.ListAsync(spec, cancellationToken);
+                return await _repository.ListAsync(spec, cancellationToken);
             }
         }
-        // DEFAULT: só ativos
-    var defaultSpec = new ActiveBadgeSpecification();
-    return await _repository.ListAsync(defaultSpec, cancellationToken);
-}
 
+        // DEFAULT: só ativos
+        var defaultSpec = new ActiveBadgeSpecification();
+        return await _repository.ListAsync(defaultSpec, cancellationToken);
+    }
 }

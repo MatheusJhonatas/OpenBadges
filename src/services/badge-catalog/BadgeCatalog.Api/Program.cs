@@ -56,36 +56,17 @@ if (app.Environment.IsDevelopment())
 }
 app.MapControllers();
 
-app.MapPatch("/badges/{id:guid}/deactivate", async (
-    Guid id,
-    DeactivateBadgeClassHandler handler,
-    CancellationToken cancellationToken) =>
-{
-    var result = await handler.Handle(id, cancellationToken);
+// app.MapPatch("/badges/{id:guid}/deactivate", async (
+//     Guid id,
+//     DeactivateBadgeClassHandler handler,
+//     CancellationToken cancellationToken) =>
+// {
+//     var result = await handler.Handle(id, cancellationToken);
 
-    return result ? Results.NoContent() : Results.NotFound();
-});
+//     return result ? Results.NoContent() : Results.NotFound();
+// });
 
-app.MapGet("/badges", async (
-    bool? active,
-    GetAllBadgesHandler handler,
-    CancellationToken cancellationToken) =>
-{
-    var badges = await handler.Handle(active, cancellationToken);
-    return Results.Ok(badges);
-});
 
-app.MapGet("/badges/{slug}", async (
-    string slug,
-    GetBadgeBySlugHandler handler,
-    CancellationToken cancellationToken) =>
-{
-    var badge = await handler.Handle(slug, cancellationToken);
-
-    return badge is null
-        ? Results.NotFound()
-        : Results.Ok(badge);
-});
 app.MapGet("/issuer", (IIssuerProvider issuerProvider) =>
 {
     var issuer = issuerProvider.GetIssuer();

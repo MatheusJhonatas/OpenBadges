@@ -1,8 +1,9 @@
 using BadgeCatalog.Ports.Repositories;
+using MediatR;
 
 namespace BadgeCatalog.Application.Commands.DeactivateBadgeClass;
 
-public class DeactivateBadgeClassHandler
+public class DeactivateBadgeClassHandler : IRequestHandler<DeactivateBadgeClassCommand, bool>
 {
     private readonly IBadgeClassRepository _repository;
 
@@ -11,9 +12,9 @@ public class DeactivateBadgeClassHandler
         _repository = repository;
     }
 
-       public async Task<bool> Handle(Guid id, CancellationToken cancellationToken)
+    public async Task<bool> Handle(DeactivateBadgeClassCommand command, CancellationToken cancellationToken)
     {
-        var badge = await _repository.GetByIdAsync(id, cancellationToken);
+        var badge = await _repository.GetByIdAsync(command.Id, cancellationToken);
 
         if (badge is null)
             return false;
@@ -24,4 +25,5 @@ public class DeactivateBadgeClassHandler
 
         return true;
     }
+
 }
