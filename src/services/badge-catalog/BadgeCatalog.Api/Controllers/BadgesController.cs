@@ -1,10 +1,13 @@
 using BadgeCatalog.Application.Commands.ActiveBadgeClass;
 using BadgeCatalog.Application.Commands.CreateBadgeClass;
 using BadgeCatalog.Application.Commands.DeactivateBadgeClass;
+using BadgeCatalog.Application.Commands.UpdateBadgeClass;
 using BadgeCatalog.Application.Queries.GetAllBadges;
 using BadgeCatalog.Application.Queries.GetBadgeBySlug;
+using BadgeCatalog.Domain.Exceptions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace BadgeCatalog.Api.Controllers;
 
@@ -74,5 +77,34 @@ public class BadgesController : ControllerBase
             return NotFound(new { message = "Não existe badge com esse id." });
         }
         return NoContent();
+    }
+    [HttpPut("{id:guid}")]
+    public async Task<IActionResult> UpdateBadge(
+        Guid id,
+        UpdateBadgeClassCommand command,
+        CancellationToken cancellationToken
+    )
+    {
+        try
+        {
+            var updated = await _mediator.Send(command, cancellationToken);
+
+        if (!updated)
+        {
+            return NotFound(new { message = "Badge not found." });
+        }
+
+        return NoContent();
+        }catch (DbUpdateConcurrencyException)
+        {
+            return Conflict(new { message = "Esta badge foi modificada por outro usuário." });
+        }
+        catch (ConcurrencyException  ex)
+        {
+             return Conflict(new
+    {
+        message = ex.Message
+    });
+        }
     }
 }
