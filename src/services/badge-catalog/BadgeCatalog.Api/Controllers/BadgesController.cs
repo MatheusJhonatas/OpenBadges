@@ -1,3 +1,4 @@
+using BadgeCatalog.Application.Commands.ActiveBadgeClass;
 using BadgeCatalog.Application.Commands.CreateBadgeClass;
 using BadgeCatalog.Application.Commands.DeactivateBadgeClass;
 using BadgeCatalog.Application.Queries.GetAllBadges;
@@ -61,5 +62,17 @@ public class BadgesController : ControllerBase
         }
         return NoContent();
     }
+    [HttpPatch("{id:guid}/activate")]
+    public async Task<IActionResult> ActivateBadgeClass(
+        Guid id,
+        CancellationToken cancellationToken)
+    {
+        var result = await _mediator.Send(new ActiveBadgeClassCommand(id), cancellationToken);
 
+        if (!result)
+        {
+            return NotFound(new { message = "Não existe badge com esse id." });
+        }
+        return NoContent();
+    }
 }
