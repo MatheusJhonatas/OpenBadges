@@ -44,7 +44,12 @@ public sealed class BadgeClass
         Version++;
         UpdatedAt = DateTime.UtcNow;
     }
-
+    public void Activate()
+    {
+        IsActive = true;
+        Version++;
+        UpdatedAt = DateTime.UtcNow;
+    }
     private void SetName(string name)
     {
         if (string.IsNullOrWhiteSpace(name))

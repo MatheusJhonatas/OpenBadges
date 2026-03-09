@@ -56,16 +56,6 @@ if (app.Environment.IsDevelopment())
 }
 app.MapControllers();
 
-// app.MapPatch("/badges/{id:guid}/deactivate", async (
-//     Guid id,
-//     DeactivateBadgeClassHandler handler,
-//     CancellationToken cancellationToken) =>
-// {
-//     var result = await handler.Handle(id, cancellationToken);
-
-//     return result ? Results.NoContent() : Results.NotFound();
-// });
-
 
 app.MapGet("/issuer", (IIssuerProvider issuerProvider) =>
 {
@@ -77,26 +67,26 @@ app.MapGet("/keys/current", (IJwkProvider provider) =>
     var key = provider.GetCurrent();
     return Results.Ok(key);
 });
-app.MapPut("/badges/{id}", async (
-    Guid id,
-    UpdateBadgeClassCommand command,
-    UpdateBadgeClassHandler handler,
-    CancellationToken cancellationToken) =>
-{
-    try
-    {
-        var updated = await handler.Handle(id, command, cancellationToken);
+// app.MapPut("/badges/{id}", async (
+//     Guid id,
+//     UpdateBadgeClassCommand command,
+//     UpdateBadgeClassHandler handler,
+//     CancellationToken cancellationToken) =>
+// {
+//     try
+//     {
+//         var updated = await handler.Handle(id, command, cancellationToken);
 
-        if (!updated)
-        {
-            return Results.NotFound();
-        }
-        return Results.NoContent();
-    }
-    catch (DbUpdateConcurrencyException)
-    {
-        return Results.Conflict("This badge was modified by another user.");
-    }
-});
+//         if (!updated)
+//         {
+//             return Results.NotFound();
+//         }
+//         return Results.NoContent();
+//     }
+//     catch (DbUpdateConcurrencyException)
+//     {
+//         return Results.Conflict("This badge was modified by another user.");
+//     }
+// });
 
 app.Run();
