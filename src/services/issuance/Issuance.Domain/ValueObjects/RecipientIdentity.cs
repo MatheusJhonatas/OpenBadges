@@ -1,4 +1,4 @@
-namespace BadgeCatalog.Domain.ValueObjects;
+namespace Issuance.Domain.ValueObjects;
 
 public sealed class RecipientIdentity
 {

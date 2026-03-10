@@ -40,6 +40,7 @@ builder.Services.AddCors(options =>
                 .AllowAnyMethod();
         });
 });
+
 var app = builder.Build();
 
 app.UseGlobalExceptionHandler();
@@ -51,6 +52,5 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 app.MapControllers();
-
 
 app.Run();

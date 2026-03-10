@@ -1,6 +1,8 @@
-using BadgeCatalog.Domain.Enums;
-using BadgeCatalog.Domain.ValueObjects;
-namespace BadgeCatalog.Domain.Aggregates;
+
+using Issuance.Domain.Enums;
+using Issuance.Domain.ValueObjects;
+
+namespace Issuance.Domain.Aggregates;
 
 public sealed class Assertion
 {

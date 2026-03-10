@@ -29,7 +29,7 @@ public class BadgesController : ControllerBase
         CancellationToken cancellationToken)
     {
         var id = await _mediator.Send(command, cancellationToken);
-        return Created($"/api/badges/{id}", new { Id = id });
+        return CreatedAtAction(nameof(GetBadgeBySlug), new { slug = command.Name.ToLower().Replace(" ", "-") }, new { id });
     }
 
     [HttpGet]
@@ -81,11 +81,11 @@ public class BadgesController : ControllerBase
         return NoContent();
     }
     [HttpPut("{id:guid}")]
-public async Task<IActionResult> UpdateBadge(
+    public async Task<IActionResult> UpdateBadge(
     Guid id,
     UpdateBadgeClassRequest request,
     CancellationToken cancellationToken)
-{
+    {
     var command = new UpdateBadgeClassCommand(id)
     {
         Name = request.Name,
