@@ -32,11 +32,7 @@ builder.Services.AddDbContext<BadgeCatalogDbContext>(options =>
 builder.Services.AddScoped<IBadgeClassRepository, BadgeClassRepository>();
 builder.Services.AddSingleton<IIssuerProvider, ConfigIssuerProvider>();
 builder.Services.AddSingleton<IJwkProvider, StaticJwkProvider>();
-builder.Services.AddScoped<CreateBadgeClassHandler>();
-builder.Services.AddScoped<DeactivateBadgeClassHandler>();
-builder.Services.AddScoped<UpdateBadgeClassHandler>();
-builder.Services.AddScoped<GetAllBadgesHandler>();
-builder.Services.AddScoped<GetBadgeBySlugHandler>();
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend",
@@ -60,16 +56,5 @@ if (app.Environment.IsDevelopment())
 }
 app.MapControllers();
 
-
-app.MapGet("/issuer", (IIssuerProvider issuerProvider) =>
-{
-    var issuer = issuerProvider.GetIssuer();
-    return Results.Ok(issuer);
-});
-app.MapGet("/keys/current", (IJwkProvider provider) =>
-{
-    var key = provider.GetCurrent();
-    return Results.Ok(key);
-});
 
 app.Run();
