@@ -1,12 +1,8 @@
 using BadgeCatalog.Adapters.Persistence;
 using BadgeCatalog.Application.Commands.CreateBadgeClass;
-using BadgeCatalog.Application.Queries.GetAllBadges;
-using BadgeCatalog.Application.Queries.GetBadgeBySlug;
 using BadgeCatalog.Ports.Repositories;
 using BadgeCatalog.Adapters.Issuer;
 using BadgeCatalog.Adapters.Security;
-using BadgeCatalog.Application.Commands.DeactivateBadgeClass;
-using BadgeCatalog.Application.Commands.UpdateBadgeClass;
 using Microsoft.EntityFrameworkCore;
 using BadgeCatalog.Adapters.Repositories;
 using BadgeCatalog.Api.Middleware;
@@ -28,7 +24,7 @@ builder.Services.AddDbContext<BadgeCatalogDbContext>(options =>
         builder.Configuration.GetConnectionString("DefaultConnection")
         );
 });
-// builder.Services.AddSingleton<IBadgeClassRepository, InMemoryBadgeClassRepository>();
+
 builder.Services.AddScoped<IBadgeClassRepository, BadgeClassRepository>();
 builder.Services.AddSingleton<IIssuerProvider, ConfigIssuerProvider>();
 builder.Services.AddSingleton<IJwkProvider, StaticJwkProvider>();
@@ -44,6 +40,7 @@ builder.Services.AddCors(options =>
                 .AllowAnyMethod();
         });
 });
+
 var app = builder.Build();
 
 app.UseGlobalExceptionHandler();
@@ -55,6 +52,5 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 app.MapControllers();
-
 
 app.Run();
