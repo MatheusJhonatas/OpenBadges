@@ -1,3 +1,5 @@
+using System.Runtime.InteropServices;
+using BadgeCatalog.Api.Requests;
 using BadgeCatalog.Application.Commands.ActiveBadgeClass;
 using BadgeCatalog.Application.Commands.CreateBadgeClass;
 using BadgeCatalog.Application.Commands.DeactivateBadgeClass;
@@ -79,32 +81,24 @@ public class BadgesController : ControllerBase
         return NoContent();
     }
     [HttpPut("{id:guid}")]
-    public async Task<IActionResult> UpdateBadge(
-        Guid id,
-        UpdateBadgeClassCommand command,
-        CancellationToken cancellationToken
-    )
+public async Task<IActionResult> UpdateBadge(
+    Guid id,
+    UpdateBadgeClassRequest request,
+    CancellationToken cancellationToken)
+{
+    var command = new UpdateBadgeClassCommand(id)
     {
-        try
-        {
-            var updated = await _mediator.Send(command, cancellationToken);
+        Name = request.Name,
+        Description = request.Description,
+        Version = request.Version
+    };
 
-        if (!updated)
-        {
-            return NotFound(new { message = "Badge not found." });
-        }
+    var updated = await _mediator.Send(command, cancellationToken);
 
-        return NoContent();
-        }catch (DbUpdateConcurrencyException)
-        {
-            return Conflict(new { message = "Esta badge foi modificada por outro usuário." });
-        }
-        catch (ConcurrencyException  ex)
-        {
-             return Conflict(new
-    {
-        message = ex.Message
-    });
-        }
-    }
+    if (!updated)
+        return NotFound(new { message = "Badge not found." });
+
+    return NoContent();
 }
+}
+

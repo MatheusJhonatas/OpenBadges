@@ -9,6 +9,7 @@ using BadgeCatalog.Application.Commands.DeactivateBadgeClass;
 using BadgeCatalog.Application.Commands.UpdateBadgeClass;
 using Microsoft.EntityFrameworkCore;
 using BadgeCatalog.Adapters.Repositories;
+using BadgeCatalog.Api.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,11 +32,7 @@ builder.Services.AddDbContext<BadgeCatalogDbContext>(options =>
 builder.Services.AddScoped<IBadgeClassRepository, BadgeClassRepository>();
 builder.Services.AddSingleton<IIssuerProvider, ConfigIssuerProvider>();
 builder.Services.AddSingleton<IJwkProvider, StaticJwkProvider>();
-builder.Services.AddScoped<CreateBadgeClassHandler>();
-builder.Services.AddScoped<DeactivateBadgeClassHandler>();
-builder.Services.AddScoped<UpdateBadgeClassHandler>();
-builder.Services.AddScoped<GetAllBadgesHandler>();
-builder.Services.AddScoped<GetBadgeBySlugHandler>();
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend",
@@ -48,6 +45,9 @@ builder.Services.AddCors(options =>
         });
 });
 var app = builder.Build();
+
+app.UseGlobalExceptionHandler();
+
 app.UseCors("AllowFrontend");
 if (app.Environment.IsDevelopment())
 {
@@ -56,37 +56,5 @@ if (app.Environment.IsDevelopment())
 }
 app.MapControllers();
 
-
-app.MapGet("/issuer", (IIssuerProvider issuerProvider) =>
-{
-    var issuer = issuerProvider.GetIssuer();
-    return Results.Ok(issuer);
-});
-app.MapGet("/keys/current", (IJwkProvider provider) =>
-{
-    var key = provider.GetCurrent();
-    return Results.Ok(key);
-});
-// app.MapPut("/badges/{id}", async (
-//     Guid id,
-//     UpdateBadgeClassCommand command,
-//     UpdateBadgeClassHandler handler,
-//     CancellationToken cancellationToken) =>
-// {
-//     try
-//     {
-//         var updated = await handler.Handle(id, command, cancellationToken);
-
-//         if (!updated)
-//         {
-//             return Results.NotFound();
-//         }
-//         return Results.NoContent();
-//     }
-//     catch (DbUpdateConcurrencyException)
-//     {
-//         return Results.Conflict("This badge was modified by another user.");
-//     }
-// });
 
 app.Run();
