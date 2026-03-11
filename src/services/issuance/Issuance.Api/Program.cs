@@ -7,17 +7,19 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddOpenApi();
+
+// aqui definimos o documento v1
+builder.Services.AddOpenApi("v1");
 
 builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssembly(typeof(IssueBadgeCommand).Assembly));
 
 var app = builder.Build();
 
+// expõe o schema
 app.MapOpenApi();
 
-app.MapGet("/scalar", () => Results.Redirect("/scalar/v1"));
-app.MapGet("/scalar/", () => Results.Redirect("/scalar/v1"));
+// interface Scalar
 app.MapScalarApiReference(options =>
 {
     options.AddDocument("v1");
