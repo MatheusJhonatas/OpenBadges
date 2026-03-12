@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Issuance.Domain\Issuance.Domain.csproj" />
+    <ProjectReference Include="..\Issuance.Ports\Issuance.Ports.csproj" />
   </ItemGroup>
 
   <ItemGroup>
