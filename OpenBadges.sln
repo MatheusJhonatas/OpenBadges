@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Issuance.Application", "src
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Issuance.Ports", "src\services\issuance\Issuance.Ports\Issuance.Ports.csproj", "{4629320C-73BD-4AA8-A522-58D2C573B768}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Issuance.Adapters", "src\services\issuance\Issuance.Adapters\Issuance.Adapters.csproj", "{9F695C20-161A-4F14-9F54-9D8C3D7646D7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -147,6 +149,18 @@ Global
 		{4629320C-73BD-4AA8-A522-58D2C573B768}.Release|x64.Build.0 = Release|Any CPU
 		{4629320C-73BD-4AA8-A522-58D2C573B768}.Release|x86.ActiveCfg = Release|Any CPU
 		{4629320C-73BD-4AA8-A522-58D2C573B768}.Release|x86.Build.0 = Release|Any CPU
+		{9F695C20-161A-4F14-9F54-9D8C3D7646D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F695C20-161A-4F14-9F54-9D8C3D7646D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F695C20-161A-4F14-9F54-9D8C3D7646D7}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{9F695C20-161A-4F14-9F54-9D8C3D7646D7}.Debug|x64.Build.0 = Debug|Any CPU
+		{9F695C20-161A-4F14-9F54-9D8C3D7646D7}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9F695C20-161A-4F14-9F54-9D8C3D7646D7}.Debug|x86.Build.0 = Debug|Any CPU
+		{9F695C20-161A-4F14-9F54-9D8C3D7646D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F695C20-161A-4F14-9F54-9D8C3D7646D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F695C20-161A-4F14-9F54-9D8C3D7646D7}.Release|x64.ActiveCfg = Release|Any CPU
+		{9F695C20-161A-4F14-9F54-9D8C3D7646D7}.Release|x64.Build.0 = Release|Any CPU
+		{9F695C20-161A-4F14-9F54-9D8C3D7646D7}.Release|x86.ActiveCfg = Release|Any CPU
+		{9F695C20-161A-4F14-9F54-9D8C3D7646D7}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -164,5 +178,6 @@ Global
 		{F93E87AB-BE1D-4CF7-A30C-265F3C5DD8CD} = {ED8E9904-7194-B587-48D1-3530AE75DB36}
 		{58DB01FF-C610-415F-98EE-B087FF056544} = {ED8E9904-7194-B587-48D1-3530AE75DB36}
 		{4629320C-73BD-4AA8-A522-58D2C573B768} = {ED8E9904-7194-B587-48D1-3530AE75DB36}
+		{9F695C20-161A-4F14-9F54-9D8C3D7646D7} = {ED8E9904-7194-B587-48D1-3530AE75DB36}
 	EndGlobalSection
 EndGlobal
