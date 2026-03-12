@@ -157,3 +157,16 @@ Emissão verificável
 Compatibilidade com ecossistema Open Badges
 
 ---
+
+## Diagrama da arquitetura do sistema OpenBadges
+
+```mermaid
+graph TD
+Frontend[Frontend React] --> BFF[BFF / API]
+BFF --> BadgeCatalog
+BFF --> Issuance
+BFF --> Verification
+BadgeCatalog --> DB1[(BadgeCatalog DB)]
+Issuance --> DB2[(Issuance DB)]
+Verification --> DB3[(Read Model)]
+```
