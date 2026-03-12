@@ -2,11 +2,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Issuance.Domain\Issuance.Domain.csproj" />
-    <ProjectReference Include="..\Issuance.Ports\Issuance.Ports.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="MediatR" Version="14.1.0" />
   </ItemGroup>
 
   <PropertyGroup>
