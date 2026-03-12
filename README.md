@@ -170,3 +170,30 @@ BadgeCatalog --> DB1[(BadgeCatalog DB)]
 Issuance --> DB2[(Issuance DB)]
 Verification --> DB3[(Read Model)]
 ```
+
+## Fluxo de emissão do badge
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant Issuance
+    participant BadgeCatalog
+    participant DB
+
+    Client->>Issuance: POST /issuances
+    Issuance->>BadgeCatalog: GET /badges/{id}
+    BadgeCatalog-->>Issuance: BadgeClass
+    Issuance->>DB: Save Assertion
+    Issuance-->>Client: AssertionId
+```
+
+## Arquitetura interna do microserviço
+
+```mermaid
+flowchart TD
+    Controller --> Mediator
+    Mediator --> Handler
+    Handler --> Domain
+    Handler --> Repository
+    Repository --> Database
+```
