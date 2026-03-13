@@ -1,5 +1,9 @@
+using Issuance.Adapters.Persistence;
+using Issuance.Adapters.Repositories;
 using Issuance.Application.Commands.IssueBadge;
+using Issuance.Ports.Repositories;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +17,14 @@ builder.Services.AddOpenApi("v1");
 
 builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssembly(typeof(IssueBadgeCommand).Assembly));
+
+builder.Services.AddDbContext<IssuanceDbContext>(options =>
+{
+    options.UseSqlite(
+        builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+
+builder.Services.AddScoped<IAssertionRepository, AssertionRepository>();
 
 var app = builder.Build();
 
