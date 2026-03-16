@@ -56,4 +56,63 @@ public class BadgeClassTests
         // Assert
         badge.Slug.Should().Be("backend-developer");
     }
+
+    [Fact]
+    public void Should_Deactivate_BadgeClass()
+    {
+        // Arrange
+        var badge = CreateValidBadgeClass();
+        var previousVersion = badge.Version;
+        var previousUpdatedAt = badge.UpdatedAt;
+
+        // Act
+        badge.Deactivate();
+
+        // Assert
+        badge.IsActive.Should().BeFalse();
+        badge.Version.Should().Be(previousVersion + 1);
+        badge.UpdatedAt.Should().BeAfter(previousUpdatedAt);
+    }
+
+    [Fact]
+    public void Should_Active_BadgeClass()
+    {
+        //Arrange
+        var badge = CreateValidBadgeClass();
+        badge.Deactivate();
+
+        var previousVersion = badge.Version;
+        var previousUpdatedAt = badge.UpdatedAt;
+
+        //Act
+        badge.Activate();
+
+        //Assert
+        badge.IsActive.Should().BeTrue();
+        badge.Version.Should().Be(previousVersion + 1);
+        badge.UpdatedAt.Should().BeAfter(previousUpdatedAt);
+    }
+
+    [Fact]
+    public void Should_Update_BadgeClass()
+    {
+        //Arrange
+        var badge = CreateValidBadgeClass();
+        var previousVersion = badge.Version;
+        var previousUpdatedAt = badge.UpdatedAt;
+
+        var newName = "Advanced Backend Developer";
+        var newDescription = "Awarded for advanced backend skills";
+
+        //Act
+        badge.Update(newName, newDescription);
+
+        //Assert
+        badge.Name.Should().Be(newName);
+        badge.Description.Should().Be(newDescription);
+        badge.Slug.Should().Be("advanced-backend-developer");
+        badge.Version.Should().Be(previousVersion + 1);
+        badge.UpdatedAt.Should().BeAfter(previousUpdatedAt);
+
+    }
 }
