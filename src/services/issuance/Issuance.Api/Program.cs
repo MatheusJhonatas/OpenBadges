@@ -1,6 +1,8 @@
+using Issuance.Adapters.Clients;
 using Issuance.Adapters.Persistence;
 using Issuance.Adapters.Repositories;
 using Issuance.Application.Commands.IssueBadge;
+using Issuance.Ports.Clients;
 using Issuance.Ports.Repositories;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +27,12 @@ builder.Services.AddDbContext<IssuanceDbContext>(options =>
 });
 
 builder.Services.AddScoped<IAssertionRepository, AssertionRepository>();
+
+builder.Services.AddHttpClient<IBadgeCatalogClient, BadgeCatalogHttpClient>(client =>
+{
+    client.BaseAddress = new Uri("http://localhost:5184");
+});
+
 
 var app = builder.Build();
 
