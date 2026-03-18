@@ -23,6 +23,10 @@ public class ExceptionMiddleware
         {
             await HandleExceptionAsync(context, HttpStatusCode.NotFound, ex.Message);
         }
+        catch (DuplicateAssertionException ex)
+        {
+            await HandleExceptionAsync(context, HttpStatusCode.Conflict, ex.Message);
+        }
         catch (Exception ex)
         {
             await HandleExceptionAsync(context, HttpStatusCode.InternalServerError, ex.ToString());
