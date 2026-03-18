@@ -27,7 +27,7 @@ public sealed class IssuanceHandler : IRequestHandler<IssueBadgeCommand, Guid>
             throw new BadgeNotFoundException(command.BadgeClassId);
         }
         
-        var recipient = new RecipientIdentity(command.RecipientEmail);
+        var recipient = RecipientIdentity.Create(command.RecipientEmail);
 
         var asserttion = new Assertion(command.BadgeClassId, recipient); 
 
