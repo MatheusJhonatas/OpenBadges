@@ -25,7 +25,7 @@ public class ExceptionMiddleware
         }
         catch (Exception ex)
         {
-            await HandleExceptionAsync(context, HttpStatusCode.InternalServerError, "An unexpected error occurred");
+            await HandleExceptionAsync(context, HttpStatusCode.InternalServerError, ex.ToString());
         }
     }
 

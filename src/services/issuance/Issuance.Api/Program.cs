@@ -31,7 +31,7 @@ builder.Services.AddScoped<IAssertionRepository, AssertionRepository>();
 
 builder.Services.AddHttpClient<IBadgeCatalogClient, BadgeCatalogHttpClient>(client =>
 {
-    client.BaseAddress = new Uri("http://localhost:5184");
+    client.BaseAddress = new Uri("http://localhost:5045");
 });
 
 
