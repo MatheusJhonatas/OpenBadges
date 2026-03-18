@@ -1,4 +1,5 @@
 using Issuance.Domain.Aggregates;
+using Issuance.Domain.Exceptions;
 using Issuance.Domain.ValueObjects;
 using Issuance.Ports.Clients;
 using Issuance.Ports.Repositories;
@@ -23,7 +24,7 @@ public sealed class IssuanceHandler : IRequestHandler<IssueBadgeCommand, Guid>
         
         if (!badgeExists)
         {
-            throw new InvalidOperationException($"Badge with id {command.BadgeClassId} does not exist.");
+            throw new BadgeNotFoundException(command.BadgeClassId);
         }
         
         var recipient = new RecipientIdentity(command.RecipientEmail);

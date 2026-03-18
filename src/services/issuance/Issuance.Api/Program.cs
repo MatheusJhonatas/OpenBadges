@@ -1,6 +1,7 @@
 using Issuance.Adapters.Clients;
 using Issuance.Adapters.Persistence;
 using Issuance.Adapters.Repositories;
+using Issuance.Api.Middlewares;
 using Issuance.Application.Commands.IssueBadge;
 using Issuance.Ports.Clients;
 using Issuance.Ports.Repositories;
@@ -35,6 +36,8 @@ builder.Services.AddHttpClient<IBadgeCatalogClient, BadgeCatalogHttpClient>(clie
 
 
 var app = builder.Build();
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 // expõe o schema
 app.MapOpenApi();
