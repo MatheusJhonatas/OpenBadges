@@ -26,5 +26,10 @@ public class AssertionRepository : IAssertionRepository
         var hashedEmail = RecipientIdentity.GenerateHash(email);
         return await _dbContext.Assertions.AnyAsync(a => a.BadgeClassId == badgeId && a.Recipient.HashedEmail == email, cancellationToken);
     }
+
+    public async Task<Assertion?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+    {
+        return await _dbContext.Assertions.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+    }
 }
 
