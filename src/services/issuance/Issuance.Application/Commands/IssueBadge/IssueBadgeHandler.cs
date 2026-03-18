@@ -1,4 +1,5 @@
 using Issuance.Domain.Aggregates;
+using Issuance.Domain.Exceptions;
 using Issuance.Domain.ValueObjects;
 using Issuance.Ports.Clients;
 using Issuance.Ports.Repositories;
@@ -23,15 +24,25 @@ public sealed class IssuanceHandler : IRequestHandler<IssueBadgeCommand, Guid>
         
         if (!badgeExists)
         {
-            throw new InvalidOperationException($"Badge with id {command.BadgeClassId} does not exist.");
+            throw new BadgeNotFoundException(command.BadgeClassId);
         }
-        
-        var recipient = new RecipientIdentity(command.RecipientEmail);
 
-        var asserttion = new Assertion(command.BadgeClassId, recipient); 
-
-        await _repository.AddAsync(asserttion, cancellationToken);
+        var alreadyExists = await _repository.ExistsAsync(
+            command.BadgeClassId, 
+            RecipientIdentity.GenerateHash(command.RecipientEmail), 
+            cancellationToken   
+        );
         
-        return asserttion.Id;
+        if (alreadyExists)
+        {
+            throw new DuplicateAssertionException(command.BadgeClassId, command.RecipientEmail);
+        }
+
+        var recipient = RecipientIdentity.Create(command.RecipientEmail);
+
+        var assertion = new Assertion(command.BadgeClassId, recipient);
+
+        await _repository.AddAsync(assertion, cancellationToken);
+        return assertion.Id;
     }
 }

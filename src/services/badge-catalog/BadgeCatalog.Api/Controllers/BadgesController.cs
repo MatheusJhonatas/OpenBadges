@@ -18,6 +18,7 @@ namespace BadgeCatalog.Api.Controllers;
 public class BadgesController : ControllerBase
 {
     private readonly IMediator _mediator;
+
     public BadgesController(IMediator mediator)
     {
         _mediator = mediator;
@@ -40,7 +41,7 @@ public class BadgesController : ControllerBase
         var result = await _mediator.Send(new GetAllBadgesQuery(active), cancellationToken);
         return Ok(result);
     }
-    [HttpGet("{slug}")]
+    [HttpGet("slug/{slug}")]
     public async Task<IActionResult> GetBadgeBySlug(
         string slug,
         CancellationToken cancellationToken)
@@ -52,6 +53,17 @@ public class BadgesController : ControllerBase
             return NotFound(new { message = "Não existe badge com esse slug." });
         }
         return Ok(badge);
+    }
+
+    [HttpGet("{id:guid}")]
+    public async Task<IActionResult> GetById(Guid id)
+    {
+    var badge = await _mediator.Send(new GetBadgeByIdQuery(id));
+
+    if (badge == null)
+        return NotFound();
+
+    return Ok(badge);
     }
 
     [HttpPatch("{id:guid}/deactivate")]
