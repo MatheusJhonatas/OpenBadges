@@ -26,13 +26,23 @@ public sealed class IssuanceHandler : IRequestHandler<IssueBadgeCommand, Guid>
         {
             throw new BadgeNotFoundException(command.BadgeClassId);
         }
+
+        var alreadyExists = await _repository.ExistsAsync(
+            command.BadgeClassId, 
+            RecipientIdentity.GenerateHash(command.RecipientEmail), 
+            cancellationToken   
+        );
         
+        if (alreadyExists)
+        {
+            throw new DuplicateAssertionException(command.BadgeClassId, command.RecipientEmail);
+        }
+
         var recipient = RecipientIdentity.Create(command.RecipientEmail);
 
-        var asserttion = new Assertion(command.BadgeClassId, recipient); 
+        var assertion = new Assertion(command.BadgeClassId, recipient);
 
-        await _repository.AddAsync(asserttion, cancellationToken);
-        
-        return asserttion.Id;
+        await _repository.AddAsync(assertion, cancellationToken);
+        return assertion.Id;
     }
 }

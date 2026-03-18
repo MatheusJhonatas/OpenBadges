@@ -45,5 +45,14 @@ public sealed class Assertion
     {
         _domainEvents.Clear();
     }
+    // public static Assertion Issue(Guid badgeClassId, RecipientIdentity recipient)
+    // {
+    // var assertion = new Assertion(badgeClassId, recipient);
+
+    // // exemplo futuro:
+    // // assertion.AddDomainEvent(new BadgeIssuedEvent(assertion.Id));
+
+    // return assertion;
+    // }
     #endregion
 }
