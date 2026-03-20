@@ -1,5 +1,6 @@
 
 using Issuance.Domain.Enums;
+using Issuance.Domain.Events;
 using Issuance.Domain.ValueObjects;
 
 namespace Issuance.Domain.Aggregates;
@@ -28,6 +29,13 @@ public sealed class Assertion
         Recipient = recipient ?? throw new ArgumentNullException(nameof(recipient));
         IssuedOn = DateTime.UtcNow;
         Status = EAssertionStatus.Active;
+
+        AddDomainEvent(new BadgeIssuedEvent(
+            Id, 
+            BadgeClassId, 
+            Recipient.HashedEmail, 
+            IssuedOn
+        ));
     }
     public void Revoke()
     {
@@ -36,6 +44,13 @@ public sealed class Assertion
 
         Status = EAssertionStatus.Revoked;
         RevokedOn = DateTime.UtcNow;
+
+         AddDomainEvent(new BadgeRevokedEvent(
+        Id,
+        BadgeClassId,
+        Recipient.HashedEmail,
+        RevokedOn.Value
+    ));
     }
     public void AddDomainEvent(object domainEvent)
     {
