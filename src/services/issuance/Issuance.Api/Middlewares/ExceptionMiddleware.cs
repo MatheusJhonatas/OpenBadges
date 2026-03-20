@@ -27,6 +27,10 @@ public class ExceptionMiddleware
         {
             await HandleExceptionAsync(context, HttpStatusCode.Conflict, ex.Message);
         }
+        catch (KeyNotFoundException ex)
+        {
+            await HandleExceptionAsync(context, HttpStatusCode.NotFound, ex.Message);
+        }
         catch (Exception ex)
         {
             await HandleExceptionAsync(context, HttpStatusCode.InternalServerError, ex.ToString());
