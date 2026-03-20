@@ -31,5 +31,11 @@ public class AssertionRepository : IAssertionRepository
     {
         return await _dbContext.Assertions.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
+
+    public async Task UpdateAsync(Assertion assertion, CancellationToken cancellationToken)
+    {
+        _dbContext.Assertions.Update(assertion);
+        await _dbContext.SaveChangesAsync(cancellationToken);   
+    }
 }
 
