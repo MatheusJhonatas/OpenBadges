@@ -27,6 +27,15 @@ public class RevokeAssertionHandler : IRequestHandler<RevokeAssertionCommand, Un
         // 4. Persistir alteração
         await _repository.UpdateAsync(assertion, cancellationToken);
 
+        var events = assertion.DomainEvents;
+
+        foreach (var domainEvent in events)
+        {
+            Console.WriteLine($"Domain Event triggered: {domainEvent.GetType().Name}");
+        }
+
+        assertion.ClearDomainEvents();
+
         // 5. Retornar Unit (sem conteúdo)
         return Unit.Value;
     }
