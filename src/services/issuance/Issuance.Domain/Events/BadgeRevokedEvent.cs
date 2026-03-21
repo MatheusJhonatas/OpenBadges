@@ -1,6 +1,6 @@
 namespace Issuance.Domain.Events;
 
-public class BadgeRevokedEvent
+public class BadgeRevokedEvent : IDomainEvent
 {
     public Guid AssertionId { get; }
     public Guid BadgeClassId { get; }

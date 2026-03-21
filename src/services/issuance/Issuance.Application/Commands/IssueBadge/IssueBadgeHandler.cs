@@ -43,6 +43,20 @@ public sealed class IssuanceHandler : IRequestHandler<IssueBadgeCommand, Guid>
         var assertion = new Assertion(command.BadgeClassId, recipient);
 
         await _repository.AddAsync(assertion, cancellationToken);
+        // 🔥 Captura eventos de domínio
+        var events = assertion.DomainEvents;
+
+        // (temporário) simula processamento
+        foreach (var domainEvent in events)
+        {   
+            Console.WriteLine($"Domain Event triggered: {domainEvent.GetType().Name}");
+        }
+
+        // limpa eventos depois de usar
+        assertion.ClearDomainEvents();
+        
         return assertion.Id;
+
+        
     }
 }
