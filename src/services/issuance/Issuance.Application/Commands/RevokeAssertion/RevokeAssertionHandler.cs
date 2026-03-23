@@ -7,9 +7,11 @@ namespace Issuance.Application.Commands.RevokeAssertion;
 public class RevokeAssertionHandler : IRequestHandler<RevokeAssertionCommand, Unit>
 {
     private readonly IAssertionRepository _repository;
-        public RevokeAssertionHandler(IAssertionRepository repository)
+    private readonly IMediator _mediator;
+        public RevokeAssertionHandler(IAssertionRepository repository, IMediator mediator)
         {
             _repository = repository;
+            _mediator = mediator;
         }
     public async Task<Unit> Handle(RevokeAssertionCommand request, CancellationToken cancellationToken)
     {
@@ -29,9 +31,9 @@ public class RevokeAssertionHandler : IRequestHandler<RevokeAssertionCommand, Un
 
         var events = assertion.DomainEvents;
 
-        foreach (var domainEvent in events)
+        foreach (var domainEvent in assertion.DomainEvents)
         {
-            Console.WriteLine($"Domain Event triggered: {domainEvent.GetType().Name}");
+           await _mediator.Publish(domainEvent, cancellationToken);
         }
 
         assertion.ClearDomainEvents();

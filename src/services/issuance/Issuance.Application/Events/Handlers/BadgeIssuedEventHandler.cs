@@ -9,7 +9,7 @@ public class BadgeIssuedEventHandler : INotificationHandler<BadgeIssuedEvent>
     public Task Handle(BadgeIssuedEvent notification, CancellationToken cancellationToken)
     {
         // 🔥 Simulação de ação (ex: log, email, integração)
-        Console.WriteLine($"[EVENT] Badge issued for {notification.RecipientEmail }");
+        Console.WriteLine($"[EVENT] Badge issued for {notification.HashedEmail }");
 
         return Task.CompletedTask;
     }

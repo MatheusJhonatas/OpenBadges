@@ -59,5 +59,20 @@ public sealed class Assertion
     {
         _domainEvents.Clear();
     }
+    public void SetActive()
+    {
+        if (Status == EAssertionStatus.Active)
+            throw new InvalidOperationException("Assertion is already active.");
+
+        Status = EAssertionStatus.Active;
+        RevokedOn = null;
+
+        AddDomainEvent(new BadgeActivatedEvent(
+            Id,
+            BadgeClassId,
+            Recipient.HashedEmail,
+            DateTime.UtcNow
+        ));
+    }
     #endregion
 }

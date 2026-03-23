@@ -40,4 +40,11 @@ public class IssuancesController : ControllerBase
         await _mediator.Send(new Application.Commands.RevokeAssertion.RevokeAssertionCommand(id), cancellationToken);
         return NoContent();
     }
+
+    [HttpPost("{id:guid}/unrevoke")]
+    public async Task<IActionResult> Unrevoke(Guid id, CancellationToken cancellationToken)
+    {
+        await _mediator.Send(new Application.Commands.ActiveAssertion.ActiveAssertionCommand(id), cancellationToken);
+        return NoContent();
+    }
 }
