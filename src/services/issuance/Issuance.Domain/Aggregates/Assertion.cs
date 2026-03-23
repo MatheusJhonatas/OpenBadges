@@ -1,4 +1,3 @@
-
 using Issuance.Domain.Enums;
 using Issuance.Domain.Events;
 using Issuance.Domain.ValueObjects;
@@ -8,14 +7,14 @@ namespace Issuance.Domain.Aggregates;
 public sealed class Assertion
 {
     #region Properties
-    private readonly List<object> _domainEvents = new();
+    private readonly List<IDomainEvent> _domainEvents = new();
     public Guid Id { get; private set; }
     public Guid BadgeClassId { get; private set; }
     public RecipientIdentity Recipient { get; private set; }
     public DateTime IssuedOn { get; private set; }
     public EAssertionStatus Status { get; private set; }
     public DateTime? RevokedOn { get; private set; }
-    public IReadOnlyCollection<object> DomainEvents => _domainEvents.AsReadOnly();
+    public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents.AsReadOnly();
     #endregion
     #region Constructors
     private Assertion() { } // For EF Core
@@ -52,7 +51,7 @@ public sealed class Assertion
         RevokedOn.Value
     ));
     }
-    public void AddDomainEvent(object domainEvent)
+    public void AddDomainEvent(IDomainEvent domainEvent)
     {
         _domainEvents.Add(domainEvent);
     }

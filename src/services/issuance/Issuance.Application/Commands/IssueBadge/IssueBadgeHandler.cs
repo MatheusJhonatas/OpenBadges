@@ -11,11 +11,13 @@ public sealed class IssuanceHandler : IRequestHandler<IssueBadgeCommand, Guid>
 {
     private readonly IAssertionRepository _repository;
     private readonly IBadgeCatalogClient _badgeCatalogClient;
+    private readonly IMediator _mediator;
     
-    public IssuanceHandler(IAssertionRepository repository, IBadgeCatalogClient badgeCatalogClient)
+    public IssuanceHandler(IAssertionRepository repository, IBadgeCatalogClient badgeCatalogClient, IMediator mediator)
     {
         _repository = repository;
         _badgeCatalogClient = badgeCatalogClient;
+        _mediator = mediator;
     }
 
     public async Task<Guid> Handle(IssueBadgeCommand command, CancellationToken cancellationToken)
@@ -45,13 +47,11 @@ public sealed class IssuanceHandler : IRequestHandler<IssueBadgeCommand, Guid>
         await _repository.AddAsync(assertion, cancellationToken);
         // 🔥 Captura eventos de domínio
         var events = assertion.DomainEvents;
-
-        // (temporário) simula processamento
-        foreach (var domainEvent in events)
-        {   
-            Console.WriteLine($"Domain Event triggered: {domainEvent.GetType().Name}");
+        //pública os Domain Events usando o MediatR
+        foreach(var domainEvent in assertion.DomainEvents)
+        {
+            await _mediator.Publish(domainEvent, cancellationToken);
         }
-
         // limpa eventos depois de usar
         assertion.ClearDomainEvents();
         
