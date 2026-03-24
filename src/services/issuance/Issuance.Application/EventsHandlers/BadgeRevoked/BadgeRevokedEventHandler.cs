@@ -1,7 +1,7 @@
 using Issuance.Domain.Events;
 using MediatR;
 
-namespace Issuance.Application.Events.Handlers;
+namespace Issuance.Application.EventsHandlers.BadgeRevoked;
 
 // Handler que reage quando um badge é revogado
 public class BadgeRevokedEventHandler : INotificationHandler<BadgeRevokedEvent>

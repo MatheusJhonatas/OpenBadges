@@ -1,7 +1,7 @@
 using Issuance.Domain.Events;
 using MediatR;
 
-namespace Issuance.Application.Events.Handlers;
+namespace Issuance.Application.EventsHandlers.BadgeIssued;
 
 // Handler que reage ao evento de badge emitido
 public class BadgeIssuedEventHandler : INotificationHandler<BadgeIssuedEvent>
