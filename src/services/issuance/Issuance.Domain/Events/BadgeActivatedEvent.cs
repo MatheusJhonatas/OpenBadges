@@ -1,17 +1,16 @@
 namespace Issuance.Domain.Events;
 
-public class BadgeIssuedEvent : IDomainEvent
+public class BadgeActivatedEvent : IDomainEvent
 {
     public Guid AssertionId { get; }
     public Guid BadgeClassId { get; }
     public string HashedEmail { get; }
     public DateTime IssuedOn { get; }
-
-    public BadgeIssuedEvent(Guid assertionId, Guid badgeClassId, string recipientEmail, DateTime issuedOn)
+    public BadgeActivatedEvent(Guid assertionId, Guid badgeClassId, string hashedEmail, DateTime issuedOn)
     {
         AssertionId = assertionId;
         BadgeClassId = badgeClassId;
-        HashedEmail = recipientEmail;
+        HashedEmail = hashedEmail;
         IssuedOn = issuedOn;
     }
 }
