@@ -1,9 +1,11 @@
+
 type ButtonProps = {
   children: React.ReactNode;
   variant?: "primary" | "secondary";
+  onClick?: () => void;
 };
 
-export const Button = ({ children, variant = "primary" }: ButtonProps) => {
+export const Button = ({ children, variant = "primary", onClick }: ButtonProps) => {
   const base = "px-6 py-2 rounded font-medium";
 
   const variants = {
@@ -12,7 +14,7 @@ export const Button = ({ children, variant = "primary" }: ButtonProps) => {
   };
 
   return (
-    <button className={`${base} ${variants[variant]}`}>
+    <button className={`${base} ${variants[variant]}`} onClick={onClick}>
       {children}
     </button>
   );

@@ -1,6 +1,9 @@
 // src/pages/HomePage.tsx
+import { useNavigate } from "react-router-dom";
 import { Button } from "../components/ui/Button";
+
 export const HomePage = () => {
+  const navigate = useNavigate();
   return (
     <div className="flex flex-col items-center justify-center text-center mt-24 px-4 max-w-4xl mx-auto">
       
@@ -22,9 +25,17 @@ export const HomePage = () => {
       </p>
 
       <div className="flex gap-4">
-        <Button variant="primary">Acessar Dashboard</Button>
-        <Button variant="secondary">Meus Badges</Button>
-      </div>
+  <Button onClick={() => navigate("/dashboard")}>
+    Acessar Dashboard
+  </Button>
+
+  <Button
+    variant="secondary"
+    onClick={() => navigate("/meus-badges")}
+  >
+    Meus Badges
+  </Button>
+</div>
       </div>
   );
 };
