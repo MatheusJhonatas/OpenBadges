@@ -16,16 +16,16 @@ export const Navbar = () => {
   const navigate = useNavigate();
 
   return (
-    <nav className="flex items-center justify-between px-8 py-4 bg-white border-b">
+    <nav className="flex flex-wrap items-center justify-between px-4 md:px-8 py-4 bg-white border-b gap-4">
       <button
         onClick={() => navigate("/")}
         aria-label="Ir para página inicial"
         className="text-black-700 mb-4 cursor-pointer flex items-center gap-1 font-bold text-lg"
       >
-        <Award className="text-blue-600 mr-2" /> <span>Núcleo de Formação</span>
+        <Award className="text-blue-600 mr-2" /> <span className="text-sm md:text-base">Núcleo de Formação</span>
       </button>
 
-      <div className="flex gap-2">
+      <div className="flex flex-wrap gap-2">
         <div className="flex gap-2">
           <NavButton
             icon={<Home size={16} />}
