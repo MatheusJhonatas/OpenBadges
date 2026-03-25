@@ -10,15 +10,15 @@ export const HomePage = () => {
     <div className="flex flex-col items-center text-center">
       {/* HERO */}
       <div className="w-full bg-white py-24 px-4 flex flex-col items-center">
-        <Award size={64} className="text-blue-500 mb-6" />
+        <Award size={64} className="text-blue-600 mb-6" />
 
         <h1 className="text-5xl font-bold mb-4">
           Sistema de Credenciais Digitais
         </h1>
 
-        <p className="text-gray-700 mb-2">Núcleo de Formação - NTT DATA</p>
+        <p className="text-black-700 mb-2">Núcleo de Formação - NTT DATA</p>
 
-        <p className="text-gray-600 max-w-xl mb-6">
+        <p className="text-black-600 max-w-xl mb-6">
           Gerencie, compartilhe e verifique credenciais digitais profissionais
           seguindo o padrão Open Badges v2
         </p>
@@ -35,7 +35,7 @@ export const HomePage = () => {
       </div>
 
       {/* FUNCIONALIDADES */}
-      <div className="w-full bg-gray-100 py-20 px-4">
+      <div className="w-full bg-black-100 py-20 px-4">
         <h2 className="text-2xl font-bold mb-12 text-center">
           Funcionalidades Principais
         </h2>
@@ -65,6 +65,33 @@ export const HomePage = () => {
             description="Cada badge possui QR Code único para verificação rápida e segura"
           />
         </div>
+      </div>
+      {/* SOBRE */}
+      <div className="w-full bg-white py-20 px-4 text-center">
+        <h2 className="text-2xl font-bold mb-6">Sobre o Núcleo de Formação</h2>
+
+        <p className="text-black-600 max-w-2xl mx-auto mb-4">
+          O Núcleo de Formação da NTT DATA é responsável pelo desenvolvimento e
+          reconhecimento das competências técnicas e comportamentais dos
+          colaboradores.
+        </p>
+
+        <p className="text-black-600 max-w-2xl mx-auto">
+          Nossas credenciais digitais seguem padrões internacionais e são
+          verificáveis de forma independente, garantindo autenticidade e
+          transparência.
+        </p>
+      </div>
+
+      {/* FOOTER */}
+      <div className="w-full bg-black-100 py-6 text-center text-sm text-black-500">
+        <p>
+          © 2025 NTT DATA - Núcleo de Formação. Todos os direitos reservados.
+        </p>
+
+        <p className="mt-1">
+          Sistema de credenciais digitais seguindo o padrão Open Badges v2
+        </p>
       </div>
     </div>
   );
