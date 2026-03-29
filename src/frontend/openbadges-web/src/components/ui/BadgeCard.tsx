@@ -1,10 +1,18 @@
 type BadgeCardProps = {
   name: string;
+  slug?: string;
   description: string;
+  criteria?: string;
   imageUrl?: string;
 };
 
-export const BadgeCard = ({ name, description, imageUrl }: BadgeCardProps) => {
+export const BadgeCard = ({
+  name,
+  slug,
+  description,
+  criteria,
+  imageUrl,
+}: BadgeCardProps) => {
   return (
     <div className="rounded-xl overflow-hidden border bg-white shadow-sm hover:shadow-md transition flex flex-col h-full">
       {/* PREVIEW */}
@@ -19,17 +27,29 @@ export const BadgeCard = ({ name, description, imageUrl }: BadgeCardProps) => {
       {/* CONTEÚDO */}
       <div className="p-4 flex flex-col flex-1 justify-between">
         <div>
-          <h3 className="font-semibold mb-2">{name}</h3>
-          <p className="text-sm text-gray-800">{description}</p>
-        </div>
+          <h3 className="font-semibold text-base mb-1">{name}</h3>
 
-        {/* AÇÕES (sempre embaixo) */}
+          {slug && (
+            <span className="inline-block bg-gray-100 text-gray-700 text-xs font-semibold px-3 py-1 rounded-full mb-3">
+              {slug}
+            </span>
+          )}
+          <p className="text-sm text-gray-700 mb-3">{description}</p>
+
+          {criteria && (
+            <p className="text-xs text-gray-600 mt-2">
+              <span className="font-semibold text-gray-800">Critérios:</span>{" "}
+              <span className="text-gray-500">{criteria}</span>
+            </p>
+          )}
+        </div>
+        {/* AÇÕES */}
         <div className="flex gap-2 mt-4">
-          <button className="flex-1 border rounded px-3 py-1 text-sm hover:bg-black-400">
+          <button className="flex-1 border rounded px-3 py-1 text-sm hover:bg-gray-100">
             Editar
           </button>
 
-          <button className="flex-1 border rounded px-3 py-1 text-sm hover:bg-black-400">
+          <button className="flex-1 border rounded px-3 py-1 text-sm hover:bg-gray-100">
             Ver Detalhes
           </button>
         </div>

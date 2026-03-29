@@ -6,11 +6,13 @@ import type { Badge } from "../services/badgeService";
 export const CatalogPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [badges, setBadges] = useState<Badge[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getBadges()
       .then(setBadges)
-      .catch((error) => console.error("Erro ao buscar badges:", error));
+      .catch((error) => console.error("Erro ao buscar badges:", error))
+      .finally(() => setLoading(false));
   }, []);
 
   return (
@@ -32,17 +34,30 @@ export const CatalogPage = () => {
         </button>
       </div>
 
+      {/* ESTADOS */}
+      {loading && <p>Carregando badges...</p>}
+
+      {!loading && badges.length === 0 && (
+        <p>Nenhum badge encontrado</p>
+      )}
+
       {/* GRID */}
-      <div className="grid grid-cols-3 gap-6 items-stretch">
-        {badges.map((badge) => (
-          <BadgeCard
-            key={badge.id}
-            name={badge.name}
-            description={badge.description}
-            imageUrl={badge.imageUrl}
-          />
-        ))}
-      </div>
+      {!loading && badges.length > 0 && (
+        <div className="grid grid-cols-3 gap-6 items-stretch">
+          {badges.map((badge) => (
+            <BadgeCard
+              key={badge.id}
+              name={badge.name}
+              slug={badge.slug}
+              description={badge.description}
+              imageUrl={badge.imageUrl}
+              criteria={badge.criteria}
+            />
+          ))}
+        </div>
+      )}
+
+      {/* MODAL */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
           <div className="bg-white p-6 rounded-lg w-96">
