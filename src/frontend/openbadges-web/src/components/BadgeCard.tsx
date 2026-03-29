@@ -13,8 +13,9 @@ function BadgeCard({ badge }: Props) {
       borderRadius: "6px"
     }}>
       <h3>{badge.name}</h3>
+      <p>{badge.slug}</p>
       <p>{badge.description}</p>
-      <small>Slug: {badge.slug}</small>
+      <p>{badge.criteria}</p>
     </div>
   );
 }
