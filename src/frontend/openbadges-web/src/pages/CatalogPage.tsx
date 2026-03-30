@@ -47,6 +47,7 @@ export const CatalogPage = () => {
           {badges.map((badge) => (
             <BadgeCard
               key={badge.id}
+              id={badge.id}
               name={badge.name}
               slug={badge.slug}
               description={badge.description}

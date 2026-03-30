@@ -1,4 +1,7 @@
+import { useNavigate } from "react-router-dom";
+
 type BadgeCardProps = {
+  id: string;
   name: string;
   slug?: string;
   description: string;
@@ -7,12 +10,15 @@ type BadgeCardProps = {
 };
 
 export const BadgeCard = ({
+  id,
   name,
   slug,
   description,
   criteria,
   imageUrl,
 }: BadgeCardProps) => {
+  const navigate = useNavigate();
+
   return (
     <div className="rounded-xl overflow-hidden border bg-white shadow-sm hover:shadow-md transition flex flex-col h-full">
       {/* PREVIEW */}
@@ -20,7 +26,7 @@ export const BadgeCard = ({
         {imageUrl ? (
           <img src={imageUrl} alt={name} className="h-24 object-contain" />
         ) : (
-          <span className="text-gray-400 text-sm">Sem imagem</span>
+          <span className="text-black-600 text-sm">Sem imagem</span>
         )}
       </div>
 
@@ -39,7 +45,7 @@ export const BadgeCard = ({
           {criteria && (
             <p className="text-xs text-gray-600 mt-2">
               <span className="font-semibold text-gray-800">Critérios:</span>{" "}
-              <span className="text-gray-500">{criteria}</span>
+              <span className="text-gray-600">{criteria}</span>
             </p>
           )}
         </div>
@@ -49,7 +55,10 @@ export const BadgeCard = ({
             Editar
           </button>
 
-          <button className="flex-1 border rounded px-3 py-1 text-sm hover:bg-gray-100">
+          <button
+          onClick={() => navigate(`/admin/catalogo/${id}`)}
+          className="flex-1 border rounded px-3 py-1 text-sm hover:bg-gray-100"
+            >
             Ver Detalhes
           </button>
         </div>
