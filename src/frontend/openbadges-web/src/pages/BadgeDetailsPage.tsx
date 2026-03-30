@@ -1,5 +1,5 @@
-import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 
 type BadgeDetails = {
   id: string;
@@ -17,6 +17,7 @@ type BadgeDetails = {
 
 export const BadgeDetailsPage = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const [badge, setBadge] = useState<BadgeDetails | null>(null);
 
@@ -31,6 +32,7 @@ export const BadgeDetailsPage = () => {
       })
       .catch((err) => console.error(err));
   }, [id]);
+
   const formatDate = (date: string) => {
     return new Date(date).toLocaleDateString("pt-BR", {
       day: "2-digit",
@@ -38,10 +40,28 @@ export const BadgeDetailsPage = () => {
       year: "numeric",
     });
   };
+
+  const getImageUrl = (url?: string) => {
+    if (!url) return "";
+    return url.startsWith("http") ? url : `http://localhost:5173${url}`;
+  };
+
   return (
-    <div className="p-8 flex justify-center">
+  <div className="p-8 flex justify-center">
+    <div className="w-full max-w-2xl">
+
+      {/* VOLTAR */}
+      <button
+        onClick={() => navigate("/meus-badges")}
+        className="flex items-center gap-2 text-sm text-gray-800 hover:text-gray-900 transition-colors mb-4"
+      >
+        ← Voltar para Meus Badges
+      </button>
+
+      {/* CARD */}
       {badge ? (
-        <div className="w-full max-w-2xl bg-white border rounded-xl shadow-sm p-6">
+        <div className="bg-white border rounded-xl shadow-sm p-6">
+
           {/* TÍTULO */}
           <div className="flex justify-between items-start mb-4">
             <div>
@@ -51,39 +71,42 @@ export const BadgeDetailsPage = () => {
               </p>
             </div>
 
-            {/* STATUS MOCK */}
             <span className="bg-blue-100 text-blue-700 text-xs px-3 py-1 rounded-full">
               Válido
             </span>
           </div>
 
-          {/* BADGE (IMAGEM) */}
+          {/* IMAGEM */}
           <div className="flex justify-center my-6">
             {badge.image?.url && (
               <img
-                src={`http://localhost:5173${badge.image.url}`}
+                src={getImageUrl(badge.image.url)}
                 alt={badge.name}
                 className="w-48"
               />
             )}
           </div>
+
+          {/* DATA */}
           <div className="border-t border-gray-300 pt-4 mb-4 text-sm text-gray-500">
             Emitido em {formatDate(badge.createdAt)}
           </div>
 
           {/* DESCRIÇÃO */}
-          <p className="text-gray-700 mb-4">{badge.description}</p>
+          <p className="text-gray-700 mb-4">
+            {badge.description}
+          </p>
 
-          {/* CRITÉRIO */}
+          {/* CRITÉRIOS */}
           {badge.criteria && (
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-600 mt-2">
               <span className="font-semibold">Critérios:</span>{" "}
               {badge.criteria.narrative}
             </p>
           )}
 
-          {/* QR CODE */}
-          <div className="border-t pt-4 mt-6">
+          {/* QR */}
+          <div className="border-t border-gray-300 pt-4 mt-6">
             <p className="text-sm font-medium mb-3">
               Código QR para Verificação
             </p>
@@ -94,10 +117,13 @@ export const BadgeDetailsPage = () => {
               </div>
             </div>
           </div>
+
         </div>
       ) : (
-        <p>Carregando...</p>
+        <p className="text-gray-500">Carregando badge...</p>
       )}
+
     </div>
-  );
+  </div>
+);
 };
