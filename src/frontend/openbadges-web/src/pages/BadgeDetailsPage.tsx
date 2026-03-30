@@ -2,8 +2,15 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { QRCodeSVG } from "qrcode.react";
 import { Button } from "../components/ui/Button";
-import {ArrowLeft, Copy} from "lucide-react";
-import {FaLinkedin, FaWhatsapp,FaTwitter} from "react-icons/fa";
+import { ArrowLeft, Copy, FileJson } from "lucide-react";
+import {
+  FaLinkedin,
+  FaWhatsapp,
+  FaTwitter,
+  FaDownload,
+  FaQrcode,
+  FaPager,
+} from "react-icons/fa";
 
 type BadgeDetails = {
   id: string;
@@ -47,9 +54,7 @@ export const BadgeDetailsPage = () => {
 
   const getImageUrl = (url?: string) => {
     if (!url) return "";
-    return url.startsWith("http")
-      ? url
-      : `${window.location.origin}${url}`;
+    return url.startsWith("http") ? url : `${window.location.origin}${url}`;
   };
 
   // ===== SHARE =====
@@ -59,14 +64,14 @@ export const BadgeDetailsPage = () => {
   const shareLinkedIn = () => {
     if (!shareUrl) return;
     open(
-      `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`
+      `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`,
     );
   };
 
   const shareTwitter = () => {
     if (!shareUrl) return;
     open(
-      `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}`
+      `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}`,
     );
   };
 
@@ -84,7 +89,6 @@ export const BadgeDetailsPage = () => {
   return (
     <div className="p-8 flex justify-center">
       <div className="w-full max-w-2xl">
-
         {/* VOLTAR */}
         <button
           onClick={() => navigate("/meus-badges")}
@@ -97,7 +101,6 @@ export const BadgeDetailsPage = () => {
         {/* CARD */}
         {badge ? (
           <div className="bg-white border rounded-xl shadow-sm p-6">
-
             {/* HEADER */}
             <div className="flex justify-between items-start mb-4">
               <div>
@@ -129,9 +132,7 @@ export const BadgeDetailsPage = () => {
             </div>
 
             {/* DESCRIÇÃO */}
-            <p className="text-gray-700 mb-4">
-              {badge.description}
-            </p>
+            <p className="text-gray-700 mb-4">{badge.description}</p>
 
             {/* CRITÉRIOS */}
             {badge.criteria && (
@@ -154,26 +155,63 @@ export const BadgeDetailsPage = () => {
 
             {/* COMPARTILHAR */}
             <div className="border-t border-gray-300 pt-4 mt-6">
-              <h3 className="text-sm font-medium mb-3">
+              <h3 className="text-sm font-medium mb-3 mt-4">
                 Compartilhar Credencial
               </h3>
-
-              <div className="flex flex-wrap gap-6">
+              <p className="text-sm text-gray-600 mt-4">
+                {" "}
+                Compartilhe esta credencial com outras pessoas ou em suas redes
+                profissionais. Utilize os botões abaixo para divulgar sua
+                conquista de forma rápida e confiável.
+              </p>
+              <div className="flex flex-wrap gap-6 justify-center mt-4">
                 <Button onClick={shareLinkedIn}>
-                    <FaLinkedin size={18}/>
-                    LinkedIn</Button>
+                  <FaLinkedin size={18} />
+                  LinkedIn
+                </Button>
                 <Button onClick={shareTwitter}>
-                    <FaTwitter size={16}/>
-                    Twitter</Button>
+                  <FaTwitter size={16} />
+                  Twitter
+                </Button>
                 <Button onClick={shareWhatsApp}>
-                    <FaWhatsapp size={16}/>
-                    WhatsApp</Button>
+                  <FaWhatsapp size={16} />
+                  WhatsApp
+                </Button>
                 <Button onClick={copyLink}>
-                    <Copy size={16}/>
-                    Copiar Link</Button>
+                  <Copy size={16} />
+                  Copiar Link
+                </Button>
+              </div>
+              {/*Ações */}
+              <div>
+                {" "}
+                <h3 className="text-sm font-medium mb-3 mt-4">Ações</h3>
+                <p className="text-sm text-gray-600 mt-4">
+                  {" "}
+                  Gerencie e utilize sua credencial conforme necessário. Aqui
+                  você pode baixar arquivos, validar informações ou acessar os
+                  dados técnicos da emissão.
+                </p>
+                <div className="flex flex-wrap gap-5 mt-4 justify-center">
+                  <Button onClick={shareLinkedIn}>
+                    <FaDownload size={18} />
+                    Baixar Imagem
+                  </Button>
+                  <Button onClick={shareTwitter}>
+                    <FaQrcode size={16} />
+                    Baixar QR Code
+                  </Button>
+                  <Button onClick={shareWhatsApp}>
+                    <FaPager size={16} />
+                    Página de Verificação
+                  </Button>
+                  <Button onClick={copyLink}>
+                    <FileJson size={16} />
+                    JSON da Assertion
+                  </Button>
+                </div>
               </div>
             </div>
-
           </div>
         ) : (
           <p className="text-gray-500">Carregando badge...</p>
