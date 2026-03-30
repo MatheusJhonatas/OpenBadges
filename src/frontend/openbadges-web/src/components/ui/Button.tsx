@@ -6,7 +6,7 @@ type ButtonProps = {
 };
 
 export const Button = ({ children, variant = "primary", onClick }: ButtonProps) => {
-  const base = "px-6 py-2 rounded font-medium";
+ const base = "inline-flex items-center gap-2 rounded px-6 py-2 text-sm transition";
 
   const variants = {
     primary: "bg-blue-700 text-white hover:bg-blue-800",
