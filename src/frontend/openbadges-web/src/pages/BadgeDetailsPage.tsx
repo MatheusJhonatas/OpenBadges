@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { QRCodeSVG } from "qrcode.react";
 import { Button } from "../components/ui/Button";
 import { ArrowLeft, Copy, FileJson } from "lucide-react";
+import html2canvas from "html2canvas";
 import {
   FaLinkedin,
   FaWhatsapp,
@@ -18,6 +19,7 @@ type BadgeDetails = {
   createdAt: string;
   description: string;
   slug: string;
+  recipientName: string;
   image?: {
     url: string;
   };
@@ -84,6 +86,29 @@ export const BadgeDetailsPage = () => {
     if (!shareUrl) return;
     await navigator.clipboard.writeText(shareUrl);
     alert("Link copiado!");
+  };
+
+  // ===== DOWNLOAD BADGE =====
+  const downloadBadgeImage = async () => {
+    try {
+      const element = document.getElementById("badge-capture");
+      if (!element) return;
+
+      const canvas = await html2canvas(element, {
+        scale: 2,
+        useCORS: true,
+      });
+
+      const link = document.createElement("a");
+      link.download = `${badge?.slug || "badge"}.png`;
+      link.href = canvas.toDataURL("image/png");
+
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    } catch (error) {
+      console.error("Erro ao gerar imagem:", error);
+    }
   };
 
   return (
@@ -155,58 +180,60 @@ export const BadgeDetailsPage = () => {
 
             {/* COMPARTILHAR */}
             <div className="border-t border-gray-300 pt-4 mt-6">
-              <h3 className="text-sm font-medium mb-3 mt-4">
+              <h3 className="text-sm font-medium mb-3">
                 Compartilhar Credencial
               </h3>
-              <p className="text-sm text-gray-600 mt-4">
-                {" "}
+
+              <p className="text-sm text-gray-600 mt-2">
                 Compartilhe esta credencial com outras pessoas ou em suas redes
                 profissionais. Utilize os botões abaixo para divulgar sua
                 conquista de forma rápida e confiável.
               </p>
+
               <div className="flex flex-wrap gap-6 justify-center mt-4">
                 <Button onClick={shareLinkedIn}>
                   <FaLinkedin size={18} />
                   LinkedIn
                 </Button>
                 <Button onClick={shareTwitter}>
-                  <FaTwitter size={16} />
+                  <FaTwitter size={18} />
                   Twitter
                 </Button>
                 <Button onClick={shareWhatsApp}>
-                  <FaWhatsapp size={16} />
+                  <FaWhatsapp size={18} />
                   WhatsApp
                 </Button>
                 <Button onClick={copyLink}>
-                  <Copy size={16} />
+                  <Copy size={18} />
                   Copiar Link
                 </Button>
               </div>
-              {/*Ações */}
-              <div>
-                {" "}
-                <h3 className="text-sm font-medium mb-3 mt-4">Ações</h3>
-                <p className="text-sm text-gray-600 mt-4">
-                  {" "}
+
+              {/* AÇÕES */}
+              <div className="mt-8">
+                <h3 className="text-sm font-medium mb-3">Ações</h3>
+
+                <p className="text-sm text-gray-600 mt-2">
                   Gerencie e utilize sua credencial conforme necessário. Aqui
                   você pode baixar arquivos, validar informações ou acessar os
                   dados técnicos da emissão.
                 </p>
+
                 <div className="flex flex-wrap gap-5 mt-4 justify-center">
-                  <Button onClick={shareLinkedIn}>
+                  <Button onClick={downloadBadgeImage}>
                     <FaDownload size={18} />
-                    Baixar Imagem
+                    Baixar Badge
                   </Button>
-                  <Button onClick={shareTwitter}>
-                    <FaQrcode size={16} />
+                  <Button>
+                    <FaQrcode size={18} />
                     Baixar QR Code
                   </Button>
-                  <Button onClick={shareWhatsApp}>
-                    <FaPager size={16} />
+                  <Button>
+                    <FaPager size={18} />
                     Página de Verificação
                   </Button>
-                  <Button onClick={copyLink}>
-                    <FileJson size={16} />
+                  <Button>
+                    <FileJson size={18} />
                     JSON da Assertion
                   </Button>
                 </div>
@@ -215,6 +242,149 @@ export const BadgeDetailsPage = () => {
           </div>
         ) : (
           <p className="text-gray-500">Carregando badge...</p>
+        )}
+
+        {/* CAPTURE */}
+        {badge && (
+          <div
+            id="badge-capture"
+            className="fixed -z-10 top-0 left-0"
+            style={{
+              width: "900px",
+              padding: "50px",
+              background: "linear-gradient(135deg, #0f172a, #1e40af)",
+              color: "#ffffff",
+              fontFamily: "Arial, sans-serif",
+              borderRadius: "20px",
+            }}
+          >
+            {/* HEADER */}
+            <div style={{ textAlign: "center", marginBottom: "30px" }}>
+              <h1 style={{ fontSize: "32px", fontWeight: "bold" }}>
+                Certificado de Conquista
+              </h1>
+              <p style={{ fontSize: "14px", opacity: 0.8 }}>
+                Núcleo de Formação - NTT DATA
+              </p>
+            </div>
+
+            {/* TEXTO FORMAL */}
+            <p
+              style={{
+                textAlign: "center",
+                fontSize: "16px",
+                marginBottom: "10px",
+              }}
+            >
+              Certificamos que
+            </p>
+
+            {/* NOME DO USUÁRIO (placeholder) */}
+            <h2
+              style={{
+                textAlign: "center",
+                fontSize: "26px",
+                fontWeight: "bold",
+                marginBottom: "20px",
+              }}
+            >
+              {badge.recipientName}
+            </h2>
+
+            {/* BADGE */}
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                marginBottom: "20px",
+              }}
+            >
+              {badge.image?.url && (
+                <img
+                  src={getImageUrl(badge.image.url)}
+                  crossOrigin="anonymous"
+                  style={{
+                    width: "150px",
+                    background: "#ffffff",
+                    padding: "12px",
+                    borderRadius: "14px",
+                  }}
+                />
+              )}
+            </div>
+
+            {/* TÍTULO PRINCIPAL */}
+            <h3
+              style={{
+                textAlign: "center",
+                fontSize: "20px",
+                fontWeight: "bold",
+                marginBottom: "10px",
+              }}
+            >
+              {badge.name}
+            </h3>
+
+            {/* DESCRIÇÃO */}
+            <p
+              style={{
+                textAlign: "center",
+                fontSize: "14px",
+                maxWidth: "650px",
+                margin: "0 auto 16px",
+                opacity: 0.9,
+              }}
+            >
+              {badge.description}
+            </p>
+
+            {/* DATA */}
+            <p
+              style={{
+                textAlign: "center",
+                fontSize: "12px",
+                opacity: 0.7,
+              }}
+            >
+              Emitido em {formatDate(badge.createdAt)}
+            </p>
+
+            {/* DIVIDER */}
+            <div
+              style={{
+                height: "1px",
+                background: "rgba(255,255,255,0.2)",
+                margin: "30px 0",
+              }}
+            />
+
+            {/* FOOTER */}
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              {/* ESQUERDA */}
+              <div>
+                <p style={{ fontSize: "12px", opacity: 0.7 }}>
+                  Verificação digital
+                </p>
+                <p style={{ fontSize: "14px", fontWeight: "bold" }}>
+                  openbadges.local
+                </p>
+              </div>
+
+              {/* DIREITA (QR + label) */}
+              <div style={{ textAlign: "center" }}>
+                <QRCodeSVG value={shareUrl} size={100} />
+                <p style={{ fontSize: "10px", marginTop: "6px", opacity: 0.6 }}>
+                  Escaneie para validar
+                </p>
+              </div>
+            </div>
+          </div>
         )}
       </div>
     </div>
