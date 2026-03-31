@@ -19,6 +19,7 @@ type BadgeDetails = {
   createdAt: string;
   description: string;
   slug: string;
+  recipientName: string;
   image?: {
     url: string;
   };
@@ -287,7 +288,7 @@ export const BadgeDetailsPage = () => {
                 marginBottom: "20px",
               }}
             >
-              Matheus Jhonatas
+              {badge.recipientName}
             </h2>
 
             {/* BADGE */}
@@ -382,7 +383,6 @@ export const BadgeDetailsPage = () => {
                   Escaneie para validar
                 </p>
               </div>
-
             </div>
           </div>
         )}
