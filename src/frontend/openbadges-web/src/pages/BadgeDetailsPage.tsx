@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { QRCodeSVG } from "qrcode.react";
 import { Button } from "../components/ui/Button";
 import { ArrowLeft, Copy, FileJson } from "lucide-react";
+import html2canvas from "html2canvas";
 import {
   FaLinkedin,
   FaWhatsapp,
@@ -64,14 +65,14 @@ export const BadgeDetailsPage = () => {
   const shareLinkedIn = () => {
     if (!shareUrl) return;
     open(
-      `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`,
+      `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`
     );
   };
 
   const shareTwitter = () => {
     if (!shareUrl) return;
     open(
-      `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}`,
+      `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}`
     );
   };
 
@@ -86,9 +87,33 @@ export const BadgeDetailsPage = () => {
     alert("Link copiado!");
   };
 
+  // ===== DOWNLOAD BADGE =====
+  const downloadBadgeImage = async () => {
+    try {
+      const element = document.getElementById("badge-capture");
+      if (!element) return;
+
+      const canvas = await html2canvas(element, {
+        scale: 2,
+        useCORS: true,
+      });
+
+      const link = document.createElement("a");
+      link.download = `${badge?.slug || "badge"}.png`;
+      link.href = canvas.toDataURL("image/png");
+
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    } catch (error) {
+      console.error("Erro ao gerar imagem:", error);
+    }
+  };
+
   return (
     <div className="p-8 flex justify-center">
       <div className="w-full max-w-2xl">
+
         {/* VOLTAR */}
         <button
           onClick={() => navigate("/meus-badges")}
@@ -101,6 +126,7 @@ export const BadgeDetailsPage = () => {
         {/* CARD */}
         {badge ? (
           <div className="bg-white border rounded-xl shadow-sm p-6">
+
             {/* HEADER */}
             <div className="flex justify-between items-start mb-4">
               <div>
@@ -155,58 +181,58 @@ export const BadgeDetailsPage = () => {
 
             {/* COMPARTILHAR */}
             <div className="border-t border-gray-300 pt-4 mt-6">
-              <h3 className="text-sm font-medium mb-3 mt-4">
+              <h3 className="text-sm font-medium mb-3">
                 Compartilhar Credencial
               </h3>
-              <p className="text-sm text-gray-600 mt-4">
-                {" "}
-                Compartilhe esta credencial com outras pessoas ou em suas redes
-                profissionais. Utilize os botões abaixo para divulgar sua
-                conquista de forma rápida e confiável.
+
+              <p className="text-sm text-gray-600 mt-2">
+                Compartilhe esta credencial com outras pessoas ou em suas redes profissionais.
+                Utilize os botões abaixo para divulgar sua conquista de forma rápida e confiável.
               </p>
+
               <div className="flex flex-wrap gap-6 justify-center mt-4">
                 <Button onClick={shareLinkedIn}>
                   <FaLinkedin size={18} />
                   LinkedIn
                 </Button>
                 <Button onClick={shareTwitter}>
-                  <FaTwitter size={16} />
+                  <FaTwitter size={18} />
                   Twitter
                 </Button>
                 <Button onClick={shareWhatsApp}>
-                  <FaWhatsapp size={16} />
+                  <FaWhatsapp size={18} />
                   WhatsApp
                 </Button>
                 <Button onClick={copyLink}>
-                  <Copy size={16} />
+                  <Copy size={18} />
                   Copiar Link
                 </Button>
               </div>
-              {/*Ações */}
-              <div>
-                {" "}
-                <h3 className="text-sm font-medium mb-3 mt-4">Ações</h3>
-                <p className="text-sm text-gray-600 mt-4">
-                  {" "}
-                  Gerencie e utilize sua credencial conforme necessário. Aqui
-                  você pode baixar arquivos, validar informações ou acessar os
-                  dados técnicos da emissão.
+
+              {/* AÇÕES */}
+              <div className="mt-8">
+                <h3 className="text-sm font-medium mb-3">Ações</h3>
+
+                <p className="text-sm text-gray-600 mt-2">
+                  Gerencie e utilize sua credencial conforme necessário. Aqui você pode baixar arquivos,
+                  validar informações ou acessar os dados técnicos da emissão.
                 </p>
+
                 <div className="flex flex-wrap gap-5 mt-4 justify-center">
-                  <Button onClick={shareLinkedIn}>
+                  <Button onClick={downloadBadgeImage}>
                     <FaDownload size={18} />
-                    Baixar Imagem
+                    Baixar Badge
                   </Button>
-                  <Button onClick={shareTwitter}>
-                    <FaQrcode size={16} />
+                  <Button>
+                    <FaQrcode size={18} />
                     Baixar QR Code
                   </Button>
-                  <Button onClick={shareWhatsApp}>
-                    <FaPager size={16} />
+                  <Button>
+                    <FaPager size={18} />
                     Página de Verificação
                   </Button>
-                  <Button onClick={copyLink}>
-                    <FileJson size={16} />
+                  <Button>
+                    <FileJson size={18} />
                     JSON da Assertion
                   </Button>
                 </div>
@@ -215,6 +241,47 @@ export const BadgeDetailsPage = () => {
           </div>
         ) : (
           <p className="text-gray-500">Carregando badge...</p>
+        )}
+
+        {/* CAPTURE */}
+        {badge && (
+          <div
+            id="badge-capture"
+            className="fixed -z-10 top-0 left-0"
+            style={{
+              backgroundColor: "#ffffff",
+              color: "#000000",
+              padding: "24px",
+              width: "400px",
+              fontFamily: "Arial, sans-serif",
+            }}
+          >
+            <h2 style={{ textAlign: "center", fontWeight: "bold" }}>
+              {badge.name}
+            </h2>
+
+            <div style={{ display: "flex", justifyContent: "center", margin: "16px 0" }}>
+              {badge.image?.url && (
+                <img
+                  src={getImageUrl(badge.image.url)}
+                  crossOrigin="anonymous"
+                  style={{ width: "120px" }}
+                />
+              )}
+            </div>
+
+            <p style={{ textAlign: "center", marginBottom: "8px" }}>
+              {badge.description}
+            </p>
+
+            <p style={{ textAlign: "center", fontSize: "12px", color: "#555" }}>
+              Emitido em {formatDate(badge.createdAt)}
+            </p>
+
+            <div style={{ display: "flex", justifyContent: "center", marginTop: "16px" }}>
+              <QRCodeSVG value={shareUrl} size={80} />
+            </div>
+          </div>
         )}
       </div>
     </div>
