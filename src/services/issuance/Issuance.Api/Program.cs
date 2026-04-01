@@ -21,10 +21,19 @@ builder.Services.AddOpenApi("v1");
 builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssembly(typeof(IssueBadgeCommand).Assembly));
 
+// builder.Services.AddDbContext<IssuanceDbContext>(options =>
+// {
+//     options.UseSqlite(
+//         builder.Configuration.GetConnectionString("DefaultConnection"));
+// });
+
+var dbPath = Path.Combine(Directory.GetCurrentDirectory(), "issuance.db");
+
+Console.WriteLine($"USANDO DB EM: {dbPath}");
+
 builder.Services.AddDbContext<IssuanceDbContext>(options =>
 {
-    options.UseSqlite(
-        builder.Configuration.GetConnectionString("DefaultConnection"));
+    options.UseSqlite($"Data Source={dbPath}");
 });
 
 builder.Services.AddScoped<IAssertionRepository, AssertionRepository>();

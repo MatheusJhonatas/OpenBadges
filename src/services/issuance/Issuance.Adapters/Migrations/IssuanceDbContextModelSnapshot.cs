@@ -29,6 +29,10 @@ namespace Issuance.Adapters.Migrations
                     b.Property<DateTime>("IssuedOn")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("RecipientName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime?>("RevokedOn")
                         .HasColumnType("TEXT");
 

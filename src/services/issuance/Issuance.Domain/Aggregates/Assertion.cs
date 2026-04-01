@@ -11,6 +11,7 @@ public sealed class Assertion
     public Guid Id { get; private set; }
     public Guid BadgeClassId { get; private set; }
     public RecipientIdentity Recipient { get; private set; }
+    public string RecipientName { get; private set; }
     public DateTime IssuedOn { get; private set; }
     public EAssertionStatus Status { get; private set; }
     public DateTime? RevokedOn { get; private set; }
@@ -18,21 +19,26 @@ public sealed class Assertion
     #endregion
     #region Constructors
     private Assertion() { } // For EF Core
-    public Assertion(Guid badgeClassId, RecipientIdentity recipient)
+    public Assertion(Guid badgeClassId, RecipientIdentity recipient, string recipientName)
     {
         if (badgeClassId == Guid.Empty)
             throw new ArgumentException("BadgeClassId cannot be empty.");
 
+        if (string.IsNullOrWhiteSpace(recipientName))
+            throw new ArgumentException("RecipientName cannot be null or whitespace.");    
+
         Id = Guid.NewGuid();
         BadgeClassId = badgeClassId;
         Recipient = recipient ?? throw new ArgumentNullException(nameof(recipient));
+        RecipientName = recipientName;
         IssuedOn = DateTime.UtcNow;
         Status = EAssertionStatus.Active;
 
         AddDomainEvent(new BadgeIssuedEvent(
             Id, 
             BadgeClassId, 
-            Recipient.HashedEmail, 
+            Recipient.HashedEmail,
+            RecipientName,
             IssuedOn
         ));
     }

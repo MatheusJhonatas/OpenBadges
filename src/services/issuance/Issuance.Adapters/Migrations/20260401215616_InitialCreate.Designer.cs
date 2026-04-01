@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Issuance.Adapters.Migrations
 {
     [DbContext(typeof(IssuanceDbContext))]
-    [Migration("20260313141933_InitialCreate")]
+    [Migration("20260401215616_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -30,6 +30,10 @@ namespace Issuance.Adapters.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("IssuedOn")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("RecipientName")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("RevokedOn")
