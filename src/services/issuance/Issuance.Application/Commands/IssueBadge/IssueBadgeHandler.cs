@@ -42,7 +42,7 @@ public sealed class IssuanceHandler : IRequestHandler<IssueBadgeCommand, Guid>
 
         var recipient = RecipientIdentity.Create(command.RecipientEmail);
 
-        var assertion = new Assertion(command.BadgeClassId, recipient);
+        var assertion = new Assertion(command.BadgeClassId, recipient, command.RecipientName);
 
         await _repository.AddAsync(assertion, cancellationToken);
         // 🔥 Captura eventos de domínio

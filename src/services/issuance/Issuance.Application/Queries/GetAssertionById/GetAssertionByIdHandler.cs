@@ -22,6 +22,7 @@ public class GetAssertionByIdHandler : IRequestHandler<GetAssertionByIdQuery, As
            Id = assertion.Id,
             BadgeClassId = assertion.BadgeClassId,
             HashedEmail = assertion.Recipient.HashedEmail,
+            RecipientName = assertion.RecipientName,
             IssuedOn = assertion.IssuedOn,
             Status = (int)assertion.Status
        };
