@@ -8,4 +8,5 @@ public class AssertionResponse
     public string RecipientName { get; set; } = string.Empty;
     public DateTime IssuedOn { get; set; }
     public int Status { get; set; }
+    public BadgeResponse Badge { get; set; }
 }
