@@ -43,7 +43,7 @@ export const BadgeDetailsPage = () => {
         
         {/* VOLTAR */}
         <button
-          onClick={() => navigate("/badges")}
+          onClick={() => navigate("/admin/catalogo")}
           className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition-colors mb-6"
         >
           <ArrowLeft size={16} />

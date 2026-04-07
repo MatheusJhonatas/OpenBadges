@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { BadgeCard } from "../components/ui/BadgeCard";
 import { getBadges } from "../services/badgeService";
+import { X } from "lucide-react";
 import type { Badge } from "../services/badgeService";
 
 export const CatalogPage = () => {
@@ -37,9 +38,7 @@ export const CatalogPage = () => {
       {/* ESTADOS */}
       {loading && <p>Carregando badges...</p>}
 
-      {!loading && badges.length === 0 && (
-        <p>Nenhum badge encontrado</p>
-      )}
+      {!loading && badges.length === 0 && <p>Nenhum badge encontrado</p>}
 
       {/* GRID */}
       {!loading && badges.length > 0 && (
@@ -62,16 +61,58 @@ export const CatalogPage = () => {
       {isModalOpen && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
           <div className="bg-white p-6 rounded-lg w-96">
-            <h2 className="text-lg font-bold mb-4">Novo Badge</h2>
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-lg font-bold">Novo Badge</h2>
 
-            <p>Modal funcionando 👊</p>
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="text-gray-500 hover:text-black"
+                aria-label="Fechar"
+              >
+                <X size={20} />
+              </button>
+            </div>
 
-            <button
-              onClick={() => setIsModalOpen(false)}
-              className="mt-4 bg-gray-200 px-4 py-2 rounded"
-            >
-              Fechar
-            </button>
+            <form className="space-y-3">
+              <input
+                placeholder="Nome do badge"
+                className="w-full border p-2 rounded"
+              />
+
+              <input
+                placeholder="URL da imagem"
+                className="w-full border p-2 rounded"
+              />
+
+              <textarea
+                placeholder="Descrição"
+                className="w-full border p-2 rounded"
+                rows={3}
+              />
+
+              <textarea
+                placeholder="Critérios"
+                className="w-full border p-2 rounded"
+                rows={3}
+              />
+
+              <div className="flex justify-center gap-2 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setIsModalOpen(false)}
+                  className="px-4 py-2 bg-gray-200 rounded"
+                >
+                  Cancelar
+                </button>
+
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-blue-600 text-white rounded"
+                >
+                  Criar Badge
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}
