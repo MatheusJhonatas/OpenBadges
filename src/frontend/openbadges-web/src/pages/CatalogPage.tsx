@@ -8,6 +8,14 @@ export const CatalogPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [badges, setBadges] = useState<Badge[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isCreating, setIsCreating] = useState(false);
+
+  const [form, setForm] = useState({
+  name: "",
+  imageUrl: "",
+  description: "",
+  criteriaNarrative: "",
+});
 
   useEffect(() => {
     getBadges()
@@ -73,26 +81,46 @@ export const CatalogPage = () => {
               </button>
             </div>
 
-            <form className="space-y-3">
+            <form
+              className="space-y-3"
+              onSubmit={(e) => {
+                e.preventDefault();
+                setIsCreating(true);
+
+                setTimeout(() => {
+                  setIsCreating(false);
+                  setIsModalOpen(false);
+                }, 5000);
+              }}
+            >
               <input
                 placeholder="Nome do badge"
                 className="w-full border p-2 rounded"
+                value={form.name}
+                onChange={(e) => setForm({ ...form, name: e.target.value })}
               />
 
               <input
                 placeholder="URL da imagem"
                 className="w-full border p-2 rounded"
+                value={form.imageUrl}
+                onChange={(e) => setForm({ ...form, imageUrl: e.target.value })}
               />
 
               <textarea
                 placeholder="Descrição"
                 className="w-full border p-2 rounded"
+                value={form.description}
+                onChange={(e) => setForm({ ...form, description: e.target.value })}
+
                 rows={3}
               />
 
               <textarea
                 placeholder="Critérios"
                 className="w-full border p-2 rounded"
+                value={form.criteriaNarrative}
+                onChange={(e) => setForm({ ...form, criteriaNarrative: e.target.value })}
                 rows={3}
               />
 
@@ -107,9 +135,10 @@ export const CatalogPage = () => {
 
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-blue-600 text-white rounded"
+                  disabled={isCreating}
+                  className="px-4 py-2 bg-blue-600 text-white rounded disabled:opacity-50"
                 >
-                  Criar Badge
+                  {isCreating ? "Criando..." : "Criar Badge"}
                 </button>
               </div>
             </form>
