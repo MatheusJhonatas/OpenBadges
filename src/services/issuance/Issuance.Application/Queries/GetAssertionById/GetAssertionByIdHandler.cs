@@ -19,7 +19,7 @@ public class GetAssertionByIdHandler : IRequestHandler<GetAssertionByIdQuery, As
     {
        var assertion = await _repository.GetByIdAsync(request.Id, cancellationToken);
        if (assertion == null) return null;
-
+        var badge = await _badgeCatalogClient.GetByIdAsync(assertion.BadgeClassId, cancellationToken);
        return new AssertionResponse
        {
            Id = assertion.Id,
@@ -27,7 +27,14 @@ public class GetAssertionByIdHandler : IRequestHandler<GetAssertionByIdQuery, As
             HashedEmail = assertion.Recipient.HashedEmail,
             RecipientName = assertion.RecipientName,
             IssuedOn = assertion.IssuedOn,
-            Status = (int)assertion.Status
+            Status = (int)assertion.Status,
+            
+            Badge = badge == null ? null : new BadgeClassResponse
+            {
+                Name = badge.Name,
+                Description = badge.Description,
+                ImageUrl = badge.Image?.Url
+            }
        };
     }
 }

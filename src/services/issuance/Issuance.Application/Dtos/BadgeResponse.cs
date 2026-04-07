@@ -1,5 +1,5 @@
 namespace Issuance.Application.Dtos;
-public class BadgeResponse
+public class BadgeClassResponse
 {
     public string Name { get; set; }
     public string Description { get; set; }
