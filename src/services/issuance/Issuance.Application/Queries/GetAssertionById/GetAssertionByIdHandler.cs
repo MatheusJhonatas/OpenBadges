@@ -1,5 +1,6 @@
 using Issuance.Application.Dtos;
 using Issuance.Domain.Aggregates;
+using Issuance.Ports.Clients;
 using Issuance.Ports.Repositories;
 using MediatR;
 
@@ -8,9 +9,11 @@ namespace Issuance.Application.Queries.GetAssertionById;
 public class GetAssertionByIdHandler : IRequestHandler<GetAssertionByIdQuery, AssertionResponse?>
 {
     private readonly IAssertionRepository _repository;
-    public GetAssertionByIdHandler(IAssertionRepository repository)
+    private readonly IBadgeCatalogClient _badgeCatalogClient;
+    public GetAssertionByIdHandler(IAssertionRepository repository, IBadgeCatalogClient badgeCatalogClient)
     {
         _repository = repository;
+        _badgeCatalogClient = badgeCatalogClient;
     }
     public async Task<AssertionResponse?> Handle(GetAssertionByIdQuery request, CancellationToken cancellationToken)
     {
