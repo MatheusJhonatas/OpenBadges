@@ -11,11 +11,11 @@ export const CatalogPage = () => {
   const [isCreating, setIsCreating] = useState(false);
 
   const [form, setForm] = useState({
-  name: "",
-  imageUrl: "",
-  description: "",
-  criteriaNarrative: "",
-});
+    name: "",
+    imageUrl: "",
+    description: "",
+    criteriaNarrative: "",
+  });
 
   useEffect(() => {
     getBadges()
@@ -83,14 +83,52 @@ export const CatalogPage = () => {
 
             <form
               className="space-y-3"
-              onSubmit={(e) => {
+              onSubmit={async (e) => {
                 e.preventDefault();
-                setIsCreating(true);
 
-                setTimeout(() => {
-                  setIsCreating(false);
+                try {
+                  setIsCreating(true);
+
+                  const start = Date.now();
+
+                  const response = await fetch(
+                    "http://localhost:5045/api/badges",
+                    {
+                      method: "POST",
+                      headers: {
+                        "Content-Type": "application/json",
+                      },
+                      body: JSON.stringify(form),
+                    },
+                  );
+
+                  if (!response.ok) {
+                    throw new Error("Erro ao criar badge");
+                  }
+                  
+                  const elapsed = Date.now() - start;
+                  const minTime = 3000; // 3 segundos
+                  if (elapsed < minTime) {
+                    await new Promise((resolve) => setTimeout(resolve, minTime - elapsed));
+                  }
+                 const updatedBadge = await getBadges();
+                  setBadges(updatedBadge.reverse());
+
+                  setForm({
+                    name: "",
+                    imageUrl: "",
+                    description: "",
+                    criteriaNarrative: "",
+                  });
+
                   setIsModalOpen(false);
-                }, 5000);
+
+                } catch (error) {
+                  console.error(error);
+                  alert("Erro ao criar badge");
+                } finally {
+                  setIsCreating(false);
+                }
               }}
             >
               <input
@@ -111,8 +149,9 @@ export const CatalogPage = () => {
                 placeholder="Descrição"
                 className="w-full border p-2 rounded"
                 value={form.description}
-                onChange={(e) => setForm({ ...form, description: e.target.value })}
-
+                onChange={(e) =>
+                  setForm({ ...form, description: e.target.value })
+                }
                 rows={3}
               />
 
@@ -120,7 +159,9 @@ export const CatalogPage = () => {
                 placeholder="Critérios"
                 className="w-full border p-2 rounded"
                 value={form.criteriaNarrative}
-                onChange={(e) => setForm({ ...form, criteriaNarrative: e.target.value })}
+                onChange={(e) =>
+                  setForm({ ...form, criteriaNarrative: e.target.value })
+                }
                 rows={3}
               />
 
