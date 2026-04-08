@@ -1,12 +1,21 @@
 import { useEffect, useState } from "react";
 import { BadgeCard } from "../components/ui/BadgeCard";
 import { getBadges } from "../services/badgeService";
+import { X } from "lucide-react";
 import type { Badge } from "../services/badgeService";
 
 export const CatalogPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [badges, setBadges] = useState<Badge[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isCreating, setIsCreating] = useState(false);
+
+  const [form, setForm] = useState({
+    name: "",
+    imageUrl: "",
+    description: "",
+    criteriaNarrative: "",
+  });
 
   useEffect(() => {
     getBadges()
@@ -37,9 +46,7 @@ export const CatalogPage = () => {
       {/* ESTADOS */}
       {loading && <p>Carregando badges...</p>}
 
-      {!loading && badges.length === 0 && (
-        <p>Nenhum badge encontrado</p>
-      )}
+      {!loading && badges.length === 0 && <p>Nenhum badge encontrado</p>}
 
       {/* GRID */}
       {!loading && badges.length > 0 && (
@@ -62,16 +69,120 @@ export const CatalogPage = () => {
       {isModalOpen && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
           <div className="bg-white p-6 rounded-lg w-96">
-            <h2 className="text-lg font-bold mb-4">Novo Badge</h2>
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-lg font-bold">Novo Badge</h2>
 
-            <p>Modal funcionando 👊</p>
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="text-gray-500 hover:text-black"
+                aria-label="Fechar"
+              >
+                <X size={20} />
+              </button>
+            </div>
 
-            <button
-              onClick={() => setIsModalOpen(false)}
-              className="mt-4 bg-gray-200 px-4 py-2 rounded"
+            <form
+              className="space-y-3"
+              onSubmit={async (e) => {
+                e.preventDefault();
+
+                try {
+                  setIsCreating(true);
+
+                  const start = Date.now();
+
+                  const response = await fetch(
+                    "http://localhost:5045/api/badges",
+                    {
+                      method: "POST",
+                      headers: {
+                        "Content-Type": "application/json",
+                      },
+                      body: JSON.stringify(form),
+                    },
+                  );
+
+                  if (!response.ok) {
+                    throw new Error("Erro ao criar badge");
+                  }
+                  
+                  const elapsed = Date.now() - start;
+                  const minTime = 3000; // 3 segundos
+                  if (elapsed < minTime) {
+                    await new Promise((resolve) => setTimeout(resolve, minTime - elapsed));
+                  }
+                 const updatedBadge = await getBadges();
+                  setBadges(updatedBadge.reverse());
+
+                  setForm({
+                    name: "",
+                    imageUrl: "",
+                    description: "",
+                    criteriaNarrative: "",
+                  });
+
+                  setIsModalOpen(false);
+
+                } catch (error) {
+                  console.error(error);
+                  alert("Erro ao criar badge");
+                } finally {
+                  setIsCreating(false);
+                }
+              }}
             >
-              Fechar
-            </button>
+              <input
+                placeholder="Nome do badge"
+                className="w-full border p-2 rounded"
+                value={form.name}
+                onChange={(e) => setForm({ ...form, name: e.target.value })}
+              />
+
+              <input
+                placeholder="URL da imagem"
+                className="w-full border p-2 rounded"
+                value={form.imageUrl}
+                onChange={(e) => setForm({ ...form, imageUrl: e.target.value })}
+              />
+
+              <textarea
+                placeholder="Descrição"
+                className="w-full border p-2 rounded"
+                value={form.description}
+                onChange={(e) =>
+                  setForm({ ...form, description: e.target.value })
+                }
+                rows={3}
+              />
+
+              <textarea
+                placeholder="Critérios"
+                className="w-full border p-2 rounded"
+                value={form.criteriaNarrative}
+                onChange={(e) =>
+                  setForm({ ...form, criteriaNarrative: e.target.value })
+                }
+                rows={3}
+              />
+
+              <div className="flex justify-center gap-2 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setIsModalOpen(false)}
+                  className="px-4 py-2 bg-gray-200 rounded"
+                >
+                  Cancelar
+                </button>
+
+                <button
+                  type="submit"
+                  disabled={isCreating}
+                  className="px-4 py-2 bg-blue-600 text-white rounded disabled:opacity-50"
+                >
+                  {isCreating ? "Criando..." : "Criar Badge"}
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}
