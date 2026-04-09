@@ -14,7 +14,7 @@ export const CatalogPage = () => {
     name: "",
     imageUrl: "",
     description: "",
-    criteriaNarrative: "",
+    criteriaNarrative: "",  
   });
 
   useEffect(() => {
@@ -112,7 +112,9 @@ export const CatalogPage = () => {
                     await new Promise((resolve) => setTimeout(resolve, minTime - elapsed));
                   }
                  const updatedBadge = await getBadges();
-                  setBadges(updatedBadge.reverse());
+                  setBadges(updatedBadge.sort(
+                    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+                  ));
 
                   setForm({
                     name: "",
