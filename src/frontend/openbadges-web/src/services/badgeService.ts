@@ -3,7 +3,7 @@ type BadgeApiResponse = {
   name: string;
   slug?: string;
   description: string;
-  createAt: string;
+  createdAt: string;
   image?: {
     url: string;
   };
@@ -45,6 +45,6 @@ export const getBadges = async (): Promise<Badge[]> => {
     description: b.description,
     criteria: b.criteria?.narrative ?? "Sem critérios definidos",
     imageUrl: b.image?.url,
-    createdAt: b.createAt,
+    createdAt: b.createdAt ?? "",
   }));
 };
