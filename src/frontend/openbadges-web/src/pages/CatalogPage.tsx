@@ -14,12 +14,19 @@ export const CatalogPage = () => {
     name: "",
     imageUrl: "",
     description: "",
-    criteriaNarrative: "",  
+    criteriaNarrative: "",
   });
 
   useEffect(() => {
     getBadges()
-      .then(setBadges)
+      .then((data) =>
+        setBadges(
+          data.sort(
+            (a, b) =>
+              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+          ),
+        ),
+      )
       .catch((error) => console.error("Erro ao buscar badges:", error))
       .finally(() => setLoading(false));
   }, []);
@@ -105,16 +112,22 @@ export const CatalogPage = () => {
                   if (!response.ok) {
                     throw new Error("Erro ao criar badge");
                   }
-                  
+
                   const elapsed = Date.now() - start;
                   const minTime = 3000; // 3 segundos
                   if (elapsed < minTime) {
-                    await new Promise((resolve) => setTimeout(resolve, minTime - elapsed));
+                    await new Promise((resolve) =>
+                      setTimeout(resolve, minTime - elapsed),
+                    );
                   }
-                 const updatedBadge = await getBadges();
-                  setBadges(updatedBadge.sort(
-                    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-                  ));
+                  const updatedBadge = await getBadges();
+                  setBadges(
+                    updatedBadge.sort(
+                      (a, b) =>
+                        new Date(b.createdAt).getTime() -
+                        new Date(a.createdAt).getTime(),
+                    ),
+                  );
 
                   setForm({
                     name: "",
@@ -124,7 +137,6 @@ export const CatalogPage = () => {
                   });
 
                   setIsModalOpen(false);
-
                 } catch (error) {
                   console.error(error);
                   alert("Erro ao criar badge");
