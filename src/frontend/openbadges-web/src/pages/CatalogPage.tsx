@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { BadgeCard } from "../components/ui/BadgeCard";
 import { getBadges } from "../services/badgeService";
 import { X } from "lucide-react";
@@ -16,6 +16,7 @@ export const CatalogPage = () => {
     description: "",
     criteriaNarrative: "",
   });
+
   const [errors, setErrors] = useState({
     name: "",
     imageUrl: "",
@@ -23,6 +24,11 @@ export const CatalogPage = () => {
     criteriaNarrative: "",
   });
 
+  const openButtonRef = useRef<HTMLButtonElement>(null);
+  const modalTitleRef = useRef<HTMLHeadingElement>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  // carregar badges
   useEffect(() => {
     getBadges()
       .then((data) =>
@@ -37,6 +43,61 @@ export const CatalogPage = () => {
       .finally(() => setLoading(false));
   }, []);
 
+  // foco ao abrir modal
+  useEffect(() => {
+    if (isModalOpen) {
+      setTimeout(() => {
+        modalTitleRef.current?.focus();
+      }, 100);
+    }
+  }, [isModalOpen]);
+
+  //prende TAB dentro do modal
+  useEffect(() => {
+    if (isModalOpen) {
+      setTimeout(() => {
+        modalTitleRef.current?.focus();
+      }, 100);
+    }
+  }, [isModalOpen]);
+
+  // Prende o foco dentro do modal
+  useEffect(() => {
+    if (!isModalOpen) return;
+
+    const modal = modalRef.current;
+    if (!modal) return;
+
+    const focusable = modal.querySelectorAll<HTMLElement>(
+      'button, input, textarea, [tabindex]:not([tabindex="-1"])',
+    );
+
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Tab") {
+        if (e.shiftKey) {
+          if (document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+          }
+        } else {
+          if (document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
+          }
+        }
+      }
+    };
+
+    modal.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      modal.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isModalOpen]);
+
   return (
     <div className="p-8 max-w-6xl mx-auto">
       {/* HEADER */}
@@ -49,6 +110,7 @@ export const CatalogPage = () => {
         </div>
 
         <button
+          ref={openButtonRef}
           onClick={() => setIsModalOpen(true)}
           className="bg-blue-600 text-white px-4 py-2 rounded"
         >
@@ -56,12 +118,9 @@ export const CatalogPage = () => {
         </button>
       </div>
 
-      {/* ESTADOS */}
       {loading && <p>Carregando badges...</p>}
-
       {!loading && badges.length === 0 && <p>Nenhum badge encontrado</p>}
 
-      {/* GRID */}
       {!loading && badges.length > 0 && (
         <div className="grid grid-cols-3 gap-6 items-stretch">
           {badges.map((badge) => (
@@ -80,13 +139,30 @@ export const CatalogPage = () => {
 
       {/* MODAL */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
-          <div className="bg-white p-6 rounded-lg w-96">
+        <div                    
+        className="fixed inset-0 bg-black/50 flex items-center justify-center">
+          <div 
+          ref={modalRef} 
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="modal-title"
+            aria-describedby={undefined}
+          className="bg-white p-6 rounded-lg w-96">
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-lg font-bold">Novo Badge</h2>
+              <h2
+              id="modal-title"
+                ref={modalTitleRef}
+                tabIndex={-1}
+                className="text-lg font-bold"
+              >
+                Novo Badge
+              </h2>
 
               <button
-                onClick={() => setIsModalOpen(false)}
+                onClick={() => {
+                  setIsModalOpen(false);
+                  openButtonRef.current?.focus();
+                }}
                 className="text-gray-500 hover:text-black"
                 aria-label="Fechar"
               >
@@ -98,6 +174,7 @@ export const CatalogPage = () => {
               className="space-y-3"
               onSubmit={async (e) => {
                 e.preventDefault();
+
                 const newErrors = {
                   name: !form.name.trim() ? "Informe o nome do badge" : "",
                   imageUrl: !form.imageUrl.trim()
@@ -117,10 +194,11 @@ export const CatalogPage = () => {
                   newErrors.name ||
                   newErrors.imageUrl ||
                   newErrors.description ||
-                  newErrors.criteriaNarrative 
+                  newErrors.criteriaNarrative
                 ) {
                   return;
                 }
+
                 try {
                   setIsCreating(true);
 
@@ -142,13 +220,16 @@ export const CatalogPage = () => {
                   }
 
                   const elapsed = Date.now() - start;
-                  const minTime = 3000; // 3 segundos
+                  const minTime = 800;
+
                   if (elapsed < minTime) {
                     await new Promise((resolve) =>
                       setTimeout(resolve, minTime - elapsed),
                     );
                   }
+
                   const updatedBadge = await getBadges();
+
                   setBadges(
                     updatedBadge.sort(
                       (a, b) =>
@@ -165,6 +246,7 @@ export const CatalogPage = () => {
                   });
 
                   setIsModalOpen(false);
+                  openButtonRef.current?.focus();
                 } catch (error) {
                   console.error(error);
                   alert("Erro ao criar badge");
@@ -188,21 +270,31 @@ export const CatalogPage = () => {
                 placeholder="URL da imagem"
                 className="w-full border p-2 rounded"
                 value={form.imageUrl}
-                onChange={(e) => setForm({ ...form, imageUrl: e.target.value })}
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    imageUrl: e.target.value,
+                  })
+                }
               />
 
               {errors.imageUrl && (
                 <p className="text-red-600 text-sm">{errors.imageUrl}</p>
               )}
+
               <textarea
                 placeholder="Descrição"
                 className="w-full border p-2 rounded"
                 value={form.description}
                 onChange={(e) =>
-                  setForm({ ...form, description: e.target.value })
+                  setForm({
+                    ...form,
+                    description: e.target.value,
+                  })
                 }
                 rows={3}
               />
+
               {errors.description && (
                 <p className="text-red-600 text-sm">{errors.description}</p>
               )}
@@ -212,10 +304,14 @@ export const CatalogPage = () => {
                 className="w-full border p-2 rounded"
                 value={form.criteriaNarrative}
                 onChange={(e) =>
-                  setForm({ ...form, criteriaNarrative: e.target.value })
+                  setForm({
+                    ...form,
+                    criteriaNarrative: e.target.value,
+                  })
                 }
                 rows={3}
               />
+
               {errors.criteriaNarrative && (
                 <p className="text-red-600 text-sm">
                   {errors.criteriaNarrative}
@@ -225,7 +321,10 @@ export const CatalogPage = () => {
               <div className="flex justify-center gap-2 pt-2">
                 <button
                   type="button"
-                  onClick={() => setIsModalOpen(false)}
+                  onClick={() => {
+                    setIsModalOpen(false);
+                    openButtonRef.current?.focus();
+                  }}
                   className="px-4 py-2 bg-gray-200 rounded"
                 >
                   Cancelar
@@ -233,13 +332,7 @@ export const CatalogPage = () => {
 
                 <button
                   type="submit"
-                  disabled={
-                    isCreating ||
-                    !form.name ||
-                    !form.imageUrl ||
-                    !form.description ||
-                    !form.criteriaNarrative
-                  }
+                  disabled={isCreating}
                   className="px-4 py-2 bg-blue-600 text-white rounded disabled:opacity-50"
                 >
                   {isCreating ? "Criando..." : "Criar Badge"}
