@@ -16,6 +16,12 @@ export const CatalogPage = () => {
     description: "",
     criteriaNarrative: "",
   });
+  const [errors, setErrors] = useState({
+    name: "",
+    imageUrl: "",
+    description: "",
+    criteriaNarrative: "",
+  });
 
   useEffect(() => {
     getBadges()
@@ -92,7 +98,29 @@ export const CatalogPage = () => {
               className="space-y-3"
               onSubmit={async (e) => {
                 e.preventDefault();
+                const newErrors = {
+                  name: !form.name.trim() ? "Informe o nome do badge" : "",
+                  imageUrl: !form.imageUrl.trim()
+                    ? "Informe a URL da imagem"
+                    : "",
+                  description: !form.description.trim()
+                    ? "Informe a descrição"
+                    : "",
+                  criteriaNarrative: !form.criteriaNarrative.trim()
+                    ? "Informe os critérios"
+                    : "",
+                };
 
+                setErrors(newErrors);
+
+                if (
+                  newErrors.name ||
+                  newErrors.imageUrl ||
+                  newErrors.description ||
+                  newErrors.criteriaNarrative 
+                ) {
+                  return;
+                }
                 try {
                   setIsCreating(true);
 
@@ -152,6 +180,10 @@ export const CatalogPage = () => {
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
               />
 
+              {errors.name && (
+                <p className="text-red-600 text-sm">{errors.name}</p>
+              )}
+
               <input
                 placeholder="URL da imagem"
                 className="w-full border p-2 rounded"
@@ -159,6 +191,9 @@ export const CatalogPage = () => {
                 onChange={(e) => setForm({ ...form, imageUrl: e.target.value })}
               />
 
+              {errors.imageUrl && (
+                <p className="text-red-600 text-sm">{errors.imageUrl}</p>
+              )}
               <textarea
                 placeholder="Descrição"
                 className="w-full border p-2 rounded"
@@ -168,6 +203,9 @@ export const CatalogPage = () => {
                 }
                 rows={3}
               />
+              {errors.description && (
+                <p className="text-red-600 text-sm">{errors.description}</p>
+              )}
 
               <textarea
                 placeholder="Critérios"
@@ -178,6 +216,11 @@ export const CatalogPage = () => {
                 }
                 rows={3}
               />
+              {errors.criteriaNarrative && (
+                <p className="text-red-600 text-sm">
+                  {errors.criteriaNarrative}
+                </p>
+              )}
 
               <div className="flex justify-center gap-2 pt-2">
                 <button
