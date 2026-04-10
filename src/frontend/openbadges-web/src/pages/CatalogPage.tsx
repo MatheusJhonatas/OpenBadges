@@ -26,6 +26,7 @@ export const CatalogPage = () => {
 
   const openButtonRef = useRef<HTMLButtonElement>(null);
   const modalTitleRef = useRef<HTMLHeadingElement>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
 
   // carregar badges
   useEffect(() => {
@@ -34,10 +35,9 @@ export const CatalogPage = () => {
         setBadges(
           data.sort(
             (a, b) =>
-              new Date(b.createdAt).getTime() -
-              new Date(a.createdAt).getTime()
-          )
-        )
+              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+          ),
+        ),
       )
       .catch((error) => console.error("Erro ao buscar badges:", error))
       .finally(() => setLoading(false));
@@ -50,6 +50,52 @@ export const CatalogPage = () => {
         modalTitleRef.current?.focus();
       }, 100);
     }
+  }, [isModalOpen]);
+
+  //prende TAB dentro do modal
+  useEffect(() => {
+    if (isModalOpen) {
+      setTimeout(() => {
+        modalTitleRef.current?.focus();
+      }, 100);
+    }
+  }, [isModalOpen]);
+
+  // Prende o foco dentro do modal
+  useEffect(() => {
+    if (!isModalOpen) return;
+
+    const modal = modalRef.current;
+    if (!modal) return;
+
+    const focusable = modal.querySelectorAll<HTMLElement>(
+      'button, input, textarea, [tabindex]:not([tabindex="-1"])',
+    );
+
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Tab") {
+        if (e.shiftKey) {
+          if (document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+          }
+        } else {
+          if (document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
+          }
+        }
+      }
+    };
+
+    modal.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      modal.removeEventListener("keydown", handleKeyDown);
+    };
   }, [isModalOpen]);
 
   return (
@@ -93,10 +139,18 @@ export const CatalogPage = () => {
 
       {/* MODAL */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
-          <div className="bg-white p-6 rounded-lg w-96">
+        <div                    
+        className="fixed inset-0 bg-black/50 flex items-center justify-center">
+          <div 
+          ref={modalRef} 
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="modal-title"
+            aria-describedby={undefined}
+          className="bg-white p-6 rounded-lg w-96">
             <div className="flex justify-between items-center mb-4">
               <h2
+              id="modal-title"
                 ref={modalTitleRef}
                 tabIndex={-1}
                 className="text-lg font-bold"
@@ -122,9 +176,7 @@ export const CatalogPage = () => {
                 e.preventDefault();
 
                 const newErrors = {
-                  name: !form.name.trim()
-                    ? "Informe o nome do badge"
-                    : "",
+                  name: !form.name.trim() ? "Informe o nome do badge" : "",
                   imageUrl: !form.imageUrl.trim()
                     ? "Informe a URL da imagem"
                     : "",
@@ -160,7 +212,7 @@ export const CatalogPage = () => {
                         "Content-Type": "application/json",
                       },
                       body: JSON.stringify(form),
-                    }
+                    },
                   );
 
                   if (!response.ok) {
@@ -172,7 +224,7 @@ export const CatalogPage = () => {
 
                   if (elapsed < minTime) {
                     await new Promise((resolve) =>
-                      setTimeout(resolve, minTime - elapsed)
+                      setTimeout(resolve, minTime - elapsed),
                     );
                   }
 
@@ -182,8 +234,8 @@ export const CatalogPage = () => {
                     updatedBadge.sort(
                       (a, b) =>
                         new Date(b.createdAt).getTime() -
-                        new Date(a.createdAt).getTime()
-                    )
+                        new Date(a.createdAt).getTime(),
+                    ),
                   );
 
                   setForm({
@@ -195,7 +247,6 @@ export const CatalogPage = () => {
 
                   setIsModalOpen(false);
                   openButtonRef.current?.focus();
-
                 } catch (error) {
                   console.error(error);
                   alert("Erro ao criar badge");
@@ -208,15 +259,11 @@ export const CatalogPage = () => {
                 placeholder="Nome do badge"
                 className="w-full border p-2 rounded"
                 value={form.name}
-                onChange={(e) =>
-                  setForm({ ...form, name: e.target.value })
-                }
+                onChange={(e) => setForm({ ...form, name: e.target.value })}
               />
 
               {errors.name && (
-                <p className="text-red-600 text-sm">
-                  {errors.name}
-                </p>
+                <p className="text-red-600 text-sm">{errors.name}</p>
               )}
 
               <input
@@ -232,9 +279,7 @@ export const CatalogPage = () => {
               />
 
               {errors.imageUrl && (
-                <p className="text-red-600 text-sm">
-                  {errors.imageUrl}
-                </p>
+                <p className="text-red-600 text-sm">{errors.imageUrl}</p>
               )}
 
               <textarea
@@ -251,9 +296,7 @@ export const CatalogPage = () => {
               />
 
               {errors.description && (
-                <p className="text-red-600 text-sm">
-                  {errors.description}
-                </p>
+                <p className="text-red-600 text-sm">{errors.description}</p>
               )}
 
               <textarea
