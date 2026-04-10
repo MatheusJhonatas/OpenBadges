@@ -190,7 +190,13 @@ export const CatalogPage = () => {
 
                 <button
                   type="submit"
-                  disabled={isCreating}
+                  disabled={
+                    isCreating ||
+                    !form.name ||
+                    !form.imageUrl ||
+                    !form.description ||
+                    !form.criteriaNarrative
+                  }
                   className="px-4 py-2 bg-blue-600 text-white rounded disabled:opacity-50"
                 >
                   {isCreating ? "Criando..." : "Criar Badge"}
