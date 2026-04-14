@@ -3,6 +3,7 @@ import { Navbar } from "./components/layout/Navbar";
 import { HomePage } from "./pages/HomePage";
 import { CatalogPage } from "./pages/CatalogPage";
 import { BadgeDetailsPage } from "./pages/BadgeDetailsPage";
+import { DashboardPage } from "./pages/DashboardPage";
 
 function App() {
   return (
@@ -11,7 +12,7 @@ function App() {
 
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/dashboard" element={<div>Dashboard</div>} />
+        <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/meus-badges" element={<div>Meus Badges</div>} />
         <Route path="/admin/catalogo" element={<CatalogPage />} />
         <Route path="/admin/catalogo/:id" element={<BadgeDetailsPage />} />
