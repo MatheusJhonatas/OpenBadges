@@ -23,7 +23,7 @@ public class UpdateBadgeClassHandler : IRequestHandler<UpdateBadgeClassCommand, 
             throw new ConcurrencyException(
     "The badge has been modified by another process. Please reload and try again.");
         }
-        badge.Update(command.Name, command.Description);
+        badge.Update(command.Name, command.Description, command.CriteriaNarrative, command.ImageUrl);
         await _repository.UpdateAsync(badge, cancellationToken);
         return true;
     }
