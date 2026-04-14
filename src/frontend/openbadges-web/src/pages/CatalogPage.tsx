@@ -263,7 +263,9 @@ export const CatalogPage = () => {
               />
 
               {errors.name && (
-                <p className="text-red-600 text-sm">{errors.name}</p>
+                <p 
+                role="alert"
+                className="text-red-600 text-sm">{errors.name}</p>
               )}
 
               <input
@@ -279,7 +281,9 @@ export const CatalogPage = () => {
               />
 
               {errors.imageUrl && (
-                <p className="text-red-600 text-sm">{errors.imageUrl}</p>
+                <p 
+                role="alert"
+                className="text-red-600 text-sm">{errors.imageUrl}</p>
               )}
 
               <textarea
@@ -296,7 +300,9 @@ export const CatalogPage = () => {
               />
 
               {errors.description && (
-                <p className="text-red-600 text-sm">{errors.description}</p>
+                <p 
+                role="alert"
+                className="text-red-600 text-sm">{errors.description}</p>
               )}
 
               <textarea
@@ -313,7 +319,9 @@ export const CatalogPage = () => {
               />
 
               {errors.criteriaNarrative && (
-                <p className="text-red-600 text-sm">
+                <p 
+                role="alert"
+                className="text-red-600 text-sm">
                   {errors.criteriaNarrative}
                 </p>
               )}
