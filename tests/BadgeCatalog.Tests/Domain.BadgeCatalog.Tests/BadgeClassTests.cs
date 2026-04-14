@@ -105,7 +105,7 @@ public class BadgeClassTests
         var newDescription = "Awarded for advanced backend skills";
 
         //Act
-        badge.Update(newName, newDescription);
+        badge.Update(newName, newDescription, "Complete advanced backend training", "https://example.com/advanced-image.png");
 
         //Assert
         badge.Name.Should().Be(newName);

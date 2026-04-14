@@ -77,10 +77,12 @@ public sealed class BadgeClass
         Criteria = criteria ?? throw new ArgumentNullException(nameof(criteria));
     }
 
-    public void Update(string name, string description)
+    public void Update(string name, string description, string criteriaNarrative, string imageUrl)
     {
         SetName(name);
         SetDescription(description);
+        SetCriteria(new BadgeCriteria(criteriaNarrative));
+        SetImage(new BadgeImage(imageUrl));
 
         Version++;
         UpdatedAt = DateTime.UtcNow;

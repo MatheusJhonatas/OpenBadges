@@ -102,6 +102,8 @@ public class BadgesController : ControllerBase
     {
         Name = request.Name,
         Description = request.Description,
+        ImageUrl = request.ImageUrl,
+        CriteriaNarrative = request.CriteriaNarrative,
         Version = request.Version
     };
 
