@@ -97,6 +97,24 @@ export const CatalogPage = () => {
       modal.removeEventListener("keydown", handleKeyDown);
     };
   }, [isModalOpen]);
+// Reseta o formulário e erros ao fechar modal
+  const resetModal = () => {
+    setForm({
+      name: "",
+      imageUrl: "",
+      description: "",
+      criteriaNarrative: "",
+    });
+
+    setErrors({
+      name: "",
+      imageUrl: "",
+      description: "",
+      criteriaNarrative: "",
+    });
+
+    setIsCreating(false);
+  };
 
   return (
     <div className="p-8 max-w-6xl mx-auto">
@@ -139,18 +157,18 @@ export const CatalogPage = () => {
 
       {/* MODAL */}
       {isModalOpen && (
-        <div                    
-        className="fixed inset-0 bg-black/50 flex items-center justify-center">
-          <div 
-          ref={modalRef} 
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
+          <div
+            ref={modalRef}
             role="dialog"
             aria-modal="true"
             aria-labelledby="modal-title"
             aria-describedby={undefined}
-          className="bg-white p-6 rounded-lg w-96">
+            className="bg-white p-6 rounded-lg w-96"
+          >
             <div className="flex justify-between items-center mb-4">
               <h2
-              id="modal-title"
+                id="modal-title"
                 ref={modalTitleRef}
                 tabIndex={-1}
                 className="text-lg font-bold"
@@ -160,6 +178,7 @@ export const CatalogPage = () => {
 
               <button
                 onClick={() => {
+                  resetModal();
                   setIsModalOpen(false);
                   openButtonRef.current?.focus();
                 }}
@@ -263,9 +282,9 @@ export const CatalogPage = () => {
               />
 
               {errors.name && (
-                <p 
-                role="alert"
-                className="text-red-600 text-sm">{errors.name}</p>
+                <p role="alert" className="text-red-600 text-sm">
+                  {errors.name}
+                </p>
               )}
 
               <input
@@ -281,9 +300,9 @@ export const CatalogPage = () => {
               />
 
               {errors.imageUrl && (
-                <p 
-                role="alert"
-                className="text-red-600 text-sm">{errors.imageUrl}</p>
+                <p role="alert" className="text-red-600 text-sm">
+                  {errors.imageUrl}
+                </p>
               )}
 
               <textarea
@@ -300,9 +319,9 @@ export const CatalogPage = () => {
               />
 
               {errors.description && (
-                <p 
-                role="alert"
-                className="text-red-600 text-sm">{errors.description}</p>
+                <p role="alert" className="text-red-600 text-sm">
+                  {errors.description}
+                </p>
               )}
 
               <textarea
@@ -319,9 +338,7 @@ export const CatalogPage = () => {
               />
 
               {errors.criteriaNarrative && (
-                <p 
-                role="alert"
-                className="text-red-600 text-sm">
+                <p role="alert" className="text-red-600 text-sm">
                   {errors.criteriaNarrative}
                 </p>
               )}
@@ -330,6 +347,7 @@ export const CatalogPage = () => {
                 <button
                   type="button"
                   onClick={() => {
+                    resetModal();
                     setIsModalOpen(false);
                     openButtonRef.current?.focus();
                   }}
