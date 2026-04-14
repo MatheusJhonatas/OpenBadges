@@ -263,7 +263,7 @@ export const CatalogPage = () => {
                     description: "",
                     criteriaNarrative: "",
                   });
-
+                  resetModal();
                   setIsModalOpen(false);
                   openButtonRef.current?.focus();
                 } catch (error) {
