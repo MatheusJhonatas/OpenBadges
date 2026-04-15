@@ -5,13 +5,24 @@ type Props = {
   isOpen: boolean;
   onClose: () => void;
   onSuccess: () => void;
+  badge?: {
+    id: string;
+    name: string;
+    description: string;
+    imageUrl?: string;
+    criteriaNarrative: string;
+    version?: number;
+  } | null;
+
 };
 
 export const BadgeModal: React.FC<Props> = ({
   isOpen,
   onClose,
   onSuccess,
+  badge,
 }) => {
+
   const [form, setForm] = useState({
     name: "",
     imageUrl: "",
@@ -27,6 +38,17 @@ export const BadgeModal: React.FC<Props> = ({
   });
 
   const [isCreating, setIsCreating] = useState(false);
+
+      useEffect(() => {
+  if (badge) {
+    setForm({
+      name: badge.name,
+      imageUrl: badge.imageUrl || "",
+      description: badge.description,
+      criteriaNarrative: badge.criteriaNarrative,
+    });
+  }
+}, [badge]);
 
   const titleRef = useRef<HTMLHeadingElement>(null);
 
@@ -73,7 +95,7 @@ export const BadgeModal: React.FC<Props> = ({
             tabIndex={-1}
             className="text-lg font-bold"
           >
-            Novo Badge
+            {badge ? "Editar Badge" : "Novo Badge"}
           </h2>
 
           <button
