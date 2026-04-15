@@ -13,7 +13,6 @@ type Props = {
     criteriaNarrative: string;
     version?: number;
   } | null;
-
 };
 
 export const BadgeModal: React.FC<Props> = ({
@@ -22,7 +21,6 @@ export const BadgeModal: React.FC<Props> = ({
   onSuccess,
   badge,
 }) => {
-
   const [form, setForm] = useState({
     name: "",
     imageUrl: "",
@@ -39,16 +37,16 @@ export const BadgeModal: React.FC<Props> = ({
 
   const [isCreating, setIsCreating] = useState(false);
 
-      useEffect(() => {
-  if (badge) {
-    setForm({
-      name: badge.name,
-      imageUrl: badge.imageUrl || "",
-      description: badge.description,
-      criteriaNarrative: badge.criteriaNarrative,
-    });
-  }
-}, [badge]);
+  useEffect(() => {
+    if (badge) {
+      setForm({
+        name: badge.name,
+        imageUrl: badge.imageUrl || "",
+        description: badge.description,
+        criteriaNarrative: badge.criteriaNarrative,
+      });
+    }
+  }, [badge]);
 
   const titleRef = useRef<HTMLHeadingElement>(null);
 
@@ -115,12 +113,8 @@ export const BadgeModal: React.FC<Props> = ({
             e.preventDefault();
 
             const newErrors = {
-              name: !form.name.trim()
-                ? "Informe o nome do badge"
-                : "",
-              imageUrl: !form.imageUrl.trim()
-                ? "Informe a URL da imagem"
-                : "",
+              name: !form.name.trim() ? "Informe o nome do badge" : "",
+              imageUrl: !form.imageUrl.trim() ? "Informe a URL da imagem" : "",
               description: !form.description.trim()
                 ? "Informe a descrição"
                 : "",
@@ -166,9 +160,7 @@ export const BadgeModal: React.FC<Props> = ({
             placeholder="Nome do badge"
             className="w-full border p-2 rounded"
             value={form.name}
-            onChange={(e) =>
-              setForm({ ...form, name: e.target.value })
-            }
+            onChange={(e) => setForm({ ...form, name: e.target.value })}
           />
           {errors.name && (
             <p role="alert" className="text-red-600 text-sm">
@@ -180,9 +172,7 @@ export const BadgeModal: React.FC<Props> = ({
             placeholder="URL da imagem"
             className="w-full border p-2 rounded"
             value={form.imageUrl}
-            onChange={(e) =>
-              setForm({ ...form, imageUrl: e.target.value })
-            }
+            onChange={(e) => setForm({ ...form, imageUrl: e.target.value })}
           />
           {errors.imageUrl && (
             <p role="alert" className="text-red-600 text-sm">
@@ -194,9 +184,7 @@ export const BadgeModal: React.FC<Props> = ({
             placeholder="Descrição"
             className="w-full border p-2 rounded"
             value={form.description}
-            onChange={(e) =>
-              setForm({ ...form, description: e.target.value })
-            }
+            onChange={(e) => setForm({ ...form, description: e.target.value })}
           />
           {errors.description && (
             <p role="alert" className="text-red-600 text-sm">
@@ -238,7 +226,11 @@ export const BadgeModal: React.FC<Props> = ({
               disabled={isCreating}
               className="px-4 py-2 bg-blue-600 text-white rounded"
             >
-              {isCreating ? "Criando..." : "Criar Badge"}
+              {isCreating
+                ? "Salvando..."
+                : badge
+                  ? "Salvar alterações"
+                  : "Criar Badge"}
             </button>
           </div>
         </form>
