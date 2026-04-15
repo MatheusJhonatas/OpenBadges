@@ -5,11 +5,11 @@ import { getBadges } from "../services/badgeService";
 import type { Badge } from "../services/badgeService";
 import { BadgeModal } from "../components/ui/BadgeModal";
 
-
 export const CatalogPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [badges, setBadges] = useState<Badge[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedBadge, setSelectedBadge] = useState<Badge | null>(null);
 
   const openButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -19,15 +19,18 @@ export const CatalogPage = () => {
       setBadges(
         data.sort(
           (a, b) =>
-            new Date(b.createdAt).getTime() -
-            new Date(a.createdAt).getTime()
-        )
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+        ),
       );
     } catch (error) {
       console.error("Erro ao buscar badges:", error);
     } finally {
       setLoading(false);
     }
+  };
+  const handleEdit = (badge: Badge) => {
+    setSelectedBadge(badge);
+    setIsModalOpen(true);
   };
 
   useEffect(() => {
@@ -47,7 +50,11 @@ export const CatalogPage = () => {
 
         <button
           ref={openButtonRef}
-          onClick={() => setIsModalOpen(true)}
+          onClick={() => 
+            {
+              setSelectedBadge(null)
+              setIsModalOpen(true)
+            }}
           className="bg-blue-600 text-white px-4 py-2 rounded"
         >
           + Novo Badge
@@ -60,7 +67,11 @@ export const CatalogPage = () => {
       {!loading && badges.length > 0 && (
         <div className="grid grid-cols-3 gap-6 items-stretch">
           {badges.map((badge) => (
-            <BadgeCard key={badge.id} {...badge} />
+            <BadgeCard
+              key={badge.id}
+              {...badge}
+              onEdit={() => handleEdit(badge)}
+            />
           ))}
         </div>
       )}
@@ -73,6 +84,16 @@ export const CatalogPage = () => {
           openButtonRef.current?.focus();
         }}
         onSuccess={loadBadges}
+        badge={selectedBadge?{
+          id: selectedBadge.id,
+          name: selectedBadge.name,
+          description: selectedBadge.description,
+          imageUrl: selectedBadge.imageUrl,
+          criteriaNarrative: selectedBadge.criteria,
+          version: selectedBadge.version,
+        }
+        : null
+      }
       />
     </div>
   );

@@ -7,6 +7,7 @@ type BadgeCardProps = {
   description: string;
   criteria?: string;
   imageUrl?: string;
+  onEdit?: () => void;
 };
 
 export const BadgeCard = ({
@@ -16,6 +17,7 @@ export const BadgeCard = ({
   description,
   criteria,
   imageUrl,
+  onEdit,
 }: BadgeCardProps) => {
   const navigate = useNavigate();
 
@@ -51,7 +53,9 @@ export const BadgeCard = ({
         </div>
         {/* AÇÕES */}
         <div className="flex gap-2 mt-4">
-          <button className="flex-1 border rounded px-3 py-1 text-sm hover:bg-gray-100">
+          <button 
+          onClick={onEdit}
+          className="flex-1 border rounded px-3 py-1 text-sm hover:bg-gray-100">
             Editar
           </button>
 
