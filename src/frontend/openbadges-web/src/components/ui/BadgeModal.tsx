@@ -45,6 +45,13 @@ export const BadgeModal: React.FC<Props> = ({
         description: badge.description,
         criteriaNarrative: badge.criteriaNarrative,
       });
+    }else{
+      setForm({
+        name: "",
+        imageUrl: "",
+        description: "",
+        criteriaNarrative: "",
+      });
     }
   }, [badge]);
 
@@ -137,12 +144,22 @@ export const BadgeModal: React.FC<Props> = ({
             try {
               setIsCreating(true);
 
-              await fetch("http://localhost:5045/api/badges", {
-                method: "POST",
+              const isEdit = !!badge;
+
+              const url = isEdit
+                ? `http://localhost:5045/api/badges/${badge.id}`
+                : "http://localhost:5045/api/badges";
+
+              const method = isEdit ? "PUT" : "POST";
+
+              await fetch(url, {
+                method,
                 headers: {
                   "Content-Type": "application/json",
                 },
-                body: JSON.stringify(form),
+                body: JSON.stringify({ 
+                  ...form,
+                  version: badge?.version ?? 0 }),
               });
 
               reset();
