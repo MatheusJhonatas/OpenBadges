@@ -3,6 +3,7 @@ import { BadgeCard } from "../components/ui/BadgeCard";
 import { getBadges } from "../services/badgeService";
 import { X } from "lucide-react";
 import type { Badge } from "../services/badgeService";
+import { BadgeModal } from "../components/ui/BadgeModal";
 
 export const CatalogPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -156,38 +157,13 @@ export const CatalogPage = () => {
       )}
 
       {/* MODAL */}
-      {isModalOpen && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
-          <div
-            ref={modalRef}
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="modal-title"
-            aria-describedby={undefined}
-            className="bg-white p-6 rounded-lg w-96"
-          >
-            <div className="flex justify-between items-center mb-4">
-              <h2
-                id="modal-title"
-                ref={modalTitleRef}
-                tabIndex={-1}
-                className="text-lg font-bold"
-              >
-                Novo Badge
-              </h2>
-
-              <button
-                onClick={() => {
-                  resetModal();
-                  setIsModalOpen(false);
-                  openButtonRef.current?.focus();
-                }}
-                className="text-gray-500 hover:text-black"
-                aria-label="Fechar"
-              >
-                <X size={20} />
-              </button>
-            </div>
+      <BadgeModal
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false);
+          openButtonRef.current?.focus();
+        }}
+      />
 
             <form
               className="space-y-3"
@@ -366,8 +342,5 @@ export const CatalogPage = () => {
               </div>
             </form>
           </div>
-        </div>
-      )}
-    </div>
   );
 };
