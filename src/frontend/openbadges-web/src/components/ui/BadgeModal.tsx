@@ -45,6 +45,13 @@ export const BadgeModal: React.FC<Props> = ({
         description: badge.description,
         criteriaNarrative: badge.criteriaNarrative,
       });
+    }else{
+      setForm({
+        name: "",
+        imageUrl: "",
+        description: "",
+        criteriaNarrative: "",
+      });
     }
   }, [badge]);
 
