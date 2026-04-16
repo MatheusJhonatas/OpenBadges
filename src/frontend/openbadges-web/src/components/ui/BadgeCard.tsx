@@ -53,16 +53,17 @@ export const BadgeCard = ({
         </div>
         {/* AÇÕES */}
         <div className="flex gap-2 mt-4">
-          <button 
-          onClick={onEdit}
-          className="flex-1 border rounded px-3 py-1 text-sm hover:bg-gray-100">
+          <button
+            onClick={onEdit}
+            className="flex-1 border rounded px-3 py-1 text-sm hover:bg-gray-100"
+          >
             Editar
           </button>
 
           <button
-          onClick={() => navigate(`/admin/catalogo/${id}`)}
-          className="flex-1 border rounded px-3 py-1 text-sm hover:bg-gray-100"
-            >
+            onClick={() => navigate(`/admin/catalogo/${id}`)}
+            className="flex-1 border rounded px-3 py-1 text-sm hover:bg-gray-100"
+          >
             Ver Detalhes
           </button>
         </div>

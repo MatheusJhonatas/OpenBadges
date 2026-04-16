@@ -71,6 +71,10 @@
             "Microsoft.EntityFrameworkCore.Sqlite": {
               "target": "Package",
               "version": "[9.0.0, )"
+            },
+            "SkiaSharp": {
+              "target": "Package",
+              "version": "[3.119.2, )"
             }
           },
           "imports": [
