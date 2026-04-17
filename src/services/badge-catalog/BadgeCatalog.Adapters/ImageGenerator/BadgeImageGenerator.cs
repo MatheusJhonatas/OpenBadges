@@ -16,6 +16,20 @@ namespace BadgeCatalog.Adapters.ImageGenerator
             // Fundo branco
             canvas.Clear(SKColors.White);
 
+            // Configurar o estilo do texto
+            using var textPaint = new SKPaint
+            {
+                Color = SKColors.Black,
+                TextSize = 32,
+                IsAntialias = true,
+                TextAlign = SKTextAlign.Center
+            };
+            // Desenhar o nome da badge no centro
+            canvas.DrawText(
+                badgeName, 
+                width / 2, 
+                height / 2 + textPaint.TextSize / 2, textPaint);
+
             return Task.FromResult("ok");
         }
     }
