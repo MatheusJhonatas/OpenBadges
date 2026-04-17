@@ -7,6 +7,7 @@ using BadgeCatalog.Application.Commands.UpdateBadgeClass;
 using BadgeCatalog.Application.Queries.GetAllBadges;
 using BadgeCatalog.Application.Queries.GetBadgeBySlug;
 using BadgeCatalog.Domain.Exceptions;
+using BadgeCatalog.Ports.Repositories;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -18,10 +19,12 @@ namespace BadgeCatalog.Api.Controllers;
 public class BadgesController : ControllerBase
 {
     private readonly IMediator _mediator;
+    private readonly IBadgeImageGenerator _generator;
 
-    public BadgesController(IMediator mediator)
+    public BadgesController(IMediator mediator, IBadgeImageGenerator generator)
     {
         _mediator = mediator;
+        _generator = generator;
     }
 
     [HttpPost]
@@ -92,6 +95,14 @@ public class BadgesController : ControllerBase
         }
         return NoContent();
     }
+    [HttpGet("generate")]
+    public async Task<IActionResult> GenerateBadgeImage()
+    {
+        var imageUrl = await _generator.GenerateAsync("Exemplo de Badge");
+        return Ok(new { imageUrl });
+    }
+
+
     [HttpPut("{id:guid}")]
     public async Task<IActionResult> UpdateBadge(
     Guid id,
