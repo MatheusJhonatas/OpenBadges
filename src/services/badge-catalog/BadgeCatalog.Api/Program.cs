@@ -6,6 +6,7 @@ using BadgeCatalog.Adapters.Security;
 using Microsoft.EntityFrameworkCore;
 using BadgeCatalog.Adapters.Repositories;
 using BadgeCatalog.Api.Middleware;
+using BadgeCatalog.Adapters.ImageGenerator;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +29,7 @@ builder.Services.AddDbContext<BadgeCatalogDbContext>(options =>
 builder.Services.AddScoped<IBadgeClassRepository, BadgeClassRepository>();
 builder.Services.AddSingleton<IIssuerProvider, ConfigIssuerProvider>();
 builder.Services.AddSingleton<IJwkProvider, StaticJwkProvider>();
+builder.Services.AddScoped<IBadgeImageGenerator, BadgeImageGenerator>();
 
 builder.Services.AddCors(options =>
 {
