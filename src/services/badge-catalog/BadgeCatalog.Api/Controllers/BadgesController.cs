@@ -7,6 +7,7 @@ using BadgeCatalog.Application.Commands.UpdateBadgeClass;
 using BadgeCatalog.Application.Queries.GetAllBadges;
 using BadgeCatalog.Application.Queries.GetBadgeBySlug;
 using BadgeCatalog.Domain.Exceptions;
+using BadgeCatalog.Ports.Models;
 using BadgeCatalog.Ports.Repositories;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -98,7 +99,7 @@ public class BadgesController : ControllerBase
     [HttpGet("generate")]
     public async Task<IActionResult> GenerateBadgeImage()
     {
-        var imageUrl = await _generator.GenerateAsync("Exemplo de Badge");
+        var imageUrl = await _generator.GenerateAsync("template1", new BadgeRenderData { BadgeName = "Badge de Teste" });
         return Ok(new { imageUrl });
     }
 
