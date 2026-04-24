@@ -6,18 +6,31 @@ public static class BadgeTemplateResolver
     {
         return templateId switch
         {
-            "fgv" => new BadgeTemplate
+           "template1" => new BadgeTemplate
             {
-                Id = "fgv",
-                BackgroundImage = "badge-fgv.png",
-                TextYPosition = 300
+                Id = "template1",
+                BackgroundImage = "template1.png",
+                TextYPosition = 190,
+                DefaultTextColor = "#070707",
+                DefaultFontSize = 28
+            },
+
+            "template2" => new BadgeTemplate
+            {
+                Id = "template2",
+                BackgroundImage = "template2.png",
+                TextYPosition = 185,
+                DefaultTextColor = "#080808",
+                DefaultFontSize = 28
             },
 
             _ => new BadgeTemplate
             {
                 Id = "default",
-                BackgroundImage = "badge-default.png",
-                TextYPosition = 300
+                BackgroundImage = "default.png",
+                TextYPosition = 210,
+                DefaultTextColor = "#0c0c0c",
+                DefaultFontSize = 28
             }
         };
     }
