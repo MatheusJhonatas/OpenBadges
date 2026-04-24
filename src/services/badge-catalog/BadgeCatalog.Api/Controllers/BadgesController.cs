@@ -30,7 +30,7 @@ public class BadgesController : ControllerBase
 
     [HttpPost]
     public async Task<IActionResult> CreateBadgeClass(
-        CreateBadgeClassCommand command, 
+        CreateBadgeClassCommand command,
         CancellationToken cancellationToken)
     {
         var id = await _mediator.Send(command, cancellationToken);
@@ -52,7 +52,7 @@ public class BadgesController : ControllerBase
     {
         var badge = await _mediator.Send(new GetBadgeBySlugQuery(slug), cancellationToken);
 
-        if(badge is null)
+        if (badge is null)
         {
             return NotFound(new { message = "Não existe badge com esse slug." });
         }
@@ -62,12 +62,12 @@ public class BadgesController : ControllerBase
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetById(Guid id)
     {
-    var badge = await _mediator.Send(new GetBadgeByIdQuery(id));
+        var badge = await _mediator.Send(new GetBadgeByIdQuery(id));
 
-    if (badge == null)
-        return NotFound();
+        if (badge == null)
+            return NotFound();
 
-    return Ok(badge);
+        return Ok(badge);
     }
 
     [HttpPatch("{id:guid}/deactivate")]
@@ -97,12 +97,19 @@ public class BadgesController : ControllerBase
         return NoContent();
     }
     [HttpGet("generate")]
-    public async Task<IActionResult> GenerateBadgeImage()
+    public async Task<IActionResult> GenerateBadgeImage(
+    [FromQuery] string template = "template1",
+    [FromQuery] string name = "Badge de Teste")
     {
-        var imageUrl = await _generator.GenerateAsync("template1", new BadgeRenderData { BadgeName = "Badge de Teste" });
+        var imageUrl = await _generator.GenerateAsync(
+            template,
+            new BadgeRenderData
+            {
+                BadgeName = name
+            });
+
         return Ok(new { imageUrl });
     }
-
 
     [HttpPut("{id:guid}")]
     public async Task<IActionResult> UpdateBadge(
@@ -110,21 +117,21 @@ public class BadgesController : ControllerBase
     UpdateBadgeClassRequest request,
     CancellationToken cancellationToken)
     {
-    var command = new UpdateBadgeClassCommand(id)
-    {
-        Name = request.Name,
-        Description = request.Description,
-        ImageUrl = request.ImageUrl,
-        CriteriaNarrative = request.CriteriaNarrative,
-        Version = request.Version
-    };
+        var command = new UpdateBadgeClassCommand(id)
+        {
+            Name = request.Name,
+            Description = request.Description,
+            ImageUrl = request.ImageUrl,
+            CriteriaNarrative = request.CriteriaNarrative,
+            Version = request.Version
+        };
 
-    var updated = await _mediator.Send(command, cancellationToken);
+        var updated = await _mediator.Send(command, cancellationToken);
 
-    if (!updated)
-        return NotFound(new { message = "Badge not found." });
+        if (!updated)
+            return NotFound(new { message = "Badge not found." });
 
-    return NoContent();
-}
+        return NoContent();
+    }
 }
 
