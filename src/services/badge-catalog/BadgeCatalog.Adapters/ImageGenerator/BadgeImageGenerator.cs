@@ -32,6 +32,29 @@ public class BadgeImageGenerator : IBadgeImageGenerator
         {
             canvas.Clear(SKColors.White);
         }
+        // 🔹 3.1 Desenhar logo (se existir)
+        if (!string.IsNullOrEmpty(data.LogoPath))
+        {
+            var logoPath = Path.Combine("wwwroot", "logos", data.LogoPath);
+
+            if (File.Exists(logoPath))
+            {
+                using var logoBitmap = SKBitmap.Decode(logoPath);
+
+                // 🔥 tamanho controlado (ajuste fino depois)
+                var logoWidth = 120;
+                var logoHeight = 120;
+
+                // 🔥 posição central no topo
+                var logoX = (width - logoWidth) / 2;
+                var logoY = 220;
+
+                canvas.DrawBitmap(
+                    logoBitmap,
+                    new SKRect(logoX, logoY, logoX + logoWidth, logoY + logoHeight)
+                );
+            }
+        }
 
         // 🔹 4. Configurar texto
         using var textPaint = new SKPaint
@@ -63,7 +86,54 @@ public class BadgeImageGenerator : IBadgeImageGenerator
         float y = template.TextYPosition - bounds.MidY;
 
         // 🔹 7. Desenhar texto
-        canvas.DrawText(data.BadgeName, x, y, textPaint);
+        // canvas.DrawText(data.BadgeName, x, y, textPaint);
+
+        var words = data.BadgeName.Split(' ');
+        var lines = new List<string>();
+        var currentLine = "";
+
+        var maxWidth = 280;
+
+        // 🔹 monta linhas automaticamente
+        foreach (var word in words)
+        {
+            var testLine = string.IsNullOrEmpty(currentLine)
+                ? word
+                : currentLine + " " + word;
+
+            if (textPaint.MeasureText(testLine) > maxWidth)
+            {
+                lines.Add(currentLine);
+                currentLine = word;
+            }
+            else
+            {
+                currentLine = testLine;
+            }
+        }
+
+        if (!string.IsNullOrEmpty(currentLine))
+        {
+            lines.Add(currentLine);
+        }
+
+        // 🔹 altura entre linhas
+        float lineHeight = textPaint.TextSize + 5;
+
+        // 🔹 centralizar bloco de texto
+        float startY = template.TextYPosition - ((lines.Count - 1) * lineHeight / 2);
+
+        for (int i = 0; i < lines.Count; i++)
+        {
+            var line = lines[i];
+
+            var lineBounds = new SKRect();
+            textPaint.MeasureText(line, ref lineBounds);
+
+            float lineY = startY + (i * lineHeight) - lineBounds.MidY;
+
+            canvas.DrawText(line, x, lineY, textPaint);
+        }
 
         // 🔹 8. Exportar imagem
         using var image = surface.Snapshot();
