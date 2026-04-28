@@ -14,13 +14,13 @@ public sealed class CreateBadgeClassHandler : IRequestHandler<CreateBadgeClassCo
     
     public async Task<Guid> Handle(CreateBadgeClassCommand command, CancellationToken cancellationToken)
     {
-        var image = new BadgeImage(command.ImageUrl);
+        var templateId = new BadgeTemplateId(command.TemplateId);
         var criteria = new BadgeCriteria(command.CriteriaNarrative);
 
         var badgeClass = new BadgeClass(
             command.Name,
             command.Description,
-            image,
+            templateId,
             criteria
         );
 

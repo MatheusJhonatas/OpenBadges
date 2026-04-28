@@ -37,10 +37,10 @@ public class BadgeCatalogMap : IEntityTypeConfiguration<BadgeClass>
         builder.Property(b => b.UpdatedAt)
             .IsRequired();
 
-        // Value Object - Image
-        builder.OwnsOne(b => b.Image, image =>
+        // Value Object - TemplateId
+        builder.OwnsOne(b => b.TemplateId, templateId =>
         {
-            image.Property(i => i.Url)
+            templateId.Property(t => t.Value)
                 .HasColumnName("ImageUrl")
                 .IsRequired();
         });

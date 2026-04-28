@@ -122,7 +122,7 @@ public class BadgesController : ControllerBase
         {
             Name = request.Name,
             Description = request.Description,
-            ImageUrl = request.ImageUrl,
+            TemplateId = new BadgeTemplateId(request.TemplateId).Value,
             CriteriaNarrative = request.CriteriaNarrative,
             Version = request.Version
         };

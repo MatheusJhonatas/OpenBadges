@@ -8,7 +8,7 @@ public sealed class BadgeClass
     public Guid Id { get; private set; }
     public string Name { get; private set; }
     public string Description { get; private set; }
-    public BadgeImage Image { get; private set; }
+    public BadgeTemplateId TemplateId { get; private set; }
     public BadgeCriteria Criteria { get; private set; }
     public bool IsActive { get; private set; }
     public int Version { get; private set; }
@@ -20,13 +20,13 @@ public sealed class BadgeClass
     #region Constructors
     private BadgeClass() { } // EF Core
 
-    public BadgeClass(string name, string description, BadgeImage image, BadgeCriteria criteria)
+    public BadgeClass(string name, string description, BadgeTemplateId templateId, BadgeCriteria criteria)
     {
         Id = Guid.NewGuid();
 
         SetName(name);
         SetDescription(description);
-        SetImage(image);
+        SetTemplateId(templateId);
         SetCriteria(criteria);
 
         IsActive = true;
@@ -67,9 +67,9 @@ public sealed class BadgeClass
         Description = description;
     }
 
-    private void SetImage(BadgeImage image)
+    private void SetTemplateId(BadgeTemplateId templateId)
     {
-        Image = image ?? throw new ArgumentNullException(nameof(image));
+        TemplateId = templateId ?? throw new ArgumentNullException(nameof(templateId));
     }
 
     private void SetCriteria(BadgeCriteria criteria)
@@ -82,7 +82,7 @@ public sealed class BadgeClass
         SetName(name);
         SetDescription(description);
         SetCriteria(new BadgeCriteria(criteriaNarrative));
-        SetImage(new BadgeImage(imageUrl));
+        SetTemplateId(new BadgeTemplateId(imageUrl));
 
         Version++;
         UpdatedAt = DateTime.UtcNow;

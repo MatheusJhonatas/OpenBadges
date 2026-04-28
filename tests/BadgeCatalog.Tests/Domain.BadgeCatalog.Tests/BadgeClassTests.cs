@@ -11,7 +11,7 @@ public class BadgeClassTests
     {
         var name = "Backend Developer";
         var description = "Awarded for backend skills";
-        var image = new BadgeImage("https://example.com/image.png");
+        var image = new BadgeTemplateId("https://example.com/image.png");
         var criteria = new BadgeCriteria("Complete backend training");
 
         return new BadgeClass(name, description, image, criteria);
@@ -36,7 +36,7 @@ public class BadgeClassTests
     {
         // Arrange
         var description = "Awarded for backend skills";
-        var image = new BadgeImage("https://example.com/image.png");
+        var image = new BadgeTemplateId("https://example.com/image.png");
         var criteria = new BadgeCriteria("Complete backend training");
 
         // Act
