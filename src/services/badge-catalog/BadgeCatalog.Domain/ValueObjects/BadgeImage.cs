@@ -1,14 +1,14 @@
-namespace BadgeCatalog.Domain.ValueObjects;
-public sealed class BadgeImage
+public sealed class BadgeTemplateId
 {
-    public string Url { get; }
+    public string Value { get; }
 
-    private BadgeImage() { } // For EF Core
+    private BadgeTemplateId() { } // EF
 
-    public BadgeImage(string url)
+    public BadgeTemplateId(string value)
     {
-        if (string.IsNullOrWhiteSpace(url))
-            throw new ArgumentException("URL cannot be empty.", nameof(url));
-        Url = url;
+        if (string.IsNullOrWhiteSpace(value))
+            throw new ArgumentException("TemplateId cannot be empty.", nameof(value));
+
+        Value = value;
     }
 }
