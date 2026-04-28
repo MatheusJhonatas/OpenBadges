@@ -3,20 +3,15 @@ namespace BadgeCatalog.Adapters.Templates;
 public class BadgeTemplate
 {
     public string Id { get; set; } = default!;
-
-    // estrutura
     public string BackgroundImage { get; set; } = default!;
-    public float TextYPosition { get; set; }
 
-    // estilo padrão (fallback)
-    public string DefaultTextColor { get; set; } = "#FFFFFF";
-    public int DefaultFontSize { get; set; } = 40;
+    // ❗ antigos (mantém por enquanto)
+    public float TextYPosition { get; set; }
     public float LogoYPosition { get; set; }
-    public int LogoSize { get; set; }
-    public string DefaultLogoPath { get; set; } = "sua_logo_aqui_Azul.png";
-    public float LogoAreaTop { get; set; }
-    public float LogoAreaHeight { get; set; }
+
     public float TitleAreaTop { get; set; }
     public float TitleAreaHeight { get; set; }
 
+    public string DefaultTextColor { get; set; } = "#FFFFFF";
+    public int DefaultFontSize { get; set; } = 40;
 }

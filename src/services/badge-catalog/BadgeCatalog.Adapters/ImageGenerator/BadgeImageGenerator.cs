@@ -32,28 +32,6 @@ public class BadgeImageGenerator : IBadgeImageGenerator
         {
             canvas.Clear(SKColors.White);
         }
-        // 🔹 3.1 Desenhar logo (se existir)
-        var logoFile = data.LogoPath ?? template.DefaultLogoPath;
-
-        if (!string.IsNullOrEmpty(logoFile))
-        {
-            var logoPath = Path.Combine("wwwroot", "logos", logoFile);
-
-            if (File.Exists(logoPath))
-            {
-                using var logoBitmap = SKBitmap.Decode(logoPath);
-
-                var size = template.LogoSize;
-
-                var logoX = (width - size) / 2;
-                var logoY = template.LogoYPosition;
-
-                canvas.DrawBitmap(
-                    logoBitmap,
-                    new SKRect(logoX, logoY, logoX + size, logoY + size)
-                );
-            }
-        }
 
         // 🔹 4. Configurar texto
         using var textPaint = new SKPaint

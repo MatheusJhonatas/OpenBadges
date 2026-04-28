@@ -6,16 +6,33 @@ public static class BadgeTemplateResolver
     {
         return templateId switch
         {
-           "template1" => new BadgeTemplate
+            "template1" => new BadgeTemplate
             {
                 Id = "template1",
                 BackgroundImage = "template1.png",
-                TextYPosition = 190,
+
+                TextYPosition = 210,
+
+                TitleAreaTop = 140,
+                TitleAreaHeight = 110,
+
                 DefaultTextColor = "#070707",
                 DefaultFontSize = 28,
-                LogoYPosition = 38,
-                LogoSize = 82,
-                DefaultLogoPath = "sua_logo_aqui_Transp.png"
+
+            },
+            "template1_logo_NTT" => new BadgeTemplate
+            {
+                Id = "template1_logo_NTT",
+                BackgroundImage = "template1_logo_ntt.png",
+
+                TextYPosition = 210,
+
+                TitleAreaTop = 140,
+                TitleAreaHeight = 110,
+
+                DefaultTextColor = "#070707",
+                DefaultFontSize = 28,
+
             },
 
             "template2" => new BadgeTemplate
@@ -25,9 +42,25 @@ public static class BadgeTemplateResolver
                 TextYPosition = 185,
                 DefaultTextColor = "#080808",
                 DefaultFontSize = 28,
-                LogoYPosition = 220,
-                LogoSize = 120,
-                DefaultLogoPath = "sua_logo_aqui_Transp.png"
+                LogoYPosition = 220
+            },
+            "template2_logo_NTT" => new BadgeTemplate
+            {
+                Id = "template2_logo_NTT",
+                BackgroundImage = "template2_logo_ntt.png",
+                TextYPosition = 185,
+                DefaultTextColor = "#080808",
+                DefaultFontSize = 28,
+                LogoYPosition = 220
+            },
+            "default_logo_ntt" => new BadgeTemplate
+            {
+                Id = "default_logo_ntt",
+                BackgroundImage = "default_logo_ntt.png",
+                TextYPosition = 210,
+                DefaultTextColor = "#0c0c0c",
+                DefaultFontSize = 28,
+                LogoYPosition = 60
             },
 
             _ => new BadgeTemplate
@@ -37,9 +70,7 @@ public static class BadgeTemplateResolver
                 TextYPosition = 210,
                 DefaultTextColor = "#0c0c0c",
                 DefaultFontSize = 28,
-                LogoYPosition = 60,
-                LogoSize = 110,
-                DefaultLogoPath = "sua_logo_aqui_Preto.png"
+                LogoYPosition = 60
             }
         };
     }
