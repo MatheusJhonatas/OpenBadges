@@ -11,4 +11,6 @@ public class BadgeTemplate
     // estilo padrão (fallback)
     public string DefaultTextColor { get; set; } = "#FFFFFF";
     public int DefaultFontSize { get; set; } = 40;
+    public float LogoYPosition { get; set; } 
+    public int LogoSize { get; set; } = 120;
 }
