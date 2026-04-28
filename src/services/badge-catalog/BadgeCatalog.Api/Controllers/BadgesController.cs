@@ -107,7 +107,6 @@ public class BadgesController : ControllerBase
             {
                 BadgeName = name,
                 LogoPath = "sua_logo_aqui_Transp.png",
-
             });
 
         return Ok(new { imageUrl });
