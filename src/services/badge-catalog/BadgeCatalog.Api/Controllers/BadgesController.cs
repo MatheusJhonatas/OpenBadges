@@ -105,7 +105,9 @@ public class BadgesController : ControllerBase
             template,
             new BadgeRenderData
             {
-                BadgeName = name
+                BadgeName = name,
+                LogoPath = "sua_logo_aqui_Transp.png",
+
             });
 
         return Ok(new { imageUrl });
