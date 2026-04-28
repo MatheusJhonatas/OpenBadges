@@ -33,25 +33,24 @@ public class BadgeImageGenerator : IBadgeImageGenerator
             canvas.Clear(SKColors.White);
         }
         // 🔹 3.1 Desenhar logo (se existir)
-        if (!string.IsNullOrEmpty(data.LogoPath))
+        var logoFile = data.LogoPath ?? template.DefaultLogoPath;
+
+        if (!string.IsNullOrEmpty(logoFile))
         {
-            var logoPath = Path.Combine("wwwroot", "logos", data.LogoPath);
+            var logoPath = Path.Combine("wwwroot", "logos", logoFile);
 
             if (File.Exists(logoPath))
             {
                 using var logoBitmap = SKBitmap.Decode(logoPath);
 
-                // 🔥 tamanho controlado (ajuste fino depois)
-                var logoWidth = 120;
-                var logoHeight = 120;
+                var size = template.LogoSize;
 
-                // 🔥 posição central no topo
-                var logoX = (width - logoWidth) / 2;
-                var logoY = 220;
+                var logoX = (width - size) / 2;
+                var logoY = template.LogoYPosition;
 
                 canvas.DrawBitmap(
                     logoBitmap,
-                    new SKRect(logoX, logoY, logoX + logoWidth, logoY + logoHeight)
+                    new SKRect(logoX, logoY, logoX + size, logoY + size)
                 );
             }
         }
