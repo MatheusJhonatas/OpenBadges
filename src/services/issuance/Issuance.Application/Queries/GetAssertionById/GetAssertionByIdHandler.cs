@@ -33,7 +33,7 @@ public class GetAssertionByIdHandler : IRequestHandler<GetAssertionByIdQuery, As
             {
                 Name = badge.Name,
                 Description = badge.Description,
-                ImageUrl = badge.Image?.Url
+                TemplateId = badge.TemplateId
             }
        };
     }

@@ -101,7 +101,7 @@ public class BadgesController : ControllerBase
     [FromQuery] string template = "template1",
     [FromQuery] string name = "Badge de Teste")
     {
-        var imageUrl = await _generator.GenerateAsync(
+        var templateId = await _generator.GenerateAsync(
             template,
             new BadgeRenderData
             {
@@ -109,7 +109,7 @@ public class BadgesController : ControllerBase
                 LogoPath = "sua_logo_aqui_Transp.png",
             });
 
-        return Ok(new { imageUrl });
+        return Ok(new { templateId });
     }
 
     [HttpPut("{id:guid}")]
