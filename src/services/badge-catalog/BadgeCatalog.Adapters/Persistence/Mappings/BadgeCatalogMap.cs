@@ -41,7 +41,7 @@ public class BadgeCatalogMap : IEntityTypeConfiguration<BadgeClass>
         builder.OwnsOne(b => b.TemplateId, templateId =>
         {
             templateId.Property(t => t.Value)
-                .HasColumnName("ImageUrl")
+                .HasColumnName("TemplateId")
                 .IsRequired();
         });
 

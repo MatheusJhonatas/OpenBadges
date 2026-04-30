@@ -54,5 +54,5 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 app.MapControllers();
-
+Console.WriteLine($"DB PATH: {Path.GetFullPath("badges.db")}");
 app.Run();

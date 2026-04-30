@@ -3,6 +3,7 @@ using System;
 using BadgeCatalog.Adapters.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BadgeCatalog.Adapters.Migrations
 {
     [DbContext(typeof(BadgeCatalogDbContext))]
-    partial class BadgeCatalogDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260430023847_InitialCreate2")]
+    partial class InitialCreate2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
@@ -84,7 +87,7 @@ namespace BadgeCatalog.Adapters.Migrations
                             b1.Property<string>("Value")
                                 .IsRequired()
                                 .HasColumnType("TEXT")
-                                .HasColumnName("TemplateId");
+                                .HasColumnName("ImageUrl");
 
                             b1.HasKey("BadgeClassId");
 
