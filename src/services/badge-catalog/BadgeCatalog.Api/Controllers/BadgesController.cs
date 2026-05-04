@@ -1,4 +1,5 @@
 using System.Runtime.InteropServices;
+using BadgeCatalog.Api.Dtos;
 using BadgeCatalog.Api.Requests;
 using BadgeCatalog.Application.Commands.ActiveBadgeClass;
 using BadgeCatalog.Application.Commands.CreateBadgeClass;
@@ -6,12 +7,10 @@ using BadgeCatalog.Application.Commands.DeactivateBadgeClass;
 using BadgeCatalog.Application.Commands.UpdateBadgeClass;
 using BadgeCatalog.Application.Queries.GetAllBadges;
 using BadgeCatalog.Application.Queries.GetBadgeBySlug;
-using BadgeCatalog.Domain.Exceptions;
 using BadgeCatalog.Ports.Models;
 using BadgeCatalog.Ports.Repositories;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace BadgeCatalog.Api.Controllers;
 
@@ -96,22 +95,19 @@ public class BadgesController : ControllerBase
         }
         return NoContent();
     }
-    [HttpGet("generate")]
-    public async Task<IActionResult> GenerateBadgeImage(
-    [FromQuery] string template = "template1",
-    [FromQuery] string name = "Badge de Teste")
-    {
-        var templateId = await _generator.GenerateAsync(
-            template,
-            new BadgeRenderData
-            {
-                BadgeName = name,
-                LogoPath = "sua_logo_aqui_Transp.png",
-            });
+[HttpPost("generate")]
+public async Task<IActionResult> GenerateBadgeImage(
+    [FromBody] GenerateBadgeRequest request)
+{
+    var imageUrl = await _generator.GenerateAsync(
+        request.TemplateId,
+        new BadgeRenderData 
+        {
+            BadgeName = request.Name
+        });
 
-        return Ok(new { templateId });
-    }
-
+    return Ok(new { imageUrl });
+}
     [HttpPut("{id:guid}")]
     public async Task<IActionResult> UpdateBadge(
     Guid id,

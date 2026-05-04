@@ -9,7 +9,7 @@ type Props = {
     id: string;
     name: string;
     description: string;
-    imageUrl?: string;
+    templateId?: string;
     criteriaNarrative: string;
     version?: number;
   } | null;
@@ -23,14 +23,14 @@ export const BadgeModal: React.FC<Props> = ({
 }) => {
   const [form, setForm] = useState({
     name: "",
-    imageUrl: "",
+    templateId: "",
     description: "",
     criteriaNarrative: "",
   });
 
   const [errors, setErrors] = useState({
     name: "",
-    imageUrl: "",
+    templateId: "",
     description: "",
     criteriaNarrative: "",
   });
@@ -41,14 +41,14 @@ export const BadgeModal: React.FC<Props> = ({
     if (badge) {
       setForm({
         name: badge.name,
-        imageUrl: badge.imageUrl || "",
+        templateId: badge.templateId || "",
         description: badge.description,
         criteriaNarrative: badge.criteriaNarrative,
       });
     }else{
       setForm({
         name: "",
-        imageUrl: "",
+        templateId: "",
         description: "",
         criteriaNarrative: "",
       });
@@ -68,14 +68,14 @@ export const BadgeModal: React.FC<Props> = ({
   const reset = () => {
     setForm({
       name: "",
-      imageUrl: "",
+      templateId: "",
       description: "",
       criteriaNarrative: "",
     });
 
     setErrors({
       name: "",
-      imageUrl: "",
+      templateId: "",
       description: "",
       criteriaNarrative: "",
     });
@@ -121,7 +121,7 @@ export const BadgeModal: React.FC<Props> = ({
 
             const newErrors = {
               name: !form.name.trim() ? "Informe o nome do badge" : "",
-              imageUrl: !form.imageUrl.trim() ? "Informe a URL da imagem" : "",
+              templateId: !form.templateId.trim() ? "Informe o ID do template" : "",
               description: !form.description.trim()
                 ? "Informe a descrição"
                 : "",
@@ -134,7 +134,7 @@ export const BadgeModal: React.FC<Props> = ({
 
             if (
               newErrors.name ||
-              newErrors.imageUrl ||
+              newErrors.templateId ||
               newErrors.description ||
               newErrors.criteriaNarrative
             ) {
@@ -186,14 +186,14 @@ export const BadgeModal: React.FC<Props> = ({
           )}
 
           <input
-            placeholder="URL da imagem"
+            placeholder="ID do template"
             className="w-full border p-2 rounded"
-            value={form.imageUrl}
-            onChange={(e) => setForm({ ...form, imageUrl: e.target.value })}
+            value={form.templateId}
+            onChange={(e) => setForm({ ...form, templateId: e.target.value })}
           />
-          {errors.imageUrl && (
+          {errors.templateId && (
             <p role="alert" className="text-red-600 text-sm">
-              {errors.imageUrl}
+              {errors.templateId}
             </p>
           )}
 
