@@ -14,20 +14,21 @@ export const CatalogPage = () => {
   const openButtonRef = useRef<HTMLButtonElement>(null);
 
   const loadBadges = async () => {
-    try {
-      const data = await getBadges();
-      setBadges(
-        data.sort(
-          (a, b) =>
-            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
-        ),
-      );
-    } catch (error) {
-      console.error("Erro ao buscar badges:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  try {
+    const data = await getBadges();
+
+    const sorted = data.sort(
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+    );
+
+    setBadges(sorted);
+  } catch (error) {
+    console.error("Erro ao buscar badges:", error);
+  } finally {
+    setLoading(false);
+  }
+};
   const handleEdit = (badge: Badge) => {
     setSelectedBadge(badge);
     setIsModalOpen(true);
@@ -88,7 +89,7 @@ export const CatalogPage = () => {
           id: selectedBadge.id,
           name: selectedBadge.name,
           description: selectedBadge.description,
-          imageUrl: selectedBadge.imageUrl,
+          templateId: selectedBadge.templateId.value,
           criteriaNarrative: selectedBadge.criteria,
           version: selectedBadge.version,
         }

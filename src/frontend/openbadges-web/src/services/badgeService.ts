@@ -5,9 +5,9 @@ type BadgeApiResponse = {
   description: string;
   createdAt: string;
   version: number;
-  image?: {
-    url: string;
-  };
+templateId: {
+  value: string;
+};
   criteria?: {
     narrative: string;
   };
@@ -19,9 +19,10 @@ export type Badge = {
   slug: string;
   description: string;
   criteria: string;
-  imageUrl?: string;
+  templateId: { value: string };
   createdAt: string;
   version: number;
+  imageUrl?: string;//temporario, para exibir a imagem gerada no catálogo. O ideal seria o backend já retornar isso, mas por ora vamos gerar na hora.
 };
 
 export const getBadges = async (): Promise<Badge[]> => {
@@ -46,7 +47,7 @@ export const getBadges = async (): Promise<Badge[]> => {
     slug: b.slug ?? "sem-slug",
     description: b.description,
     criteria: b.criteria?.narrative ?? "Sem critérios definidos",
-    imageUrl: b.image?.url,
+    templateId: b.templateId ? { value: b.templateId.value } : { value: "" },
     createdAt: b.createdAt ?? "",
     version: b.version,
   }));
