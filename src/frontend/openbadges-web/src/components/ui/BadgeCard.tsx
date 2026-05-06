@@ -26,10 +26,13 @@ export const BadgeCard = ({
   return (
     <div className="rounded-xl overflow-hidden border bg-white shadow-sm hover:shadow-md transition flex flex-col h-full">
       {/* PREVIEW */}
-      <div className="h-66 bg-gray-100 flex items-center justify-center overflow-hidden p-4">
+      <div className="h-72 bg-white flex items-center justify-center overflow-hidden p-4">
         {templateId.value ? (
           <img
-            src={`http://localhost:5045/api/badges/generate?templateId=${templateId.value}&name=${name}`}
+            src={`http://localhost:5045/api/badges/generate?templateId=${templateId.value}&name=${encodeURIComponent(name)}`}
+            alt={name}
+            className="w-full h-full object-contain"
+            style={{ imageRendering: "auto" }}
           />
         ) : (
           <span className="text-black-600 text-sm">Sem imagem</span>

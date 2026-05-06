@@ -9,8 +9,8 @@ public class BadgeImageGenerator : IBadgeImageGenerator
 {
     public async Task<byte[]> GenerateAsync(string templateId, BadgeRenderData data)
     {
-        const int width = 400;
-        const int height = 400;
+        const int width = 1500;
+        const int height = 1500;
 
         // 🔹 1. Resolver template
         var template = BadgeTemplateResolver.Get(templateId);
