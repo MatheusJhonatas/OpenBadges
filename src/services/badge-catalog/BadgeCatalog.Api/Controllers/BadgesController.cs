@@ -95,19 +95,21 @@ public class BadgesController : ControllerBase
         }
         return NoContent();
     }
-[HttpPost("generate")]
-public async Task<IActionResult> GenerateBadgeImage(
-    [FromBody] GenerateBadgeRequest request)
-{
-    var imageUrl = await _generator.GenerateAsync(
-        request.TemplateId,
-        new BadgeRenderData 
-        {
-            BadgeName = request.Name
-        });
 
-    return Ok(new { imageUrl });
-}
+    [HttpGet("generate")]
+    public async Task<IActionResult> GenerateBadgeImage(
+        [FromQuery] string templateId,
+        [FromQuery] string name)
+    {
+        var imageBytes = await _generator.GenerateAsync(
+            templateId,
+            new BadgeRenderData
+            {
+                BadgeName = name
+            });
+
+        return File(imageBytes, "image/png");
+    }
     [HttpPut("{id:guid}")]
     public async Task<IActionResult> UpdateBadge(
     Guid id,

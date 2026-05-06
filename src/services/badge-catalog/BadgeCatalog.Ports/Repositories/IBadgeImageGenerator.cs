@@ -4,5 +4,5 @@ namespace BadgeCatalog.Ports.Repositories;
 
 public interface IBadgeImageGenerator
 {
-    Task<string> GenerateAsync(string templateId, BadgeRenderData renderData);
+    Task<byte[]> GenerateAsync(string templateId, BadgeRenderData renderData);
 }

@@ -67,7 +67,7 @@ public static class BadgeTemplateResolver
             {
                 Id = "default",
                 BackgroundImage = "default.png",
-                TextYPosition = 210,
+                TextYPosition = 205,
                 DefaultTextColor = "#0c0c0c",
                 DefaultFontSize = 28,
                 LogoYPosition = 60
