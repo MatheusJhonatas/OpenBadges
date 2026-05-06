@@ -6,9 +6,9 @@ type BadgeCardProps = {
   slug?: string;
   description: string;
   criteria?: string;
-templateId: {
-  value: string;
-};
+  templateId: {
+    value: string;
+  };
   onEdit?: () => void;
 };
 
@@ -26,11 +26,11 @@ export const BadgeCard = ({
   return (
     <div className="rounded-xl overflow-hidden border bg-white shadow-sm hover:shadow-md transition flex flex-col h-full">
       {/* PREVIEW */}
-      <div className="h-40 bg-gray-100 flex items-center justify-center">
-        {templateId ? (
+      <div className="h-66 bg-gray-100 flex items-center justify-center overflow-hidden p-4">
+        {templateId.value ? (
           <img
-  src={`http://localhost:5045/api/badges/generate?templateId=${templateId}&name=${name}`}
-/>
+            src={`http://localhost:5045/api/badges/generate?templateId=${templateId.value}&name=${name}`}
+          />
         ) : (
           <span className="text-black-600 text-sm">Sem imagem</span>
         )}
