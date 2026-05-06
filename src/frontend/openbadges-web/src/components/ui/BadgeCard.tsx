@@ -6,7 +6,9 @@ type BadgeCardProps = {
   slug?: string;
   description: string;
   criteria?: string;
-  imageUrl?: string;
+templateId: {
+  value: string;
+};
   onEdit?: () => void;
 };
 
@@ -16,7 +18,7 @@ export const BadgeCard = ({
   slug,
   description,
   criteria,
-  imageUrl,
+  templateId,
   onEdit,
 }: BadgeCardProps) => {
   const navigate = useNavigate();
@@ -25,8 +27,10 @@ export const BadgeCard = ({
     <div className="rounded-xl overflow-hidden border bg-white shadow-sm hover:shadow-md transition flex flex-col h-full">
       {/* PREVIEW */}
       <div className="h-40 bg-gray-100 flex items-center justify-center">
-        {imageUrl ? (
-          <img src={imageUrl} alt={name} className="h-24 object-contain" />
+        {templateId ? (
+          <img
+  src={`http://localhost:5045/api/badges/generate?templateId=${templateId}&name=${name}`}
+/>
         ) : (
           <span className="text-black-600 text-sm">Sem imagem</span>
         )}

@@ -7,7 +7,7 @@ namespace BadgeCatalog.Adapters.ImageGenerator;
 
 public class BadgeImageGenerator : IBadgeImageGenerator
 {
-    public async Task<string> GenerateAsync(string templateId, BadgeRenderData data)
+    public async Task<byte[]> GenerateAsync(string templateId, BadgeRenderData data)
     {
         const int width = 400;
         const int height = 400;
@@ -116,13 +116,6 @@ public class BadgeImageGenerator : IBadgeImageGenerator
         using var image = surface.Snapshot();
         using var dataImage = image.Encode(SKEncodedImageFormat.Png, 100);
 
-        var fileName = $"{Guid.NewGuid()}.png";
-        var path = Path.Combine("wwwroot", "badges", fileName);
-
-        Directory.CreateDirectory(Path.GetDirectoryName(path)!);
-
-        await File.WriteAllBytesAsync(path, dataImage.ToArray());
-
-        return $"/badges/{fileName}";
+        return dataImage.ToArray();
     }
 }
