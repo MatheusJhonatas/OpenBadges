@@ -9,7 +9,7 @@ public static class BadgeTemplateResolver
             "template1" => new BadgeTemplate
             {
                 Id = "template1",
-                BackgroundImage = "template1.png",
+                BackgroundImage = "template-1.svg",
 
                 TextYPosition = 210,
 
@@ -66,7 +66,7 @@ public static class BadgeTemplateResolver
             _ => new BadgeTemplate
             {
                 Id = "default",
-                BackgroundImage = "default.png",
+                BackgroundImage = "default.svg",
                 TextYPosition = 205,
                 DefaultTextColor = "#0c0c0c",
                 DefaultFontSize = 28,
