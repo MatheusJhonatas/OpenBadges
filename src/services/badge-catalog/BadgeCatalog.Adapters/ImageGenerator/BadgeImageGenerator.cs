@@ -8,13 +8,16 @@ namespace BadgeCatalog.Adapters.ImageGenerator;
 
 public class BadgeImageGenerator : IBadgeImageGenerator
 {
-    public async Task<byte[]> GenerateAsync(string templateId, BadgeRenderData data)
+    public async Task<byte[]> GenerateAsync(
+        string templateId,
+        BadgeRenderData data)
     {
         const int width = 1200;
         const int height = 1200;
 
-        // 🔹 escala baseada no template original 400x400
+        // 🔹 escala baseada no template original
         const float baseSize = 400f;
+
         float scale = width / baseSize;
 
         // 🔹 1. Resolver template
@@ -31,29 +34,49 @@ public class BadgeImageGenerator : IBadgeImageGenerator
             "fontes",
             "NotoSans-Bold.ttf");
 
-        using var surface = SKSurface.Create(new SKImageInfo(width, height));
+        using var surface = SKSurface.Create(
+            new SKImageInfo(width, height));
+
         var canvas = surface.Canvas;
 
-        canvas.Clear(SKColors.Transparent);
+        // 🔹 fundo branco
+        canvas.Clear(SKColors.White);
 
         // 🔹 3. Renderizar SVG
         if (File.Exists(templatePath))
         {
             var svg = new SKSvg();
+
             svg.Load(templatePath);
 
-            if (svg.Picture != null)
-            {
-                var picture = svg.Picture;
+            var picture = svg.Picture;
 
+            if (picture != null)
+            {
                 var svgBounds = picture.CullRect;
 
-                float svgScaleX = width / svgBounds.Width;
-                float svgScaleY = height / svgBounds.Height;
+                float scaleX =
+                    width / svgBounds.Width;
+
+                float scaleY =
+                    height / svgBounds.Height;
+
+                float svgScale =
+                    Math.Min(scaleX, scaleY);
+
+                float translateX =
+                    (width - (svgBounds.Width * svgScale)) / 2f;
+
+                float translateY =
+                    (height - (svgBounds.Height * svgScale)) / 2f;
 
                 canvas.Save();
 
-                canvas.Scale(svgScaleX, svgScaleY);
+                canvas.Translate(
+                    translateX,
+                    translateY);
+
+                canvas.Scale(svgScale);
 
                 canvas.DrawPicture(picture);
 
@@ -85,7 +108,7 @@ public class BadgeImageGenerator : IBadgeImageGenerator
         };
 
         // 🔹 5. Auto resize
-        var maxTextWidth = 850f;
+        const float maxTextWidth = 850f;
 
         while (
             textPaint.MeasureText(data.BadgeName) > maxTextWidth
@@ -94,24 +117,23 @@ public class BadgeImageGenerator : IBadgeImageGenerator
             textPaint.TextSize -= 2;
         }
 
-        // 🔹 6. Quebra automática de linha
+        // 🔹 6. Quebra automática
         var words = data.BadgeName.Split(' ');
 
         var lines = new List<string>();
 
         var currentLine = "";
 
-        var maxWidth = 850f;
-
         foreach (var word in words)
         {
-            var testLine = string.IsNullOrEmpty(currentLine)
+            var testLine = string.IsNullOrWhiteSpace(currentLine)
                 ? word
-                : currentLine + " " + word;
+                : $"{currentLine} {word}";
 
-            if (textPaint.MeasureText(testLine) > maxWidth)
+            if (textPaint.MeasureText(testLine) > maxTextWidth)
             {
                 lines.Add(currentLine);
+
                 currentLine = word;
             }
             else
@@ -120,21 +142,22 @@ public class BadgeImageGenerator : IBadgeImageGenerator
             }
         }
 
-        if (!string.IsNullOrEmpty(currentLine))
+        if (!string.IsNullOrWhiteSpace(currentLine))
         {
             lines.Add(currentLine);
         }
 
-        // 🔹 7. Centralização vertical
+        // 🔹 7. Posicionamento
         float x = width / 2f;
 
-        float lineHeight = textPaint.TextSize + (12 * scale);
+        float lineHeight =
+            textPaint.TextSize + (12 * scale);
 
         float startY =
             (template.TextYPosition * scale)
             - ((lines.Count - 1) * lineHeight / 2);
 
-        // 🔹 8. Desenhar linhas
+        // 🔹 8. Renderizar texto
         for (int i = 0; i < lines.Count; i++)
         {
             var line = lines[i];
@@ -148,7 +171,11 @@ public class BadgeImageGenerator : IBadgeImageGenerator
                 + (i * lineHeight)
                 - bounds.MidY;
 
-            canvas.DrawText(line, x, lineY, textPaint);
+            canvas.DrawText(
+                line,
+                x,
+                lineY,
+                textPaint);
         }
 
         // 🔹 9. Exportar PNG

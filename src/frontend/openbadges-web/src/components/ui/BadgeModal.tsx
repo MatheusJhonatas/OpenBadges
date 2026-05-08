@@ -45,7 +45,7 @@ export const BadgeModal: React.FC<Props> = ({
         description: badge.description,
         criteriaNarrative: badge.criteriaNarrative,
       });
-    }else{
+    } else {
       setForm({
         name: "",
         templateId: "",
@@ -121,7 +121,9 @@ export const BadgeModal: React.FC<Props> = ({
 
             const newErrors = {
               name: !form.name.trim() ? "Informe o nome do badge" : "",
-              templateId: !form.templateId.trim() ? "Informe o ID do template" : "",
+              templateId: !form.templateId.trim()
+                ? "Informe o ID do template"
+                : "",
               description: !form.description.trim()
                 ? "Informe a descrição"
                 : "",
@@ -157,9 +159,10 @@ export const BadgeModal: React.FC<Props> = ({
                 headers: {
                   "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ 
+                body: JSON.stringify({
                   ...form,
-                  version: badge?.version ?? 0 }),
+                  version: badge?.version ?? 0,
+                }),
               });
 
               reset();
@@ -185,12 +188,26 @@ export const BadgeModal: React.FC<Props> = ({
             </p>
           )}
 
-          <input
-            placeholder="ID do template"
+          <select
             className="w-full border p-2 rounded"
             value={form.templateId}
-            onChange={(e) => setForm({ ...form, templateId: e.target.value })}
-          />
+            onChange={(e) =>
+              setForm({
+                ...form,
+                templateId: e.target.value,
+              })
+            }
+          >
+            <option value="">Selecione um template</option>
+
+            <option value="template-1">Gold</option>
+
+            <option value="template-2">Silver</option>
+
+            <option value="template-3">Bronze</option>
+
+            <option value="template-4">NTT</option>
+          </select>
           {errors.templateId && (
             <p role="alert" className="text-red-600 text-sm">
               {errors.templateId}

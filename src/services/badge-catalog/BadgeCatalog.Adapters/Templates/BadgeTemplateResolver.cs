@@ -6,9 +6,9 @@ public static class BadgeTemplateResolver
     {
         return templateId switch
         {
-            "template1" => new BadgeTemplate
+            "template-1" => new BadgeTemplate
             {
-                Id = "template1",
+                Id = "template-1",
                 BackgroundImage = "template-1.svg",
 
                 TextYPosition = 210,
@@ -18,48 +18,44 @@ public static class BadgeTemplateResolver
 
                 DefaultTextColor = "#070707",
                 DefaultFontSize = 28,
-
-            },
-            "template1_logo_NTT" => new BadgeTemplate
-            {
-                Id = "template1_logo_NTT",
-                BackgroundImage = "template1_logo_ntt.png",
-
-                TextYPosition = 210,
-
-                TitleAreaTop = 140,
-                TitleAreaHeight = 110,
-
-                DefaultTextColor = "#070707",
-                DefaultFontSize = 28,
-
             },
 
-            "template2" => new BadgeTemplate
+            "template-2" => new BadgeTemplate
             {
-                Id = "template2",
-                BackgroundImage = "template2.png",
+                Id = "template-2",
+                BackgroundImage = "template-2.svg",
+
                 TextYPosition = 185,
+
                 DefaultTextColor = "#080808",
                 DefaultFontSize = 28,
+
                 LogoYPosition = 220
             },
-            "template2_logo_NTT" => new BadgeTemplate
+
+            "template-3" => new BadgeTemplate
             {
-                Id = "template2_logo_NTT",
-                BackgroundImage = "template2_logo_ntt.png",
-                TextYPosition = 185,
-                DefaultTextColor = "#080808",
+                Id = "template-3",
+                BackgroundImage = "template-3.svg",
+
+                TextYPosition = 200,
+
+                DefaultTextColor = "#111111",
                 DefaultFontSize = 28,
-                LogoYPosition = 220
+
+                LogoYPosition = 200
             },
-            "default_logo_ntt" => new BadgeTemplate
+
+            "template-4" => new BadgeTemplate
             {
-                Id = "default_logo_ntt",
-                BackgroundImage = "default_logo_ntt.png",
-                TextYPosition = 210,
+                Id = "template-4",
+                BackgroundImage = "template-4.svg",
+
+                TextYPosition = 205,
+
                 DefaultTextColor = "#0c0c0c",
                 DefaultFontSize = 28,
+
                 LogoYPosition = 60
             },
 
@@ -67,9 +63,12 @@ public static class BadgeTemplateResolver
             {
                 Id = "default",
                 BackgroundImage = "default.svg",
+
                 TextYPosition = 205,
+
                 DefaultTextColor = "#0c0c0c",
                 DefaultFontSize = 28,
+
                 LogoYPosition = 60
             }
         };
