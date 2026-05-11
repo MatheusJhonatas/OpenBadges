@@ -10,6 +10,12 @@ export const IssuancePage = () => {
 
   const [isIssuing, setIsIssuing] = useState(false);
 
+  const [errors, setErrors] = useState({
+    recipientName: "",
+    recipientEmail: "",
+    badgeClassId: "",
+  });
+
   const [form, setForm] = useState({
     recipientEmail: "",
     recipientName: "",
@@ -31,6 +37,7 @@ export const IssuancePage = () => {
       const data = await response.json();
 
       setBadges(data);
+
     } catch (error) {
       console.error(
         "Erro ao carregar badges",
@@ -45,6 +52,74 @@ export const IssuancePage = () => {
   ) => {
     e.preventDefault();
 
+    // limpa erros anteriores
+    setErrors({
+      recipientName: "",
+      recipientEmail: "",
+      badgeClassId: "",
+    });
+
+    // valida nome
+    if (!form.recipientName.trim()) {
+      setErrors({
+        recipientName:
+          "Informe o nome do usuário",
+
+        recipientEmail: "",
+
+        badgeClassId: "",
+      });
+
+      return;
+    }
+
+    // valida email obrigatório
+    if (!form.recipientEmail.trim()) {
+      setErrors({
+        recipientName: "",
+
+        recipientEmail:
+          "Informe o email do usuário",
+
+        badgeClassId: "",
+      });
+
+      return;
+    }
+
+    // valida formato email
+    const emailRegex =
+      /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (
+      !emailRegex.test(form.recipientEmail)
+    ) {
+      setErrors({
+        recipientName: "",
+
+        recipientEmail:
+          "Informe um email válido",
+
+        badgeClassId: "",
+      });
+
+      return;
+    }
+
+    // valida badge
+    if (!form.badgeClassId) {
+      setErrors({
+        recipientName: "",
+
+        recipientEmail: "",
+
+        badgeClassId:
+          "Selecione um badge",
+      });
+
+      return;
+    }
+
     try {
       setIsIssuing(true);
 
@@ -54,7 +129,8 @@ export const IssuancePage = () => {
           method: "POST",
 
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type":
+              "application/json",
           },
 
           body: JSON.stringify(form),
@@ -67,8 +143,11 @@ export const IssuancePage = () => {
         );
       }
 
-      alert("Badge emitido com sucesso!");
+      alert(
+        "Badge emitido com sucesso!"
+      );
 
+      // limpa formulário
       setForm({
         recipientEmail: "",
         recipientName: "",
@@ -77,13 +156,12 @@ export const IssuancePage = () => {
       });
 
     } catch (error) {
+
       console.error(error);
 
       alert("Erro ao emitir badge");
 
     } finally {
-
-      // 🔥 AQUI ESTÁ O PONTO CORRETO
 
       setIsIssuing(false);
     }
@@ -111,6 +189,7 @@ export const IssuancePage = () => {
           space-y-4
         "
       >
+        {/* NOME */}
         <div>
           <label className="block mb-1 font-medium">
             Nome do Usuário
@@ -133,8 +212,19 @@ export const IssuancePage = () => {
               })
             }
           />
+
+          {errors.recipientName && (
+            <p className="
+              text-red-600
+              text-sm
+              mt-1
+            ">
+              {errors.recipientName}
+            </p>
+          )}
         </div>
 
+        {/* EMAIL */}
         <div>
           <label className="block mb-1 font-medium">
             Email do Usuário
@@ -157,8 +247,19 @@ export const IssuancePage = () => {
               })
             }
           />
+
+          {errors.recipientEmail && (
+            <p className="
+              text-red-600
+              text-sm
+              mt-1
+            ">
+              {errors.recipientEmail}
+            </p>
+          )}
         </div>
 
+        {/* BADGE */}
         <div>
           <label className="block mb-1 font-medium">
             Badge
@@ -193,8 +294,19 @@ export const IssuancePage = () => {
               </option>
             ))}
           </select>
+
+          {errors.badgeClassId && (
+            <p className="
+              text-red-600
+              text-sm
+              mt-1
+            ">
+              {errors.badgeClassId}
+            </p>
+          )}
         </div>
 
+        {/* EVIDÊNCIA */}
         <div>
           <label className="block mb-1 font-medium">
             URL de Evidência
@@ -202,6 +314,9 @@ export const IssuancePage = () => {
 
           <input
             type="text"
+            placeholder="
+              https://evidencias.empresa.com/certificado
+            "
             className="
               w-full
               border
@@ -219,6 +334,7 @@ export const IssuancePage = () => {
           />
         </div>
 
+        {/* BOTÃO */}
         <button
           type="submit"
           disabled={isIssuing}
