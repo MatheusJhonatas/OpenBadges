@@ -30,26 +30,18 @@ export const IssuancePage = () => {
   // Carrega badges disponíveis
   const loadBadges = async () => {
     try {
-      const response = await fetch(
-        "http://localhost:5045/api/badges"
-      );
+      const response = await fetch("http://localhost:5045/api/badges");
 
       const data = await response.json();
 
       setBadges(data);
-
     } catch (error) {
-      console.error(
-        "Erro ao carregar badges",
-        error
-      );
+      console.error("Erro ao carregar badges", error);
     }
   };
 
   // Emissão
-  const handleSubmit = async (
-    e: React.FormEvent
-  ) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     // limpa erros anteriores
@@ -62,8 +54,7 @@ export const IssuancePage = () => {
     // valida nome
     if (!form.recipientName.trim()) {
       setErrors({
-        recipientName:
-          "Informe o nome do usuário",
+        recipientName: "Informe o nome do usuário",
 
         recipientEmail: "",
 
@@ -78,8 +69,7 @@ export const IssuancePage = () => {
       setErrors({
         recipientName: "",
 
-        recipientEmail:
-          "Informe o email do usuário",
+        recipientEmail: "Informe o email do usuário",
 
         badgeClassId: "",
       });
@@ -88,17 +78,13 @@ export const IssuancePage = () => {
     }
 
     // valida formato email
-    const emailRegex =
-      /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (
-      !emailRegex.test(form.recipientEmail)
-    ) {
+    if (!emailRegex.test(form.recipientEmail)) {
       setErrors({
         recipientName: "",
 
-        recipientEmail:
-          "Informe um email válido",
+        recipientEmail: "Informe um email válido",
 
         badgeClassId: "",
       });
@@ -113,8 +99,7 @@ export const IssuancePage = () => {
 
         recipientEmail: "",
 
-        badgeClassId:
-          "Selecione um badge",
+        badgeClassId: "Selecione um badge",
       });
 
       return;
@@ -123,29 +108,21 @@ export const IssuancePage = () => {
     try {
       setIsIssuing(true);
 
-      const response = await fetch(
-        "http://localhost:5055/api/Issuances",
-        {
-          method: "POST",
+      const response = await fetch("http://localhost:5055/api/Issuances", {
+        method: "POST",
 
-          headers: {
-            "Content-Type":
-              "application/json",
-          },
+        headers: {
+          "Content-Type": "application/json",
+        },
 
-          body: JSON.stringify(form),
-        }
-      );
+        body: JSON.stringify(form),
+      });
 
       if (!response.ok) {
-        throw new Error(
-          "Erro ao emitir badge"
-        );
+        throw new Error("Erro ao emitir badge");
       }
 
-      alert(
-        "Badge emitido com sucesso!"
-      );
+      alert("Badge emitido com sucesso!");
 
       // limpa formulário
       setForm({
@@ -154,28 +131,21 @@ export const IssuancePage = () => {
         badgeClassId: "",
         evidenceUrl: "",
       });
-
     } catch (error) {
-
       console.error(error);
 
       alert("Erro ao emitir badge");
-
     } finally {
-
       setIsIssuing(false);
     }
   };
 
   return (
     <div className="max-w-2xl mx-auto p-8">
-      <h1 className="text-3xl font-bold mb-2">
-        Emitir Badge
-      </h1>
+      <h1 className="text-3xl font-bold mb-2">Emitir Badge</h1>
 
       <p className="text-gray-600 mb-6">
-        Emita credenciais digitais para
-        colaboradores
+        Emita credenciais digitais para colaboradores
       </p>
 
       <form
@@ -191,9 +161,7 @@ export const IssuancePage = () => {
       >
         {/* NOME */}
         <div>
-          <label className="block mb-1 font-medium">
-            Nome do Usuário
-          </label>
+          <label className="block mb-1 font-medium">Nome do Usuário</label>
 
           <input
             type="text"
@@ -207,18 +175,19 @@ export const IssuancePage = () => {
             onChange={(e) =>
               setForm({
                 ...form,
-                recipientName:
-                  e.target.value,
+                recipientName: e.target.value,
               })
             }
           />
 
           {errors.recipientName && (
-            <p className="
+            <p
+              className="
               text-red-600
               text-sm
               mt-1
-            ">
+            "
+            >
               {errors.recipientName}
             </p>
           )}
@@ -226,9 +195,7 @@ export const IssuancePage = () => {
 
         {/* EMAIL */}
         <div>
-          <label className="block mb-1 font-medium">
-            Email do Usuário
-          </label>
+          <label className="block mb-1 font-medium">Email do Usuário</label>
 
           <input
             type="email"
@@ -242,18 +209,19 @@ export const IssuancePage = () => {
             onChange={(e) =>
               setForm({
                 ...form,
-                recipientEmail:
-                  e.target.value,
+                recipientEmail: e.target.value,
               })
             }
           />
 
           {errors.recipientEmail && (
-            <p className="
+            <p
+              className="
               text-red-600
               text-sm
               mt-1
-            ">
+            "
+            >
               {errors.recipientEmail}
             </p>
           )}
@@ -261,9 +229,7 @@ export const IssuancePage = () => {
 
         {/* BADGE */}
         <div>
-          <label className="block mb-1 font-medium">
-            Badge
-          </label>
+          <label className="block mb-1 font-medium">Badge</label>
 
           <select
             className="
@@ -276,31 +242,27 @@ export const IssuancePage = () => {
             onChange={(e) =>
               setForm({
                 ...form,
-                badgeClassId:
-                  e.target.value,
+                badgeClassId: e.target.value,
               })
             }
           >
-            <option value="">
-              Selecione um badge
-            </option>
+            <option value="">Selecione um badge</option>
 
             {badges.map((badge) => (
-              <option
-                key={badge.id}
-                value={badge.id}
-              >
+              <option key={badge.id} value={badge.id}>
                 {badge.name}
               </option>
             ))}
           </select>
 
           {errors.badgeClassId && (
-            <p className="
+            <p
+              className="
               text-red-600
               text-sm
               mt-1
-            ">
+            "
+            >
               {errors.badgeClassId}
             </p>
           )}
@@ -308,9 +270,7 @@ export const IssuancePage = () => {
 
         {/* EVIDÊNCIA */}
         <div>
-          <label className="block mb-1 font-medium">
-            URL de Evidência
-          </label>
+          <label className="block mb-1 font-medium">URL de Evidência</label>
 
           <input
             type="text"
@@ -327,8 +287,7 @@ export const IssuancePage = () => {
             onChange={(e) =>
               setForm({
                 ...form,
-                evidenceUrl:
-                  e.target.value,
+                evidenceUrl: e.target.value,
               })
             }
           />
@@ -348,10 +307,22 @@ export const IssuancePage = () => {
             disabled:cursor-not-allowed
           "
         >
-          {isIssuing
-            ? "Emitindo badge..."
-            : "Emitir Badge"}
+          {isIssuing ? "Emitindo badge..." : "Emitir Badge"}
         </button>
+        <div
+          className="
+    border
+    rounded-lg
+    p-4
+    bg-gray-50
+    text-sm
+    text-gray-700
+  "
+        >
+          <span className="font-semibold">Nota:</span> A emissão é uma ação
+          permanente. Certifique-se de que o colaborador atende a todos os
+          critérios antes de prosseguir.
+        </div>
       </form>
     </div>
   );
