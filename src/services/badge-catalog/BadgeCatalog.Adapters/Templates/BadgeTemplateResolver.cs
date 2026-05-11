@@ -11,7 +11,7 @@ public static class BadgeTemplateResolver
                 Id = "template-1",
                 BackgroundImage = "template-1.svg",
 
-                TextYPosition = 210,
+                TextYPosition = 220,
 
                 TitleAreaTop = 140,
                 TitleAreaHeight = 110,
@@ -38,7 +38,7 @@ public static class BadgeTemplateResolver
                 Id = "template-3",
                 BackgroundImage = "template-3.svg",
 
-                TextYPosition = 200,
+                TextYPosition = 185,
 
                 DefaultTextColor = "#111111",
                 DefaultFontSize = 28,
@@ -51,7 +51,7 @@ public static class BadgeTemplateResolver
                 Id = "template-4",
                 BackgroundImage = "template-4.svg",
 
-                TextYPosition = 205,
+                TextYPosition = 220,
 
                 DefaultTextColor = "#0c0c0c",
                 DefaultFontSize = 28,
@@ -64,7 +64,7 @@ public static class BadgeTemplateResolver
                 Id = "default",
                 BackgroundImage = "default.svg",
 
-                TextYPosition = 205,
+                TextYPosition = 208,
 
                 DefaultTextColor = "#0c0c0c",
                 DefaultFontSize = 28,

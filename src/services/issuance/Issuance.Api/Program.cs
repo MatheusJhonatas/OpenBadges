@@ -14,6 +14,17 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend",
+        policy =>
+        {
+            policy
+                .AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+});
 
 // aqui definimos o documento v1
 builder.Services.AddOpenApi("v1");
@@ -29,7 +40,6 @@ builder.Services.AddMediatR(cfg =>
 
 var dbPath = Path.Combine(Directory.GetCurrentDirectory(), "issuance.db");
 
-Console.WriteLine($"USANDO DB EM: {dbPath}");
 
 builder.Services.AddDbContext<IssuanceDbContext>(options =>
 {
@@ -47,7 +57,7 @@ builder.Services.AddHttpClient<IBadgeCatalogClient, BadgeCatalogHttpClient>(clie
 var app = builder.Build();
 
 app.UseMiddleware<ExceptionMiddleware>();
-
+app.UseCors("AllowFrontend");
 // expõe o schema
 app.MapOpenApi();
 
