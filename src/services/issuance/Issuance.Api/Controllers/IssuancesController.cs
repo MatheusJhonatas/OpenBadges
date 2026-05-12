@@ -1,5 +1,6 @@
 using Issuance.Application.Commands.IssueBadge;
 using Issuance.Application.Queries.GetAssertionById;
+using Issuance.Application.Queries.GetIssuances;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,7 +23,7 @@ public class IssuancesController : ControllerBase
         var assertionId = await _mediator.Send(command, cancellationToken);
         return Created($"/api/issuances/{assertionId}", new { id = assertionId });
     }
-    
+
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetAssertionById(Guid id, CancellationToken cancellationToken)
     {
@@ -32,6 +33,17 @@ public class IssuancesController : ControllerBase
             return NotFound();
         }
         return Ok(assertion);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetIssuances(
+        CancellationToken cancellationToken)
+    {
+        var result = await _mediator.Send(
+            new GetIssuancesQuery(),
+            cancellationToken);
+
+        return Ok(result);
     }
 
     [HttpPost("{id:guid}/revoke")]
