@@ -5,9 +5,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Issuance.Adapters.Persistence.Mappings;
 
-public sealed class AssertionMapping : IEntityTypeConfiguration<Assertion>
+public sealed class AssertionMapping
+    : IEntityTypeConfiguration<Assertion>
 {
-    public void Configure(EntityTypeBuilder<Assertion> builder)
+    public void Configure(
+        EntityTypeBuilder<Assertion> builder)
     {
         builder.ToTable("Assertions");
 
@@ -25,13 +27,20 @@ public sealed class AssertionMapping : IEntityTypeConfiguration<Assertion>
 
         builder.Property(x => x.RevokedOn);
 
-        // Mapping do Value Object
-        builder.OwnsOne(x => x.Recipient, recipient =>
-        {
-            recipient.Property(r => r.HashedEmail)
-            .HasColumnName("RecipientHashedEmail")
-            .IsRequired();
-        });
+        // Value Object
+        builder.OwnsOne(
+            x => x.Recipient,
+            recipient =>
+            {
+                recipient.Property(r => r.Email)
+                    .HasColumnName("RecipientEmail")
+                    .IsRequired();
+
+                recipient.Property(r => r.HashedEmail)
+                    .HasColumnName(
+                        "RecipientHashedEmail")
+                    .IsRequired();
+            });
 
         builder.Ignore(x => x.DomainEvents);
     }
