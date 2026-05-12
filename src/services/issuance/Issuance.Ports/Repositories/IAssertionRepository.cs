@@ -8,4 +8,5 @@ public interface IAssertionRepository
     Task<bool> ExistsAsync(Guid badgeId, string email, CancellationToken cancellationToken);
     Task<Assertion?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
     Task UpdateAsync(Assertion assertion, CancellationToken cancellationToken);
+    Task<List<Assertion>> GetAllAsync(CancellationToken cancellationToken);
 }

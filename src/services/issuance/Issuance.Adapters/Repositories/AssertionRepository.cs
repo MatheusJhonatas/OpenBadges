@@ -27,6 +27,13 @@ public class AssertionRepository : IAssertionRepository
         return await _dbContext.Assertions.AnyAsync(a => a.BadgeClassId == badgeId && a.Recipient.HashedEmail == email, cancellationToken);
     }
 
+    public async Task<List<Assertion>> GetAllAsync(CancellationToken cancellationToken)
+    {
+        return await _dbContext.Assertions
+        .OrderByDescending(x => x.IssuedOn)
+        .ToListAsync(cancellationToken);
+    }
+
     public async Task<Assertion?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
     {
         return await _dbContext.Assertions.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
