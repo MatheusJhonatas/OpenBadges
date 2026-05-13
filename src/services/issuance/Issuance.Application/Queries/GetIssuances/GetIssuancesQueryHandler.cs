@@ -21,18 +21,18 @@ public class GetIssuancesQueryHandler : IRequestHandler<GetIssuancesQuery, List<
         {
             Id = x.Id,
 
-                RecipientName = x.RecipientName,
+            RecipientName = x.RecipientName,
 
-                RecipientHashedEmail =
-                    x.Recipient.HashedEmail,
+            RecipientEmail =
+                x.Recipient.Email,
 
-                BadgeClassId = x.BadgeClassId,
+            BadgeClassId = x.BadgeClassId,
 
-                Status = x.Status.ToString(),
+            Status = x.Status.ToString(),
 
-                IssuedOn = x.IssuedOn,
+            IssuedOn = x.IssuedOn,
 
-                RevokedOn = x.RevokedOn
+            RevokedOn = x.RevokedOn
         }).ToList();
     }
 }
