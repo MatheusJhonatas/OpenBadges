@@ -3,6 +3,7 @@ using System;
 using Issuance.Adapters.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Issuance.Adapters.Migrations
 {
     [DbContext(typeof(IssuanceDbContext))]
-    partial class IssuanceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260513011442_AddVerificationCode")]
+    partial class AddVerificationCode
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
