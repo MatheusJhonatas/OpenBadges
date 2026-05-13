@@ -2,33 +2,52 @@ using System.Security.Cryptography;
 using System.Text;
 
 namespace Issuance.Domain.ValueObjects;
-
 public sealed class RecipientIdentity
 {
+    public string Email { get; private set; } = default!;
+
     public string HashedEmail { get; private set; } = default!;
 
-    private RecipientIdentity() { } // EF Core
+    private RecipientIdentity() { }
 
-    public RecipientIdentity(string hashedEmail)
+    private RecipientIdentity(
+        string email,
+        string hashedEmail)
     {
+        Email = email;
+
         HashedEmail = hashedEmail;
     }
 
-    public static RecipientIdentity Create(string email)
+    public static RecipientIdentity Create(
+        string email)
     {
         if (string.IsNullOrWhiteSpace(email))
-            throw new ArgumentException("Email cannot be empty.", nameof(email));
+            throw new ArgumentException(
+                "Email cannot be empty.",
+                nameof(email));
 
-        var hash = GenerateHash(email);
+        var normalizedEmail =
+            email.Trim().ToLower();
 
-        return new RecipientIdentity(hash);
+        var hash =
+            GenerateHash(normalizedEmail);
+
+        return new RecipientIdentity(
+            normalizedEmail,
+            hash);
     }
 
-    public static string GenerateHash(string email)
+    public static string GenerateHash(
+        string email)
     {
         using var sha256 = SHA256.Create();
-        var bytes = Encoding.UTF8.GetBytes(email.Trim().ToLower());
-        var hash = sha256.ComputeHash(bytes);
+
+        var bytes =
+            Encoding.UTF8.GetBytes(email);
+
+        var hash =
+            sha256.ComputeHash(bytes);
 
         return Convert.ToHexString(hash);
     }

@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Issuance.Adapters.Migrations
 {
     [DbContext(typeof(IssuanceDbContext))]
-    [Migration("20260401215616_InitialCreate")]
+    [Migration("20260512220349_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -54,6 +54,11 @@ namespace Issuance.Adapters.Migrations
                         {
                             b1.Property<Guid>("AssertionId")
                                 .HasColumnType("TEXT");
+
+                            b1.Property<string>("Email")
+                                .IsRequired()
+                                .HasColumnType("TEXT")
+                                .HasColumnName("RecipientEmail");
 
                             b1.Property<string>("HashedEmail")
                                 .IsRequired()

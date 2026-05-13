@@ -52,6 +52,11 @@ namespace Issuance.Adapters.Migrations
                             b1.Property<Guid>("AssertionId")
                                 .HasColumnType("TEXT");
 
+                            b1.Property<string>("Email")
+                                .IsRequired()
+                                .HasColumnType("TEXT")
+                                .HasColumnName("RecipientEmail");
+
                             b1.Property<string>("HashedEmail")
                                 .IsRequired()
                                 .HasColumnType("TEXT")

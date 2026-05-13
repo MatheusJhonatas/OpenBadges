@@ -6,7 +6,7 @@ public Guid Id { get; set; }
 
     public string RecipientName { get; set; } = string.Empty;
 
-    public string RecipientHashedEmail { get; set; } = string.Empty;
+    public string RecipientEmail { get; set; } = string.Empty;
 
     public Guid BadgeClassId { get; set; }
 

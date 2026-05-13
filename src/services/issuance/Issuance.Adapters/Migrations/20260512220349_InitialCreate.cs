@@ -17,6 +17,7 @@ namespace Issuance.Adapters.Migrations
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
                     BadgeClassId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    RecipientEmail = table.Column<string>(type: "TEXT", nullable: false),
                     RecipientHashedEmail = table.Column<string>(type: "TEXT", nullable: false),
                     RecipientName = table.Column<string>(type: "TEXT", nullable: false),
                     IssuedOn = table.Column<DateTime>(type: "TEXT", nullable: false),
