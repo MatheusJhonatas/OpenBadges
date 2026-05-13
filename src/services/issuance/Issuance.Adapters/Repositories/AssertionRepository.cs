@@ -34,9 +34,15 @@ public class AssertionRepository : IAssertionRepository
         .ToListAsync(cancellationToken);
     }
 
+
     public async Task<Assertion?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
     {
         return await _dbContext.Assertions.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+    }
+
+    public async Task<Assertion?> GetByVerificationCodeAsync(string verificationCode, CancellationToken cancellationToken)
+    {
+        return await _dbContext.Assertions.FirstOrDefaultAsync(x => x.VerificationCode == verificationCode, cancellationToken);
     }
 
     public async Task UpdateAsync(Assertion assertion, CancellationToken cancellationToken)

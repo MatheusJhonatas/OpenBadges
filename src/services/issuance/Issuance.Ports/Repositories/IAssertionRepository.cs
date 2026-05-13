@@ -9,4 +9,5 @@ public interface IAssertionRepository
     Task<Assertion?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
     Task UpdateAsync(Assertion assertion, CancellationToken cancellationToken);
     Task<List<Assertion>> GetAllAsync(CancellationToken cancellationToken);
+    Task<Assertion?> GetByVerificationCodeAsync(string verificationCode, CancellationToken cancellationToken);
 }
