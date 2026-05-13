@@ -10,6 +10,7 @@ public sealed class Assertion
     private readonly List<IDomainEvent> _domainEvents = new();
     public Guid Id { get; private set; }
     public Guid BadgeClassId { get; private set; }
+    public string VerificationCode { get; private set; } = string.Empty;
     public RecipientIdentity Recipient { get; private set; }
     public string RecipientName { get; private set; }
     public DateTime IssuedOn { get; private set; }
@@ -25,9 +26,14 @@ public sealed class Assertion
             throw new ArgumentException("BadgeClassId cannot be empty.");
 
         if (string.IsNullOrWhiteSpace(recipientName))
-            throw new ArgumentException("RecipientName cannot be null or whitespace.");    
+            throw new ArgumentException("RecipientName cannot be null or whitespace.");
 
         Id = Guid.NewGuid();
+        VerificationCode =
+    Guid.NewGuid()
+        .ToString("N")
+        .Substring(0, 10)
+        .ToUpper();
         BadgeClassId = badgeClassId;
         Recipient = recipient ?? throw new ArgumentNullException(nameof(recipient));
         RecipientName = recipientName;
@@ -35,8 +41,8 @@ public sealed class Assertion
         Status = EAssertionStatus.Active;
 
         AddDomainEvent(new BadgeIssuedEvent(
-            Id, 
-            BadgeClassId, 
+            Id,
+            BadgeClassId,
             Recipient.HashedEmail,
             RecipientName,
             IssuedOn
@@ -50,12 +56,12 @@ public sealed class Assertion
         Status = EAssertionStatus.Revoked;
         RevokedOn = DateTime.UtcNow;
 
-         AddDomainEvent(new BadgeRevokedEvent(
-        Id,
-        BadgeClassId,
-        Recipient.HashedEmail,
-        RevokedOn.Value
-    ));
+        AddDomainEvent(new BadgeRevokedEvent(
+       Id,
+       BadgeClassId,
+       Recipient.HashedEmail,
+       RevokedOn.Value
+   ));
     }
     public void AddDomainEvent(IDomainEvent domainEvent)
     {

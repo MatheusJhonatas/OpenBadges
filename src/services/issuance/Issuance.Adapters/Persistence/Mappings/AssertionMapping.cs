@@ -17,6 +17,10 @@ public sealed class AssertionMapping
 
         builder.Property(x => x.BadgeClassId)
             .IsRequired();
+        
+        builder.Property(x => x.VerificationCode)
+            .IsRequired()
+            .HasMaxLength(10);
 
         builder.Property(x => x.IssuedOn)
             .IsRequired();
