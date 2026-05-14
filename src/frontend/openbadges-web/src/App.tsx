@@ -5,6 +5,7 @@ import { CatalogPage } from "./pages/CatalogPage";
 import { BadgeDetailsPage } from "./pages/BadgeDetailsPage";
 import { DashboardPage } from "./pages/DashboardPage";
 import { IssuancePage } from "./pages/IssuancePage";
+import { VerificationPage } from "./pages/VerificationPage";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/meus-badges" element={<div>Meus Badges</div>} />
         <Route path="/admin/catalogo" element={<CatalogPage />} />
         <Route path="/admin/catalogo/:id" element={<BadgeDetailsPage />} />
+        <Route path="/verify/:code"  element={<VerificationPage />}/>
         <Route path="/admin/emitir" element={<IssuancePage />} />
         <Route path="/admin/revogar" element={<div>Admin: Revogar</div>} />
         

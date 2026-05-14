@@ -1,5 +1,6 @@
 using Issuance.Application.Commands.IssueBadge;
 using Issuance.Application.Queries.GetAssertionById;
+using Issuance.Application.Queries.GetAssertionByVerificationCode;
 using Issuance.Application.Queries.GetIssuances;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -45,6 +46,22 @@ public class IssuancesController : ControllerBase
 
         return Ok(result);
     }
+[HttpGet("verify/{code}")]
+public async Task<IActionResult> Verify(
+    string code,
+    CancellationToken cancellationToken)
+{
+    var result = await _mediator.Send(
+        new GetAssertionByVerificationCodeQuery(code),
+        cancellationToken);
+
+    if (result is null)
+    {
+        return NotFound();
+    }
+
+    return Ok(result);
+}
 
     [HttpPost("{id:guid}/revoke")]
     public async Task<IActionResult> Revoke(Guid id, CancellationToken cancellationToken)
